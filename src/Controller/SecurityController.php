@@ -2,23 +2,19 @@
 
 namespace App\Controller;
 
+use App\Controller\Response\LoginResponse;
 use App\Entity\User;
-use App\Repository\UserRepository;
+use App\Security\TokenServiceInterface;
+use App\Security\ValueObject\TokenPayload;
 use Doctrine\ORM\EntityManagerInterface;
-use Firebase\JWT\JWT;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AuthController extends AbstractController
+class SecurityController extends AbstractController
 {
-
-    /**
-     * @var \App\Repository\UserRepository
-     */
-    private UserRepository $userRepository;
 
     /**
      * @var \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface
@@ -31,18 +27,22 @@ class AuthController extends AbstractController
     private EntityManagerInterface $manager;
 
     /**
+     * @var \App\Security\TokenServiceInterface
+     */
+    private TokenServiceInterface $tokenService;
+
+    /**
      * AuthController constructor.
      *
-     * @param \App\Repository\UserRepository $repository
      * @param \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordHarsher
      * @param \Doctrine\ORM\EntityManagerInterface $manager
      */
     public function __construct(
-        UserRepository $repository,
+        TokenServiceInterface $tokenService,
         UserPasswordHasherInterface $passwordHarsher,
         EntityManagerInterface $manager
     ) {
-        $this->userRepository  = $repository;
+        $this->tokenService    = $tokenService;
         $this->passwordHarsher = $passwordHarsher;
         $this->manager         = $manager;
     }
@@ -77,33 +77,21 @@ class AuthController extends AbstractController
     /**
      * @Route("/auth/login", name="login", methods={"POST"})
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function login(Request $request)
+    public function login(): JsonResponse
     {
-        $userData = json_decode($request->getContent());
-        $user     = $this->userRepository->findOneBy([
-            'email' => $userData->email,
-        ]);
+        $payload = new TokenPayload(
+            $this->getUser()->getUserIdentifier(),
+            (new \DateTimeImmutable())->modify('+12 hours')
+        );
 
-        if (!$user || !$this->passwordHarsher->isPasswordValid($user, $userData->password)) {
-            return $this->json([
-                'message' => 'email or password is wrong.',
-            ]);
-        }
-
-        $payload = [
-            "email" => $user->getUserIdentifier(),
-            "exp"   => (new \DateTime())->modify("+5 minutes")->getTimestamp(),
-        ];
-
-        $jwt = JWT::encode($payload, $this->getParameter('jwt_secret'));
-
-        return $this->json([
-            'message' => 'success!',
-            'token'   => sprintf('Bearer %s', $jwt),
+        return new JsonResponse([
+            "access_token" => $this->tokenService->encodeToken($payload),
+            "token_type"   => $this->tokenService->tokenType(),
+            "expires_in"   => $payload->expiresIn->getTimestamp(),
+            "user_name"    => $payload->username,
+            "scope"        => 'all'
         ]);
     }
 }

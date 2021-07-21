@@ -15,25 +15,26 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
-class JwtAuthenticator extends AbstractAuthenticator
+class TokenAuthenticator extends AbstractAuthenticator
 {
-
-    /**
-     * @var \Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface
-     */
-    private ContainerBagInterface $params;
+    
 
     /**
      * @var \App\Repository\UserRepository
      */
     private UserRepository $userRepository;
 
+    /**
+     * @var \App\Security\TokenServiceInterface
+     */
+    private TokenServiceInterface $tokenService;
+
     public function __construct(
         UserRepository $userRepository,
-        ContainerBagInterface $params
+        TokenServiceInterface $tokenService
     ) {
         $this->userRepository = $userRepository;
-        $this->params         = $params;
+        $this->tokenService = $tokenService;
     }
 
     public function supports(Request $request): bool
@@ -53,7 +54,7 @@ class JwtAuthenticator extends AbstractAuthenticator
     public function onAuthenticationSuccess(
         Request $request,
         TokenInterface $token,
-        $providerKey
+        $firewallName
     ): ?Response {
         return null;
     }
@@ -73,11 +74,9 @@ class JwtAuthenticator extends AbstractAuthenticator
     private function getIdentifier(string $authorization): string
     {
         try {
-            $token       = str_replace('Bearer ', '', $authorization);
-            $secret      = $this->params->get('jwt_secret');
-            $credentials = JWT::decode($token, $secret, ['HS256']);
+            $credentials = $this->tokenService->decodeToken($authorization);
 
-            return $credentials->email;
+            return $credentials->username;
         } catch (\Exception $ex) {
             return '';
         }
