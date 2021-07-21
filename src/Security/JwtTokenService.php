@@ -48,4 +48,9 @@ class JwtTokenService implements TokenServiceInterface
         return JWT::encode($payload->toArray(), $this->jwtSecret, self::ALGORITHM);
     }
 
+    public function tokenExpired(TokenPayload $payload): bool
+    {
+        return $payload->expiresIn < new \DateTimeImmutable();
+    }
+
 }

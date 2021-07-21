@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\AuthenticationExpiredException;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
@@ -47,7 +48,7 @@ class TokenAuthenticator extends AbstractAuthenticator
         AuthenticationException $exception
     ): ?Response {
         return new JsonResponse([
-            'message' => 'Invalid token'
+            'message' => $exception->getMessage()
         ], Response::HTTP_UNAUTHORIZED);
     }
 
@@ -62,23 +63,16 @@ class TokenAuthenticator extends AbstractAuthenticator
     public function authenticate(Request $request): PassportInterface
     {
         $authorization = $request->headers->get('Authorization');
-        $identifier    = $this->getIdentifier($authorization);
+        $credentials = $this->tokenService->decodeToken($authorization);
+
+        if($this->tokenService->tokenExpired($credentials)) {
+            throw new AuthenticationException("Token has expired");
+        }
 
         return new SelfValidatingPassport(
-            new UserBadge($identifier, function ($userIdentifier) {
+            new UserBadge($credentials->username, function ($userIdentifier) {
                 return $this->userRepository->findOneBy(['email' => $userIdentifier]);
             })
         );
-    }
-
-    private function getIdentifier(string $authorization): string
-    {
-        try {
-            $credentials = $this->tokenService->decodeToken($authorization);
-
-            return $credentials->username;
-        } catch (\Exception $ex) {
-            return '';
-        }
     }
 }
