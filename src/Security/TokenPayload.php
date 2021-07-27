@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Security\ValueObject;
+namespace App\Security;
 
 class TokenPayload
 {

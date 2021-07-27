@@ -2,7 +2,7 @@
 
 namespace App\Security;
 
-use App\Security\ValueObject\TokenPayload;
+use App\Security\TokenPayload;
 use Firebase\JWT\JWT;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 

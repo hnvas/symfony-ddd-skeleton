@@ -2,10 +2,9 @@
 
 namespace App\Controller;
 
-use App\Controller\Response\LoginResponse;
 use App\Entity\User;
 use App\Security\TokenServiceInterface;
-use App\Security\ValueObject\TokenPayload;
+use App\Security\TokenPayload;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

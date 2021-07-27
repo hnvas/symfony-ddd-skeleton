@@ -2,7 +2,7 @@
 
 namespace App\Security;
 
-use App\Security\ValueObject\TokenPayload;
+use App\Security\TokenPayload;
 
 interface TokenServiceInterface
 {
