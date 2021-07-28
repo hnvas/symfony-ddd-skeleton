@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace App\Core\Domain\Entity;
 
-use App\Repository\UserRepository;
+use App\Core\Infrastructure\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -68,7 +68,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @param string $email
      *
-     * @return \App\Entity\User
+     * @return \App\Core\Domain\Entity\User
      */
     public function setEmail(string $email): self
     {
@@ -88,7 +88,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @param string|null $name
      *
-     * @return \App\Entity\User
+     * @return \App\Core\Domain\Entity\User
      */
     public function setName(?string $name): self
     {

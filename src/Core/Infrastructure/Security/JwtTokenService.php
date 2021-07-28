@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Security;
+namespace App\Core\Infrastructure\Security;
 
-use App\Security\TokenPayload;
 use Firebase\JWT\JWT;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 

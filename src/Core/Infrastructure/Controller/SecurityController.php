@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Controller;
+namespace App\Core\Infrastructure\Controller;
 
-use App\Entity\User;
-use App\Security\TokenServiceInterface;
-use App\Security\TokenPayload;
+use App\Core\Domain\Entity\User;
+use App\Core\Infrastructure\Security\TokenPayload;
+use App\Core\Infrastructure\Security\TokenServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,13 +26,14 @@ class SecurityController extends AbstractController
     private EntityManagerInterface $manager;
 
     /**
-     * @var \App\Security\TokenServiceInterface
+     * @var \App\Core\Infrastructure\Security\TokenServiceInterface
      */
     private TokenServiceInterface $tokenService;
 
     /**
      * AuthController constructor.
      *
+     * @param \App\Core\Infrastructure\Security\TokenServiceInterface $tokenService
      * @param \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordHarsher
      * @param \Doctrine\ORM\EntityManagerInterface $manager
      */

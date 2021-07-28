@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Security;
+namespace App\Core\Infrastructure\Security;
 
-use App\Repository\UserRepository;
+use App\Core\Infrastructure\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,15 +15,14 @@ use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPasspor
 
 class TokenAuthenticator extends AbstractAuthenticator
 {
-    
 
     /**
-     * @var \App\Repository\UserRepository
+     * @var \App\Core\Infrastructure\Repository\UserRepository
      */
     private UserRepository $userRepository;
 
     /**
-     * @var \App\Security\TokenServiceInterface
+     * @var \App\Core\Infrastructure\Security\TokenServiceInterface
      */
     private TokenServiceInterface $tokenService;
 

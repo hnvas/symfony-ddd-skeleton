@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Security;
-
-use App\Security\TokenPayload;
+namespace App\Core\Infrastructure\Security;
 
 interface TokenServiceInterface
 {
