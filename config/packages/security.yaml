@@ -2,7 +2,7 @@ security:
     # https://symfony.com/doc/current/security/experimental_authenticators.html
     enable_authenticator_manager: true
     password_hashers:
-        App\Entity\User:
+        App\Core\Domain\Entity\User:
             algorithm: bcrypt
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
@@ -10,7 +10,7 @@ security:
         # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
             entity:
-                class: App\Entity\User
+                class: App\Core\Domain\Entity\User
                 property: email
     firewalls:
         dev:
@@ -23,7 +23,7 @@ security:
             json_login:
                 check_path: /auth/login
             custom_authenticators:
-                - App\Security\TokenAuthenticator
+                - App\Core\Infrastructure\Security\TokenAuthenticator
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
