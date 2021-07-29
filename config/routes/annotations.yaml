@@ -1,6 +1,11 @@
-controllers:
+public_controllers:
     resource: ../../src/Core/Infrastructure/Action/
     type: annotation
+
+api_controllers:
+    resource: ../../src/Core/Infrastructure/Action/Api
+    type: annotation
+    prefix: /api
 
 kernel:
     resource: ../../src/Kernel.php
