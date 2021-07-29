@@ -1,9 +1,11 @@
 <?php
+declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\Action\Auth;
 
 use App\Core\Infrastructure\Security\TokenPayload;
 use App\Core\Infrastructure\Security\TokenServiceInterface;
+use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @Route("/auth/login", name="login", methods={"POST"})
  */
-class PostLoginAction extends AbstractController
+class LoginAction extends AbstractController
 {
     /**
      * @var \App\Core\Infrastructure\Security\TokenServiceInterface
@@ -36,7 +38,7 @@ class PostLoginAction extends AbstractController
     {
         $payload = new TokenPayload(
             $this->getUser()->getUserIdentifier(),
-            (new \DateTimeImmutable())->modify('+12 hours')
+            (new DateTimeImmutable())->modify('+12 hours')
         );
 
         return new JsonResponse([
