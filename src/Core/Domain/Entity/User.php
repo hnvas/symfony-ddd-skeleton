@@ -1,16 +1,21 @@
 <?php
+declare(strict_types = 1);
 
 namespace App\Core\Domain\Entity;
 
 use App\Core\Infrastructure\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
+ *
+ * @UniqueEntity("email")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface, JsonSerializable
 {
@@ -25,6 +30,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, JsonSer
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Email
+     * @Assert\NotBlank
      *
      * @var string|null
      */
@@ -32,6 +39,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, JsonSer
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank
      *
      * @var string|null
      */
@@ -47,6 +55,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, JsonSer
     /**
      * @var string|null The hashed password
      * @ORM\Column(type="string")
+     *
+     * @Assert\AtLeastOneOf({
+     *  @Assert\Blank,
+     *  @Assert\Length(min=8, max=32)
+     * })
      */
     private ?string $password;
 

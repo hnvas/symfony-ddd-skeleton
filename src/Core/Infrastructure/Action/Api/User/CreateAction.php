@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace App\Core\Infrastructure\Action\Api\User;
 
 use App\Core\Application\Services\UserService;
+use App\Core\Application\Services\ValidationService;
 use App\Core\Domain\Entity\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,23 +33,37 @@ class CreateAction
     private SerializerInterface $serializer;
 
     /**
+     * @var \App\Core\Application\Services\ValidationService
+     */
+    private ValidationService $validator;
+
+    /**
      * CreateAction constructor.
      *
      * @param \App\Core\Application\Services\UserService $userService
      * @param \Symfony\Component\Serializer\SerializerInterface $serializer
+     * @param \App\Core\Application\Services\ValidationService $validator
      */
     public function __construct(
         UserService $userService,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
+        ValidationService $validator
     ) {
         $this->userService = $userService;
         $this->serializer  = $serializer;
+        $this->validator = $validator;
     }
 
     public function __invoke(Request $request): JsonResponse
     {
         $content  = $request->getContent();
         $userData = $this->serializer->deserialize($content, User::class, 'json');
+
+        if (!$this->validator->isValid($userData)) {
+            return new JsonResponse(
+                ['errors' => $this->validator->getErrors()],
+                Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
         $user = $this->userService->create($userData);
 
