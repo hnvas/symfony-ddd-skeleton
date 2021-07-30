@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\Action\Api\User;
 
-use App\Core\Application\Exceptions\InvalidEntityException;
 use App\Core\Application\Services\UserService;
 use App\Core\Application\Services\ValidationService;
 use App\Core\Domain\Entity\User;
@@ -47,20 +46,18 @@ class CreateAction
         $this->serializer  = $serializer;
     }
 
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \App\Core\Application\Exceptions\InvalidEntityException
+     */
     public function __invoke(Request $request): JsonResponse
     {
         $content  = $request->getContent();
         $userData = $this->serializer->deserialize($content, User::class, 'json');
 
-        try {
-            $user = $this->userService->create($userData);
-        } catch (InvalidEntityException $e) {
-            return new JsonResponse([
-                'message' => $e->getMessage(),
-                'errors'  => $e->errors
-            ], Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
-
+        $user = $this->userService->create($userData);
 
         return new JsonResponse($user, Response::HTTP_CREATED);
     }

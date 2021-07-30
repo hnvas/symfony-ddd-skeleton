@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace App\Core\Application\Services;
 
 use App\Core\Application\Exceptions\EntityNotFoundException;
-use App\Core\Application\Functions\Classname;
 use App\Core\Application\Functions\Traits\Validatable;
 use App\Core\Domain\Entity\User;
 use App\Core\Infrastructure\Repository\UserRepository;
@@ -82,8 +81,7 @@ class UserService
         $user = $this->repository->find($id);
 
         if (is_null($user)) {
-            $classname = Classname::getBaseName(User::class);
-            throw new EntityNotFoundException($classname);
+            throw new EntityNotFoundException(User::class);
         }
 
         return $user;
@@ -104,8 +102,7 @@ class UserService
         $persistentUser = $this->repository->find($id);
 
         if (is_null($persistentUser)) {
-            $classname = Classname::getBaseName(User::class);
-            throw new EntityNotFoundException($classname);
+            throw new EntityNotFoundException(User::class);
         }
 
         $persistentUser->setName($user->getName());
@@ -131,8 +128,7 @@ class UserService
         $persistentUser = $this->repository->find($id);
 
         if (is_null($persistentUser)) {
-            $classname = Classname::getBaseName(User::class);
-            throw new EntityNotFoundException($classname);
+            throw new EntityNotFoundException(User::class);
         }
 
         $this->manager->remove($persistentUser);

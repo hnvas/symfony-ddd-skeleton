@@ -3,18 +3,16 @@ declare(strict_types = 1);
 
 namespace App\Core\Application\Exceptions;
 
-use DomainException;
+use App\Core\Application\Functions\Classname;
 
-class InvalidEntityException extends DomainException
+class InvalidEntityException extends ApplicationException
 {
 
-    public array $errors;
-
-    public function __construct(string $classname = "entity", array $errors = [])
+    public function __construct(string $classpath = "", array $errors = [])
     {
-        $this->errors = $errors;
+        $classname = Classname::getBaseName($classpath);
 
-        parent::__construct("Provided values for $classname are not valid");
+        parent::__construct("Provided values for $classname are not valid", $errors);
     }
 
 }

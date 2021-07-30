@@ -3,12 +3,9 @@ declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\Action\Api\User;
 
-use App\Core\Application\Exceptions\EntityNotFoundException;
 use App\Core\Application\Services\UserService;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Class ReadAction
@@ -35,13 +32,15 @@ class ReadAction
         $this->userService = $userService;
     }
 
+    /**
+     * @param int $id
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \App\Core\Application\Exceptions\EntityNotFoundException
+     */
     public function __invoke(int $id): JsonResponse
     {
-        try {
-            $user = $this->userService->read($id);
-        } catch (EntityNotFoundException $e) {
-            throw new NotFoundHttpException($e->getMessage());
-        }
+        $user = $this->userService->read($id);
 
         return new JsonResponse($user);
     }

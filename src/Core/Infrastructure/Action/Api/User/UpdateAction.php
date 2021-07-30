@@ -3,13 +3,10 @@ declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\Action\Api\User;
 
-use App\Core\Application\Exceptions\EntityNotFoundException;
-use App\Core\Application\Exceptions\InvalidEntityException;
 use App\Core\Application\Services\UserService;
 use App\Core\Domain\Entity\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -47,21 +44,20 @@ class UpdateAction
         $this->serializer  = $serializer;
     }
 
+    /**
+     * @param int $id
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \App\Core\Application\Exceptions\EntityNotFoundException
+     * @throws \App\Core\Application\Exceptions\InvalidEntityException
+     */
     public function __invoke(int $id, Request $request): JsonResponse
     {
         $content  = $request->getContent();
         $userData = $this->serializer->deserialize($content, User::class, 'json');
 
-        try {
-            $user = $this->userService->update($id, $userData);
-        } catch (EntityNotFoundException $e) {
-            throw new NotFoundHttpException($e->getMessage());
-        } catch (InvalidEntityException $e) {
-            return new JsonResponse([
-                'message' => $e->getMessage(),
-                'errors' => $e->errors
-            ]);
-        }
+        $user = $this->userService->update($id, $userData);
 
         return new JsonResponse($user);
     }

@@ -2,13 +2,14 @@
 
 namespace App\Core\Infrastructure\EventListeners;
 
+use App\Core\Application\Exceptions\EntityNotFoundException;
+use App\Core\Application\Exceptions\InvalidEntityException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class ExceptionHandler implements EventSubscriberInterface
@@ -18,33 +19,44 @@ class ExceptionHandler implements EventSubscriberInterface
     {
         return [
             KernelEvents::EXCEPTION => [
-                ['handleNotFoundHttpException', 1],
-                ['handleUnauthorizedHttpException', 0],
+                ['handleHttpException', 10],
+                ['handleEntityNotFoundException', 8],
+                ['handleInvalidEntityException', 6],
                 ['handleGenericException', -1]
             ]
         ];
     }
 
-    public function handleUnauthorizedHttpException(ExceptionEvent $event)
+    public function handleHttpException(ExceptionEvent $event)
     {
         $throwable = $event->getThrowable();
 
-        if (
-            $throwable instanceof UnauthorizedHttpException ||
-            ($throwable instanceof HttpException &&
-                $throwable->getStatusCode() == Response::HTTP_UNAUTHORIZED)
-        ) {
+        if ($throwable instanceof HttpException) {
             $event->setResponse(new JsonResponse([
-                'message' => $event->getThrowable()->getMessage()
-            ], Response::HTTP_UNAUTHORIZED));
+                'message' => $throwable->getMessage()
+            ], $throwable->getStatusCode()));
         }
     }
 
-    public function handleNotFoundHttpException(ExceptionEvent $event)
+    public function handleEntityNotFoundException(ExceptionEvent $event)
     {
-        if ($event->getThrowable() instanceof NotFoundHttpException) {
+        $throwable = $event->getThrowable();
+
+        if ($throwable instanceof EntityNotFoundException) {
             $event->setResponse(new JsonResponse([
-                'message' => 'Resource not found'
+                'message' => $throwable->getMessage()
+            ], Response::HTTP_NOT_FOUND));
+        }
+    }
+
+    public function handleInvalidEntityException(ExceptionEvent $event)
+    {
+        $throwable = $event->getThrowable();
+
+        if ($throwable instanceof InvalidEntityException) {
+            $event->setResponse(new JsonResponse([
+                'message' => $throwable->getMessage(),
+                'details' => $throwable->getDetails()
             ], Response::HTTP_NOT_FOUND));
         }
     }

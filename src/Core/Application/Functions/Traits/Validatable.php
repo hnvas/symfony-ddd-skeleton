@@ -27,10 +27,7 @@ trait Validatable
 
         $errors = $this->collectErrors($violations);
 
-        throw new InvalidEntityException(
-            Classname::getBaseName(get_class($object)),
-            $errors
-        );
+        throw new InvalidEntityException(get_class($object), $errors);
     }
 
     /**

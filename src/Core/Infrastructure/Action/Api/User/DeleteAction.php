@@ -3,10 +3,8 @@ declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\Action\Api\User;
 
-use App\Core\Application\Exceptions\EntityNotFoundException;
 use App\Core\Application\Services\UserService;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -34,13 +32,15 @@ class DeleteAction
         $this->userService = $userService;
     }
 
+    /**
+     * @param int $id
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \App\Core\Application\Exceptions\EntityNotFoundException
+     */
     public function __invoke(int $id): JsonResponse
     {
-        try {
-            $this->userService->delete($id);
-        } catch (EntityNotFoundException $e) {
-            throw new NotFoundHttpException($e->getMessage());
-        }
+        $this->userService->delete($id);
 
         return new JsonResponse();
     }

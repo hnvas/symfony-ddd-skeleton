@@ -3,14 +3,16 @@ declare(strict_types = 1);
 
 namespace App\Core\Application\Exceptions;
 
-use Doctrine\ORM\EntityNotFoundException as DoctrineEntityNotFoundException;
+use App\Core\Application\Functions\Classname;
 
-class EntityNotFoundException extends DoctrineEntityNotFoundException
+class EntityNotFoundException extends ApplicationException
 {
 
-    public function __construct(string $classname = "")
+    public function __construct(string $classpath = "")
     {
-        parent::__construct("The entity $classname was not found");
+        $classname = Classname::getBaseName($classpath);
+
+        parent::__construct("The entity $classname was not found", []);
     }
 
 }
