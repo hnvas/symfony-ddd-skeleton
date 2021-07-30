@@ -4,13 +4,17 @@ declare(strict_types = 1);
 namespace App\Core\Application\Services;
 
 use App\Core\Application\Exceptions\EntityNotFoundException;
+use App\Core\Application\Functions\Classname;
+use App\Core\Application\Functions\Traits\Validatable;
 use App\Core\Domain\Entity\User;
 use App\Core\Infrastructure\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserService
 {
+    use Validatable;
 
     /**
      * @var \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface
@@ -28,29 +32,37 @@ class UserService
     private UserRepository $repository;
 
     /**
-     * UserService constructor.
-     *
+     * @var \Symfony\Component\Validator\Validator\ValidatorInterface
+     */
+    private ValidatorInterface $validator;
+
+    /**
      * @param \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordHarsher
      * @param \Doctrine\ORM\EntityManagerInterface $manager
      * @param \App\Core\Infrastructure\Repository\UserRepository $repository
+     * @param \Symfony\Component\Validator\Validator\ValidatorInterface $validator
      */
     public function __construct(
-        UserPasswordHasherInterface $passwordHarsher,
-        EntityManagerInterface $manager,
-        UserRepository $repository
+        UserPasswordHasherInterface $passwordHarsher, EntityManagerInterface $manager,
+        UserRepository              $repository, ValidatorInterface $validator
     ) {
         $this->passwordHarsher = $passwordHarsher;
         $this->manager         = $manager;
         $this->repository      = $repository;
+        $this->validator       = $validator;
     }
 
     /**
      * @param \App\Core\Domain\Entity\User $user
      *
      * @return \App\Core\Domain\Entity\User
+     *
+     * @throws \App\Core\Application\Exceptions\InvalidEntityException
      */
     public function create(User $user): User
     {
+        $this->validate($this->validator, $user);
+
         $user->setPassword($this->hashPassword($user));
 
         $this->manager->persist($user);
@@ -70,7 +82,8 @@ class UserService
         $user = $this->repository->find($id);
 
         if (is_null($user)) {
-            throw new EntityNotFoundException('user');
+            $classname = Classname::getBaseName(User::class);
+            throw new EntityNotFoundException($classname);
         }
 
         return $user;
@@ -82,13 +95,17 @@ class UserService
      *
      * @return \App\Core\Domain\Entity\User
      * @throws \App\Core\Application\Exceptions\EntityNotFoundException
+     * @throws \App\Core\Application\Exceptions\InvalidEntityException
      */
     public function update(int $id, User $user): User
     {
+        $this->validate($this->validator, $user);
+
         $persistentUser = $this->repository->find($id);
 
         if (is_null($persistentUser)) {
-            throw new EntityNotFoundException('user');
+            $classname = Classname::getBaseName(User::class);
+            throw new EntityNotFoundException($classname);
         }
 
         $persistentUser->setName($user->getName());
@@ -114,7 +131,8 @@ class UserService
         $persistentUser = $this->repository->find($id);
 
         if (is_null($persistentUser)) {
-            throw new EntityNotFoundException('user');
+            $classname = Classname::getBaseName(User::class);
+            throw new EntityNotFoundException($classname);
         }
 
         $this->manager->remove($persistentUser);

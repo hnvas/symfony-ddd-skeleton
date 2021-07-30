@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace App\Core\Infrastructure\Action\Api\User;
 
 use App\Core\Application\Exceptions\EntityNotFoundException;
+use App\Core\Application\Exceptions\InvalidEntityException;
 use App\Core\Application\Services\UserService;
 use App\Core\Domain\Entity\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -55,6 +56,11 @@ class UpdateAction
             $user = $this->userService->update($id, $userData);
         } catch (EntityNotFoundException $e) {
             throw new NotFoundHttpException($e->getMessage());
+        } catch (InvalidEntityException $e) {
+            return new JsonResponse([
+                'message' => $e->getMessage(),
+                'errors' => $e->errors
+            ]);
         }
 
         return new JsonResponse($user);
