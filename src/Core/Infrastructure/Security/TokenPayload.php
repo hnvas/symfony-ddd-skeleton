@@ -1,13 +1,16 @@
 <?php
+declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\Security;
+
+use DateTimeImmutable;
 
 class TokenPayload
 {
 
     public ?string $username;
 
-    public ?\DateTimeImmutable $expiresIn;
+    public ?DateTimeImmutable $expiresIn;
 
     /**
      * TokenPayload constructor.
@@ -17,13 +20,13 @@ class TokenPayload
      */
     public function __construct(
         ?string $username = null,
-        ?\DateTimeImmutable $expiresIn = null
+        ?DateTimeImmutable $expiresIn = null
     ) {
         $this->username  = $username;
         $this->expiresIn = $expiresIn;
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return [
             "username"  => $this->username,

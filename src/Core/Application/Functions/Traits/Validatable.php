@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace App\Core\Application\Functions\Traits;
 
 use App\Core\Application\Exceptions\InvalidEntityException;
-use App\Core\Application\Functions\Classname;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 

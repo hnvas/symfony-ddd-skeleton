@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace App\Core\Infrastructure\Action\Api\User;
 
 use App\Core\Application\Services\UserService;
-use App\Core\Application\Services\ValidationService;
 use App\Core\Domain\Entity\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

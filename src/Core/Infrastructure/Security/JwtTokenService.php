@@ -1,7 +1,9 @@
 <?php
+declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\Security;
 
+use DateTimeImmutable;
 use Firebase\JWT\JWT;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
@@ -38,7 +40,7 @@ class JwtTokenService implements TokenServiceInterface
 
         return new TokenPayload(
             $credentials->username,
-            (new \DateTimeImmutable())->setTimestamp($credentials->expiresIn)
+            (new DateTimeImmutable())->setTimestamp($credentials->expiresIn)
         );
     }
 
@@ -49,7 +51,7 @@ class JwtTokenService implements TokenServiceInterface
 
     public function tokenExpired(TokenPayload $payload): bool
     {
-        return $payload->expiresIn < new \DateTimeImmutable();
+        return $payload->expiresIn < new DateTimeImmutable();
     }
 
 }
