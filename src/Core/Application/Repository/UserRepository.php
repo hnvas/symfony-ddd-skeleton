@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Core\Infrastructure\Repository;
+namespace App\Core\Application\Repository;
 
 use App\Core\Domain\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -34,9 +34,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      */
     public function upgradePassword(
         PasswordAuthenticatedUserInterface $user,
-        string $newHashedPassword
+        string                             $newHashedPassword
     ): void {
-
         if (!$user instanceof User) {
             throw new UnsupportedUserException(
                 sprintf('Instances of "%s" are not supported.', get_class($user))

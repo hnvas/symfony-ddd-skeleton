@@ -4,9 +4,10 @@ declare(strict_types = 1);
 namespace App\Core\Application\Services;
 
 use App\Core\Application\Exceptions\EntityNotFoundException;
-use App\Core\Application\Functions\Traits\Validatable;
+use App\Core\Application\Filters\UserFilter;
+use App\Core\Application\Repository\UserRepository;
+use App\Core\Application\Services\Concerns\Validatable;
 use App\Core\Domain\Entity\User;
-use App\Core\Infrastructure\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -26,7 +27,7 @@ class UserService
     private EntityManagerInterface $manager;
 
     /**
-     * @var \App\Core\Infrastructure\Repository\UserRepository
+     * @var \App\Core\Application\Repository\UserRepository
      */
     private UserRepository $repository;
 
@@ -38,12 +39,14 @@ class UserService
     /**
      * @param \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordHarsher
      * @param \Doctrine\ORM\EntityManagerInterface $manager
-     * @param \App\Core\Infrastructure\Repository\UserRepository $repository
+     * @param \App\Core\Application\Repository\UserRepository $repository
      * @param \Symfony\Component\Validator\Validator\ValidatorInterface $validator
      */
     public function __construct(
-        UserPasswordHasherInterface $passwordHarsher, EntityManagerInterface $manager,
-        UserRepository              $repository, ValidatorInterface $validator
+        UserPasswordHasherInterface $passwordHarsher,
+        EntityManagerInterface      $manager,
+        UserRepository              $repository,
+        ValidatorInterface          $validator
     ) {
         $this->passwordHarsher = $passwordHarsher;
         $this->manager         = $manager;
@@ -136,11 +139,16 @@ class UserService
     }
 
     /**
+     * @param \App\Core\Application\Filters\UserFilter $userFilter
+     * @param array $params
+     *
      * @return array
      */
-    public function list(): array
+    public function list(UserFilter $userFilter, array $params): array
     {
-        return $this->repository->findAll();
+        $qb = $this->repository->createQueryBuilder('u')->select('u');
+
+        return $userFilter->apply($qb, $params)->getQuery()->execute();
     }
 
     /**

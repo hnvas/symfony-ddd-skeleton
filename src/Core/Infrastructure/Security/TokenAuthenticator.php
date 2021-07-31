@@ -1,8 +1,9 @@
 <?php
+declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\Security;
 
-use App\Core\Infrastructure\Repository\UserRepository;
+use App\Core\Application\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +18,7 @@ class TokenAuthenticator extends AbstractAuthenticator
 {
 
     /**
-     * @var \App\Core\Infrastructure\Repository\UserRepository
+     * @var \App\Core\Application\Repository\UserRepository
      */
     private UserRepository $userRepository;
 

@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Core\Domain\Entity;
 
-use App\Core\Infrastructure\Repository\UserRepository;
+use App\Core\Application\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;

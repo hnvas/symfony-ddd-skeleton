@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Core\Application\Functions\Traits;
+namespace App\Core\Application\Services\Concerns;
 
 use App\Core\Application\Exceptions\InvalidEntityException;
 use Symfony\Component\Validator\ConstraintViolationList;

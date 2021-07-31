@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Core\Application\Functions;
+namespace App\Core\Domain\Functions;
 
 class Classname
 {
