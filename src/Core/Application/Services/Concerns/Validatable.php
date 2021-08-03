@@ -20,7 +20,7 @@ trait Validatable
     {
         $violations = $validator->validate($object);
 
-        if (empty($violations)) {
+        if (!count($violations)) {
             return;
         }
 

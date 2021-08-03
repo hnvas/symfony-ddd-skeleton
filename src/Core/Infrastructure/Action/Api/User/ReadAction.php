@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\Action\Api\User;
 
-use App\Core\Application\Services\UserService;
+use App\Core\Application\Services\Facades\UserFacade;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -18,18 +18,18 @@ class ReadAction
 {
 
     /**
-     * @var \App\Core\Application\Services\UserService
+     * @var \App\Core\Application\Services\Facades\UserFacade
      */
-    private UserService $userService;
+    private UserFacade $userFacade;
 
     /**
      * ReadAction constructor.
      *
-     * @param \App\Core\Application\Services\UserService $userService
+     * @param \App\Core\Application\Services\Facades\UserFacade $userFacade
      */
-    public function __construct(UserService $userService)
+    public function __construct(UserFacade $userFacade)
     {
-        $this->userService = $userService;
+        $this->userFacade = $userFacade;
     }
 
     /**
@@ -40,7 +40,7 @@ class ReadAction
      */
     public function __invoke(int $id): JsonResponse
     {
-        $user = $this->userService->read($id);
+        $user = $this->userFacade->read($id);
 
         return new JsonResponse($user);
     }

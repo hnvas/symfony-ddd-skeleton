@@ -19,7 +19,7 @@ services:
         resource: '../src/Core'
         exclude:
             - '../src/DependencyInjection/'
-            - '../src/Core/Domain/Entity/'
+            - '../src/Core/Domain/Model/'
             - '../src/Kernel.php'
             - '../src/Tests/'
 

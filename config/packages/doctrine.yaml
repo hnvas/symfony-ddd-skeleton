@@ -13,6 +13,6 @@ doctrine:
             Core:
                 is_bundle: false
                 type: annotation
-                dir: '%kernel.project_dir%/src/Core/Domain/Entity'
-                prefix: 'App\Core\Domain\Entity'
+                dir: '%kernel.project_dir%/src/Core/Domain/Model'
+                prefix: 'App\Core\Domain\Model'
                 alias: Core

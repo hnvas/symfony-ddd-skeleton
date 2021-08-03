@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\EventListeners;
 
@@ -56,7 +57,7 @@ class ExceptionHandler implements EventSubscriberInterface
             $event->setResponse(new JsonResponse([
                 'message' => $throwable->getMessage(),
                 'details' => $throwable->getDetails()
-            ], Response::HTTP_NOT_FOUND));
+            ], Response::HTTP_UNPROCESSABLE_ENTITY));
         }
     }
 

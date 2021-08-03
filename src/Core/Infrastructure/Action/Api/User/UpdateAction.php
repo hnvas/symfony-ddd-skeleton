@@ -3,8 +3,9 @@ declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\Action\Api\User;
 
-use App\Core\Application\Services\UserService;
-use App\Core\Domain\Entity\User;
+use App\Core\Application\Services\Facades\UserFacade;
+use App\Core\Domain\Model\Entity;
+use App\Core\Domain\Model\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,9 +22,9 @@ class UpdateAction
 {
 
     /**
-     * @var \App\Core\Application\Services\UserService
+     * @var \App\Core\Application\Services\Facades\UserFacade
      */
-    private UserService $userService;
+    private UserFacade $userFacade;
 
     /**
      * @var \Symfony\Component\Serializer\SerializerInterface
@@ -33,15 +34,15 @@ class UpdateAction
     /**
      * UpdateAction constructor.
      *
-     * @param \App\Core\Application\Services\UserService $userService
+     * @param \App\Core\Application\Services\Facades\UserFacade $userFacade
      * @param \Symfony\Component\Serializer\SerializerInterface $serializer
      */
     public function __construct(
-        UserService $userService,
+        UserFacade          $userFacade,
         SerializerInterface $serializer
     ) {
-        $this->userService = $userService;
-        $this->serializer  = $serializer;
+        $this->userFacade = $userFacade;
+        $this->serializer = $serializer;
     }
 
     /**
@@ -57,7 +58,7 @@ class UpdateAction
         $content  = $request->getContent();
         $userData = $this->serializer->deserialize($content, User::class, 'json');
 
-        $user = $this->userService->update($id, $userData);
+        $user = $this->userFacade->update($id, $userData);
 
         return new JsonResponse($user);
     }

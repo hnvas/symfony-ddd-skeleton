@@ -1,11 +1,10 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Core\Domain\Entity;
+namespace App\Core\Domain\Model;
 
 use App\Core\Application\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
-use JsonSerializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -17,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @UniqueEntity("email")
  */
-class User implements UserInterface, PasswordAuthenticatedUserInterface, JsonSerializable
+class User extends Entity implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id
@@ -55,11 +54,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, JsonSer
     /**
      * @var string|null The hashed password
      * @ORM\Column(type="string")
-     *
-     * @Assert\AtLeastOneOf({
-     *  @Assert\Blank,
-     *  @Assert\Length(min=8, max=32)
-     * })
      */
     private ?string $password;
 
@@ -82,7 +76,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, JsonSer
     /**
      * @param string $email
      *
-     * @return \App\Core\Domain\Entity\User
+     * @return \App\Core\Domain\Model\Entity
      */
     public function setEmail(string $email): self
     {
@@ -102,7 +96,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, JsonSer
     /**
      * @param string|null $name
      *
-     * @return \App\Core\Domain\Entity\User
+     * @return \App\Core\Domain\Model\Entity
      */
     public function setName(?string $name): self
     {

@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Core\Application\Repository;
 
-use App\Core\Domain\Entity\User;
+use App\Core\Domain\Model\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
