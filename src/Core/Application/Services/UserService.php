@@ -108,12 +108,7 @@ class UserService
             throw new EntityNotFoundException(User::class);
         }
 
-        $persistentUser->setName($user->getName());
-        $persistentUser->setEmail($user->getEmail());
-
-        if (!empty($user->getPassword())) {
-            $persistentUser->setPassword($this->hashPassword($user));
-        }
+        $this->patch($persistentUser, $user);
 
         $this->manager->persist($persistentUser);
         $this->manager->flush();
@@ -161,6 +156,20 @@ class UserService
         return $this->passwordHarsher->hashPassword(
             $user, $user->getPassword()
         );
+    }
+
+    /**
+     * @param \App\Core\Domain\Entity\User $persistentUser
+     * @param \App\Core\Domain\Entity\User $user
+     */
+    private function patch(User $persistentUser, User $user): void
+    {
+        $persistentUser->setName($user->getName());
+        $persistentUser->setEmail($user->getEmail());
+
+        if (!empty($user->getPassword())) {
+            $persistentUser->setPassword($this->hashPassword($user));
+        }
     }
 
 }
