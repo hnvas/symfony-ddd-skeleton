@@ -8,6 +8,7 @@ use App\Core\Application\Repository\UserRepository;
 use App\Core\Domain\Model\Entity;
 use App\Core\Domain\Model\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -40,13 +41,13 @@ class UserFacade extends EntityFacade
      * @param \App\Core\Application\Filters\UserFilter $userFilter
      * @param array $params
      *
-     * @return array
+     * @return \Doctrine\ORM\QueryBuilder
      */
-    public function list(UserFilter $userFilter, array $params): array
+    public function list(UserFilter $userFilter, array $params): QueryBuilder
     {
         $qb = $this->repository->createQueryBuilder('u')->select('u');
 
-        return $userFilter->apply($qb, $params)->getQuery()->execute();
+        return $userFilter->apply($qb, $params);
     }
 
     /**

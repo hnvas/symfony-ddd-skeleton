@@ -5,7 +5,8 @@ namespace App\Core\Domain\Model;
 
 use App\Core\Application\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Hateoas\Configuration\Annotation as Hateoas;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -14,6 +15,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
  *
+ * @Serializer\XmlRoot("user")
+ *
+ * @Hateoas\Relation("self", href = "expr('/api/user/' ~ object.getId())")
  */
 class User extends Entity implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -21,6 +25,8 @@ class User extends Entity implements UserInterface, PasswordAuthenticatedUserInt
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     *
+     * @Serializer\XmlAttribute
      *
      * @var int|null
      */
@@ -46,6 +52,8 @@ class User extends Entity implements UserInterface, PasswordAuthenticatedUserInt
     /**
      * @ORM\Column(type="json")
      *
+     * @Serializer\Accessor(getter="getRoles",setter="setRoles")
+     *
      * @var array|null
      */
     private ?array $roles = [];
@@ -53,6 +61,10 @@ class User extends Entity implements UserInterface, PasswordAuthenticatedUserInt
     /**
      * @var string|null The hashed password
      * @ORM\Column(type="string")
+     *
+     * @Serializer\Exclude(if="context.getDirection() === 1")
+     *
+     * @var string|null
      */
     private ?string $password;
 
@@ -182,25 +194,5 @@ class User extends Entity implements UserInterface, PasswordAuthenticatedUserInt
      */
     public function eraseCredentials()
     {
-    }
-
-    /**
-     * @return array
-     */
-    public function toArray(): array
-    {
-        return [
-            'id'    => $this->getId(),
-            'name'  => $this->getName(),
-            'email' => $this->getEmail()
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    public function jsonSerialize(): array
-    {
-        return $this->toArray();
     }
 }

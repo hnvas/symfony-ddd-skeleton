@@ -4,12 +4,13 @@ declare(strict_types = 1);
 namespace App\Core\Infrastructure\Action\Api\User;
 
 use App\Core\Application\Services\Facades\UserFacade;
-use App\Core\Domain\Model\Entity;
 use App\Core\Domain\Model\User;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use JMS\Serializer\DeserializationContext;
+use JMS\Serializer\SerializationContext;
+use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Class UpdateAction
@@ -27,7 +28,7 @@ class UpdateAction
     private UserFacade $userFacade;
 
     /**
-     * @var \Symfony\Component\Serializer\SerializerInterface
+     * @var \JMS\Serializer\SerializerInterface
      */
     private SerializerInterface $serializer;
 
@@ -35,7 +36,7 @@ class UpdateAction
      * UpdateAction constructor.
      *
      * @param \App\Core\Application\Services\Facades\UserFacade $userFacade
-     * @param \Symfony\Component\Serializer\SerializerInterface $serializer
+     * @param \JMS\Serializer\SerializerInterface $serializer
      */
     public function __construct(
         UserFacade          $userFacade,
@@ -49,18 +50,22 @@ class UpdateAction
      * @param int $id
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return \Symfony\Component\HttpFoundation\Response
      * @throws \App\Core\Application\Exceptions\EntityNotFoundException
      * @throws \App\Core\Application\Exceptions\InvalidEntityException
      */
-    public function __invoke(int $id, Request $request): JsonResponse
+    public function __invoke(int $id, Request $request): Response
     {
         $content  = $request->getContent();
         $userData = $this->serializer->deserialize($content, User::class, 'json');
 
         $user = $this->userFacade->update($id, $userData);
 
-        return new JsonResponse($user);
+        return new Response(
+            $this->serializer->serialize($user, 'json'),
+            Response::HTTP_OK,
+            ['content-type' => 'json']
+        );
     }
 
 }

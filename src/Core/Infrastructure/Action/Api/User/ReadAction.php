@@ -4,7 +4,10 @@ declare(strict_types = 1);
 namespace App\Core\Infrastructure\Action\Api\User;
 
 use App\Core\Application\Services\Facades\UserFacade;
+use JMS\Serializer\SerializationContext;
+use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -23,25 +26,34 @@ class ReadAction
     private UserFacade $userFacade;
 
     /**
-     * ReadAction constructor.
-     *
-     * @param \App\Core\Application\Services\Facades\UserFacade $userFacade
+     * @var \JMS\Serializer\SerializerInterface
      */
-    public function __construct(UserFacade $userFacade)
+    private SerializerInterface $serializer;
+
+    /**
+     * @param \App\Core\Application\Services\Facades\UserFacade $userFacade
+     * @param \JMS\Serializer\SerializerInterface $serializer
+     */
+    public function __construct(UserFacade $userFacade, SerializerInterface $serializer)
     {
         $this->userFacade = $userFacade;
+        $this->serializer = $serializer;
     }
 
     /**
      * @param int $id
      *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return \Symfony\Component\HttpFoundation\Response
      * @throws \App\Core\Application\Exceptions\EntityNotFoundException
      */
-    public function __invoke(int $id): JsonResponse
+    public function __invoke(int $id): Response
     {
         $user = $this->userFacade->read($id);
 
-        return new JsonResponse($user);
+        return new Response(
+            $this->serializer->serialize($user, 'json'),
+            Response::HTTP_OK,
+            ['content-type' => 'json']
+        );
     }
 }
