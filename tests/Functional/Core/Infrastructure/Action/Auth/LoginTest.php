@@ -1,25 +1,27 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Tests\ApplicationTests\Core\Infrastructure\Action\Auth;
+namespace App\Tests\Functional\Core\Infrastructure\Action\Auth;
 
+use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class LoginTest extends WebTestCase
 {
 
+    use FixturesTrait;
+
     private KernelBrowser $client;
-
-    public static function setUpBeforeClass(): void
-    {
-
-    }
 
     protected function setUp(): void
     {
         self::ensureKernelShutdown();
         $this->client = static::createClient();
+
+        $this->loadFixtures([
+            'App\Core\Infrastructure\DataFixtures\UserFixtures'
+        ]);
     }
 
     public function testUserShouldLoginWithValidCredentials()
@@ -27,8 +29,8 @@ class LoginTest extends WebTestCase
         $this->client->request("POST", "/auth/login", [], [], [
             'CONTENT_TYPE' => 'application/json'
         ], json_encode([
-            'username' => 'username',
-            'password' => '123456'
+            'username' => 'user@admin.com',
+            'password' => '12345678910'
         ]));
 
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());

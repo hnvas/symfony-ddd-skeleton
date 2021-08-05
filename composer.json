@@ -30,6 +30,8 @@
     "willdurand/hateoas-bundle": "^2.2"
   },
   "require-dev": {
+    "doctrine/doctrine-fixtures-bundle": "^3.4",
+    "liip/test-fixtures-bundle": "^1.12",
     "phpunit/phpunit": "^9.5",
     "symfony/browser-kit": "^5.3",
     "symfony/css-selector": "^5.3",
