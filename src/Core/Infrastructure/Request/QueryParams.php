@@ -10,6 +10,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class QueryParams
 {
 
+    const DEFAULT_LIMIT = 10;
+    const DEFAULT_PAGE = 1;
+    const DEFAULT_ORDER = 'ASC';
+
     /**
      * @var \Symfony\Component\HttpFoundation\Request
      */
@@ -37,17 +41,17 @@ class QueryParams
 
     public function page(): int
     {
-        return (int)$this->request->query->get('page', 1);
+        return (int)$this->request->query->get('page', self::DEFAULT_PAGE);
     }
 
     public function limit(): int
     {
-        return (int)$this->request->get('limit', 10);
+        return (int)$this->request->get('limit', self::DEFAULT_LIMIT);
     }
 
     public function order(): InputBag
     {
-        return $this->request->query->get('order', ['id' => 'ASC']);
+        return $this->request->query->get('order', ['id' => self::DEFAULT_ORDER]);
     }
 
     public function criteria(): array

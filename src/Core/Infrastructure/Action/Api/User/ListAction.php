@@ -6,11 +6,11 @@ namespace App\Core\Infrastructure\Action\Api\User;
 use App\Core\Application\Filters\UserFilter;
 use App\Core\Application\Services\Facades\UserFacade;
 use App\Core\Infrastructure\Request\QueryParams;
+use App\Core\Infrastructure\Support\Paginator;
 use Doctrine\ORM\QueryBuilder;
 use Hateoas\Configuration\Route as HateoasRoute;
 use Hateoas\Representation\Factory\PagerfantaFactory;
 use Hateoas\Representation\PaginatedRepresentation;
-use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
@@ -62,34 +62,19 @@ class ListAction
      */
     public function __invoke(): Response
     {
-        $users = $this->userFacade->list(
-            new UserFilter(),
-            $this->queryParams->criteria()
-        );
+        $userFilter   = new UserFilter();
+        $criteria     = $this->queryParams->criteria();
+        $usersBuilder = $this->userFacade->list($userFilter, $criteria);
 
-        $pagination = $this->paginate($users);
+        $paginatedRepresentation = (new Paginator(
+            $usersBuilder,
+            $this->queryParams
+        ))->paginate();
 
         return new Response(
-            $this->serializer->serialize($pagination, 'json'),
+            $this->serializer->serialize($paginatedRepresentation, 'json'),
             Response::HTTP_OK,
             ['content-type' => 'json']
-        );
-    }
-
-    /**
-     * @param \Doctrine\ORM\QueryBuilder $builder
-     *
-     * @return \Hateoas\Representation\PaginatedRepresentation
-     */
-    protected function paginate(QueryBuilder $builder): PaginatedRepresentation
-    {
-        $pager = new Pagerfanta(new QueryAdapter($builder));
-        $pager->setMaxPerPage($this->queryParams->limit())
-              ->setCurrentPage($this->queryParams->page());
-
-        return (new PagerfantaFactory('page', 'limit'))->createRepresentation(
-            $pager,
-            new HateoasRoute($this->queryParams->route(), $this->queryParams->all())
         );
     }
 
