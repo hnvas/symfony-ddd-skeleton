@@ -58,11 +58,7 @@ class CreateAction
 
         /** @var User $userData */
         $userData = $this->serializer->deserialize($content, User::class, 'json');
-
-        $hashedPassword = $this->userFacade->hashPassword($userData);
-        $userData->setPassword($hashedPassword);
-
-        $user = $this->userFacade->create($userData);
+        $user     = $this->userFacade->create($userData);
 
         return new Response(
             $this->serializer->serialize($user, 'json'),

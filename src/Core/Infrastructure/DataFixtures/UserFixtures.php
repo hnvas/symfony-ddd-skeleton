@@ -31,9 +31,6 @@ class UserFixtures extends Fixture
         $user->setName('admin');
         $user->setPassword('12345678910');
 
-        $hashed = $this->facade->hashPassword($user);
-        $user->setPassword($hashed);
-
         $this->facade->create($user);
     }
 }

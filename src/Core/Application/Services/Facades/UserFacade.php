@@ -38,6 +38,19 @@ class UserFacade extends EntityFacade
     }
 
     /**
+     * @param \App\Core\Domain\Model\User $entity
+     *
+     * @return \App\Core\Domain\Model\Entity
+     * @throws \App\Core\Application\Exceptions\InvalidEntityException
+     */
+    public function create(Entity $entity): Entity
+    {
+        $entity->setPassword($this->hashPassword($entity));
+
+        return parent::create($entity);
+    }
+
+    /**
      * @param \App\Core\Application\Filters\UserFilter $userFilter
      * @param array $params
      *
@@ -55,7 +68,7 @@ class UserFacade extends EntityFacade
      *
      * @return string
      */
-    public function hashPassword(User $user): string
+    private function hashPassword(User $user): string
     {
         return $this->passwordHarsher->hashPassword(
             $user, $user->getPassword()
@@ -63,8 +76,8 @@ class UserFacade extends EntityFacade
     }
 
     /**
-     * @param \App\Core\Domain\Model\Entity $persistentEntity
-     * @param \App\Core\Domain\Model\Entity $entity
+     * @param \App\Core\Domain\Model\User $persistentEntity
+     * @param \App\Core\Domain\Model\User $entity
      */
     protected function patch(Entity $persistentEntity, Entity $entity): void
     {
