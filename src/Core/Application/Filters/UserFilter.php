@@ -3,21 +3,27 @@ declare(strict_types = 1);
 
 namespace App\Core\Application\Filters;
 
-use App\Core\Application\Filters\Fields\TextField;
-
 class UserFilter extends BaseFilter
 {
 
-    use TextField;
-
     public function email(string $value): void
     {
-        $this->valueLike($this->queryAlias("email"), $value);
+        $alias = $this->queryAlias('email');
+        $exp   = $this->builder->expr()
+                               ->like($alias, ':value');
+
+        $this->builder->andWhere($exp)
+                      ->setParameter('value', "%$value%");
     }
 
     public function name(string $value): void
     {
-        $this->valueLike($this->queryAlias("name"), $value);
+        $alias = $this->queryAlias('name');
+        $exp   = $this->builder->expr()
+                               ->like($alias, ':value');
+
+        $this->builder->andWhere($exp)
+                      ->setParameter('value', "%$value%");
     }
 
 }
