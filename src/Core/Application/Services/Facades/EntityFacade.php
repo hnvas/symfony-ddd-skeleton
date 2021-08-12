@@ -4,9 +4,11 @@ declare(strict_types = 1);
 namespace App\Core\Application\Services\Facades;
 
 use App\Core\Application\Exceptions\EntityNotFoundException;
+use App\Core\Application\Exceptions\InvalidEntityException;
 use App\Core\Application\Services\Concerns\Validatable;
 use App\Core\Domain\Model\Entity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -56,8 +58,12 @@ abstract class EntityFacade
     {
         $this->validate($this->validator, $entity);
 
-        $this->manager->persist($entity);
-        $this->manager->flush();
+        try {
+            $this->manager->persist($entity);
+            $this->manager->flush();
+        } catch (UniqueConstraintViolationException $ex) {
+            throw new InvalidEntityException(get_class($entity));
+        }
 
         return $entity;
     }

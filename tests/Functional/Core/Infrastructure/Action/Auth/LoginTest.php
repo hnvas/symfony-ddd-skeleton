@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Tests\Functional\Core\Infrastructure\Action\Auth;
 
+use App\Core\Domain\Model\User;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -34,6 +35,10 @@ class LoginTest extends WebTestCase
         ]));
 
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertObjectHasAttribute(
+            'access_token',
+            json_decode($this->client->getResponse()->getContent())
+        );
     }
 
     public function testUserShouldNotLoginWithInvalidCredentials()

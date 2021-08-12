@@ -4,8 +4,10 @@ declare(strict_types = 1);
 namespace App\Core\Infrastructure\Action\Api\User;
 
 use App\Core\Application\Services\Facades\UserFacade;
+use App\Core\Infrastructure\Http\Response\ApiEmptyResponse;
 use App\Core\Infrastructure\Http\Response\ApiResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -43,7 +45,7 @@ class DeleteAction
     {
         $this->userFacade->delete($id);
 
-        return new ApiResponse();
+        return new ApiEmptyResponse();
     }
 
 }

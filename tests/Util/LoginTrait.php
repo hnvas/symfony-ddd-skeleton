@@ -10,7 +10,7 @@ trait LoginTrait
 
     protected function login(KernelBrowser $client)
     {
-        $client->request("POST", "/login", [], [], [
+        $client->request("POST", "/auth/login", [], [], [
             'CONTENT_TYPE' => 'application/json'
         ], json_encode([
             'username' => 'user@admin.com',
