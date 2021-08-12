@@ -4,8 +4,10 @@ declare(strict_types = 1);
 namespace App\Core\Infrastructure\Action\Api\User;
 
 use App\Core\Application\Services\Facades\UserFacade;
+use App\Core\Infrastructure\Http\Response\ApiResponse;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
+use PHPUnit\Util\Json;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -43,17 +45,13 @@ class ReadAction
     /**
      * @param int $id
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      * @throws \App\Core\Application\Exceptions\EntityNotFoundException
      */
-    public function __invoke(int $id): Response
+    public function __invoke(int $id): JsonResponse
     {
         $user = $this->userFacade->read($id);
 
-        return new Response(
-            $this->serializer->serialize($user, 'json'),
-            Response::HTTP_OK,
-            ['content-type' => 'json']
-        );
+        return new ApiResponse($this->serializer->serialize($user, 'json'));
     }
 }

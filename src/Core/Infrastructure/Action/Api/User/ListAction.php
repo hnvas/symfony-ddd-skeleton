@@ -5,15 +5,9 @@ namespace App\Core\Infrastructure\Action\Api\User;
 
 use App\Core\Application\Filters\UserFilter;
 use App\Core\Application\Services\Facades\UserFacade;
-use App\Core\Infrastructure\Request\QueryParams;
+use App\Core\Infrastructure\Http\Request\QueryParams;
 use App\Core\Infrastructure\Support\Paginator;
-use Doctrine\ORM\QueryBuilder;
-use Hateoas\Configuration\Route as HateoasRoute;
-use Hateoas\Representation\Factory\PagerfantaFactory;
-use Hateoas\Representation\PaginatedRepresentation;
 use JMS\Serializer\SerializerInterface;
-use Pagerfanta\Doctrine\ORM\QueryAdapter;
-use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -33,7 +27,7 @@ class ListAction
     private UserFacade $userFacade;
 
     /**
-     * @var \App\Core\Infrastructure\Request\QueryParams
+     * @var \App\Core\Infrastructure\Http\Request\QueryParams
      */
     private QueryParams $queryParams;
 
@@ -44,7 +38,7 @@ class ListAction
 
     /**
      * @param \App\Core\Application\Services\Facades\UserFacade $userFacade
-     * @param \App\Core\Infrastructure\Request\QueryParams $queryParams
+     * @param \App\Core\Infrastructure\Http\Request\QueryParams $queryParams
      * @param \JMS\Serializer\SerializerInterface $serializer
      */
     public function __construct(

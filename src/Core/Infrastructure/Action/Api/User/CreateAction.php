@@ -5,9 +5,9 @@ namespace App\Core\Infrastructure\Action\Api\User;
 
 use App\Core\Application\Services\Facades\UserFacade;
 use App\Core\Domain\Model\User;
-use JMS\Serializer\DeserializationContext;
-use JMS\Serializer\SerializationContext;
+use App\Core\Infrastructure\Http\Response\ApiResponse;
 use JMS\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -49,10 +49,10 @@ class CreateAction
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      * @throws \App\Core\Application\Exceptions\InvalidEntityException
      */
-    public function __invoke(Request $request): Response
+    public function __invoke(Request $request): JsonResponse
     {
         $content = $request->getContent();
 
@@ -60,10 +60,9 @@ class CreateAction
         $userData = $this->serializer->deserialize($content, User::class, 'json');
         $user     = $this->userFacade->create($userData);
 
-        return new Response(
+        return new ApiResponse(
             $this->serializer->serialize($user, 'json'),
-            Response::HTTP_CREATED,
-            ['content-type' => 'json']
+            Response::HTTP_CREATED
         );
     }
 

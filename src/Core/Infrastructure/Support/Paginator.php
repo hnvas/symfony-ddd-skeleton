@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\Support;
 
-use App\Core\Infrastructure\Request\QueryParams;
+use App\Core\Infrastructure\Http\Request\QueryParams;
 use Doctrine\ORM\QueryBuilder;
 use Hateoas\Configuration\Route as HateoasRoute;
 use Hateoas\Representation\Factory\PagerfantaFactory;
@@ -20,13 +20,13 @@ class Paginator
     private QueryBuilder $queryBuilder;
 
     /**
-     * @var \App\Core\Infrastructure\Request\QueryParams
+     * @var \App\Core\Infrastructure\Http\Request\QueryParams
      */
     private QueryParams $queryParams;
 
     /**
      * @param \Doctrine\ORM\QueryBuilder $queryBuilder
-     * @param \App\Core\Infrastructure\Request\QueryParams $queryParams
+     * @param \App\Core\Infrastructure\Http\Request\QueryParams $queryParams
      */
     public function __construct(QueryBuilder $queryBuilder, QueryParams $queryParams)
     {

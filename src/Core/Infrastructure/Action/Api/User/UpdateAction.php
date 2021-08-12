@@ -5,9 +5,11 @@ namespace App\Core\Infrastructure\Action\Api\User;
 
 use App\Core\Application\Services\Facades\UserFacade;
 use App\Core\Domain\Model\User;
+use App\Core\Infrastructure\Http\Response\ApiResponse;
 use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -50,22 +52,18 @@ class UpdateAction
      * @param int $id
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      * @throws \App\Core\Application\Exceptions\EntityNotFoundException
      * @throws \App\Core\Application\Exceptions\InvalidEntityException
      */
-    public function __invoke(int $id, Request $request): Response
+    public function __invoke(int $id, Request $request): JsonResponse
     {
         $content  = $request->getContent();
         $userData = $this->serializer->deserialize($content, User::class, 'json');
 
         $user = $this->userFacade->update($id, $userData);
 
-        return new Response(
-            $this->serializer->serialize($user, 'json'),
-            Response::HTTP_OK,
-            ['content-type' => 'json']
-        );
+        return new ApiResponse($this->serializer->serialize($user, 'json'));
     }
 
 }
