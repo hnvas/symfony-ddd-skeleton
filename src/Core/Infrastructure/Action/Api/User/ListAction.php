@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\Action\Api\User;
 
-use App\Core\Application\Filters\UserFilter;
 use App\Core\Application\Services\Facades\UserFacade;
 use App\Core\Infrastructure\Http\Request\QueryParams;
 use App\Core\Infrastructure\Support\Paginator;
@@ -56,17 +55,12 @@ class ListAction
      */
     public function __invoke(): Response
     {
-        $userFilter   = new UserFilter();
-        $criteria     = $this->queryParams->criteria();
-        $usersBuilder = $this->userFacade->list($userFilter, $criteria);
-
-        $paginatedRepresentation = (new Paginator(
-            $usersBuilder,
-            $this->queryParams
-        ))->paginate();
+        $criteria  = $this->queryParams->criteria();
+        $result    = $this->userFacade->search($criteria);
+        $paginator = new Paginator($result, $this->queryParams);
 
         return new Response(
-            $this->serializer->serialize($paginatedRepresentation, 'json'),
+            $this->serializer->serialize($paginator->paginate(), 'json'),
             Response::HTTP_OK,
             ['content-type' => 'json']
         );

@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\Security;
 
-use App\Core\Application\Repository\UserRepository;
+use App\Core\Domain\Repository\UserRepositoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,9 +18,9 @@ class TokenAuthenticator extends AbstractAuthenticator
 {
 
     /**
-     * @var \App\Core\Application\Repository\UserRepository
+     * @var \App\Core\Domain\Repository\UserRepositoryInterface
      */
-    private UserRepository $userRepository;
+    private UserRepositoryInterface $userRepository;
 
     /**
      * @var \App\Core\Infrastructure\Security\TokenServiceInterface
@@ -28,11 +28,11 @@ class TokenAuthenticator extends AbstractAuthenticator
     private TokenServiceInterface $tokenService;
 
     public function __construct(
-        UserRepository $userRepository,
-        TokenServiceInterface $tokenService
+        UserRepositoryInterface $userRepository,
+        TokenServiceInterface   $tokenService
     ) {
         $this->userRepository = $userRepository;
-        $this->tokenService = $tokenService;
+        $this->tokenService   = $tokenService;
     }
 
     public function supports(Request $request): bool
@@ -41,7 +41,7 @@ class TokenAuthenticator extends AbstractAuthenticator
     }
 
     public function onAuthenticationFailure(
-        Request $request,
+        Request                 $request,
         AuthenticationException $exception
     ): ?Response {
         return new JsonResponse([
@@ -50,9 +50,9 @@ class TokenAuthenticator extends AbstractAuthenticator
     }
 
     public function onAuthenticationSuccess(
-        Request $request,
+        Request        $request,
         TokenInterface $token,
-        $firewallName
+                       $firewallName
     ): ?Response {
         return null;
     }
@@ -60,9 +60,9 @@ class TokenAuthenticator extends AbstractAuthenticator
     public function authenticate(Request $request): PassportInterface
     {
         $authorization = $request->headers->get('Authorization');
-        $credentials = $this->tokenService->decodeToken($authorization);
+        $credentials   = $this->tokenService->decodeToken($authorization);
 
-        if($this->tokenService->tokenExpired($credentials)) {
+        if ($this->tokenService->tokenExpired($credentials)) {
             throw new AuthenticationException("Token has expired");
         }
 

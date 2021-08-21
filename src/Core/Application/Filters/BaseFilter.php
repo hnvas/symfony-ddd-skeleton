@@ -20,17 +20,22 @@ abstract class BaseFilter
     protected QueryBuilder $builder;
 
     /**
-     * Apply the filters to the builder.
-     *
+     * @param array $queryParams
      * @param \Doctrine\ORM\QueryBuilder $builder
-     * @param array $params
+     */
+    public function __construct(array $queryParams, QueryBuilder $builder)
+    {
+        $this->queryParams = $queryParams;
+        $this->builder     = $builder;
+    }
+
+    /**
+     * Apply the filters to the builder.
      *
      * @return QueryBuilder
      */
-    public function apply(QueryBuilder $builder, array $params): QueryBuilder
+    public function apply(): QueryBuilder
     {
-        $this->builder     = $builder;
-        $this->queryParams = $params;
         $filters           = array_merge($this->defaultFilters(), $this->filters());
 
         foreach ($filters as $name => $value) {

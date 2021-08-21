@@ -7,8 +7,8 @@ use App\Core\Application\Filters\UserFilter;
 use App\Core\Application\Repository\UserRepository;
 use App\Core\Domain\Model\Entity;
 use App\Core\Domain\Model\User;
+use App\Core\Domain\Repository\UserRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -23,13 +23,13 @@ class UserFacade extends EntityFacade
     /**
      * @param \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordHarsher
      * @param \Doctrine\ORM\EntityManagerInterface $manager
-     * @param \App\Core\Application\Repository\UserRepository $repository
+     * @param \App\Core\Domain\Repository\UserRepositoryInterface $repository
      * @param \Symfony\Component\Validator\Validator\ValidatorInterface $validator
      */
     public function __construct(
         UserPasswordHasherInterface $passwordHarsher,
         EntityManagerInterface      $manager,
-        UserRepository              $repository,
+        UserRepositoryInterface     $repository,
         ValidatorInterface          $validator
     ) {
         $this->passwordHarsher = $passwordHarsher;
@@ -51,16 +51,16 @@ class UserFacade extends EntityFacade
     }
 
     /**
-     * @param \App\Core\Application\Filters\UserFilter $userFilter
      * @param array $params
      *
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return User[]
      */
-    public function list(UserFilter $userFilter, array $params): QueryBuilder
+    public function search(array $params): array
     {
-        $qb = $this->repository->createQueryBuilder('u')->select('u');
+        $qb     = $this->repository->createQueryBuilder('u')->select('u');
+        $filter = new UserFilter($params, $qb);
 
-        return $userFilter->apply($qb, $params);
+        return $filter->apply()->getQuery()->execute();
     }
 
     /**
