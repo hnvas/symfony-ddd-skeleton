@@ -3,8 +3,9 @@ declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\Action\Api\User;
 
-use App\Core\Application\Services\Facades\UserFacade;
+use App\Core\Domain\Repository\UserRepositoryInterface;
 use App\Core\Infrastructure\Http\Request\QueryParams;
+use App\Core\Infrastructure\Http\Response\ApiResponse;
 use App\Core\Infrastructure\Support\Paginator;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,11 +22,6 @@ class ListAction
 {
 
     /**
-     * @var \App\Core\Application\Services\Facades\UserFacade
-     */
-    private UserFacade $userFacade;
-
-    /**
      * @var \App\Core\Infrastructure\Http\Request\QueryParams
      */
     private QueryParams $queryParams;
@@ -36,18 +32,23 @@ class ListAction
     private SerializerInterface $serializer;
 
     /**
-     * @param \App\Core\Application\Services\Facades\UserFacade $userFacade
+     * @var \App\Core\Domain\Repository\UserRepositoryInterface
+     */
+    private UserRepositoryInterface $userRepository;
+
+    /**
      * @param \App\Core\Infrastructure\Http\Request\QueryParams $queryParams
      * @param \JMS\Serializer\SerializerInterface $serializer
+     * @param \App\Core\Domain\Repository\UserRepositoryInterface $userRepository
      */
     public function __construct(
-        UserFacade          $userFacade,
-        QueryParams         $queryParams,
-        SerializerInterface $serializer
+        QueryParams             $queryParams,
+        SerializerInterface     $serializer,
+        UserRepositoryInterface $userRepository
     ) {
-        $this->userFacade  = $userFacade;
-        $this->queryParams = $queryParams;
-        $this->serializer  = $serializer;
+        $this->userRepository = $userRepository;
+        $this->queryParams    = $queryParams;
+        $this->serializer     = $serializer;
     }
 
     /**
@@ -55,15 +56,11 @@ class ListAction
      */
     public function __invoke(): Response
     {
-        $criteria  = $this->queryParams->criteria();
-        $result    = $this->userFacade->search($criteria);
-        $paginator = new Paginator($result, $this->queryParams);
+        $criteria = $this->queryParams->criteria();
+        $users    = $this->userRepository->search($criteria);
+        $pages    = (new Paginator($users, $this->queryParams))->paginate();
 
-        return new Response(
-            $this->serializer->serialize($paginator->paginate(), 'json'),
-            Response::HTTP_OK,
-            ['content-type' => 'json']
-        );
+        return new ApiResponse($this->serializer->serialize($pages, 'json'));
     }
 
 }

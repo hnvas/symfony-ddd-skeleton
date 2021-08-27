@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Core\Application\Filters;
+namespace App\Core\Infrastructure\Repository\Filters;
 
 class UserFilter extends BaseFilter
 {

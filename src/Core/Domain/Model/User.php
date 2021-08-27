@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Core\Domain\Model;
 
-use App\Core\Application\Repository\UserRepository;
+use App\Core\Infrastructure\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Hateoas\Configuration\Annotation as Hateoas;
 use JMS\Serializer\Annotation as Serializer;

@@ -3,8 +3,6 @@ declare(strict_types = 1);
 
 namespace App\Core\Application\Services\Facades;
 
-use App\Core\Application\Filters\UserFilter;
-use App\Core\Application\Repository\UserRepository;
 use App\Core\Domain\Model\Entity;
 use App\Core\Domain\Model\User;
 use App\Core\Domain\Repository\UserRepositoryInterface;
@@ -48,19 +46,6 @@ class UserFacade extends EntityFacade
         $entity->setPassword($this->hashPassword($entity));
 
         return parent::create($entity);
-    }
-
-    /**
-     * @param array $params
-     *
-     * @return User[]
-     */
-    public function search(array $params): array
-    {
-        $qb     = $this->repository->createQueryBuilder('u')->select('u');
-        $filter = new UserFilter($params, $qb);
-
-        return $filter->apply()->getQuery()->execute();
     }
 
     /**

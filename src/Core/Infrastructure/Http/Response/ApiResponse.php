@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace App\Core\Infrastructure\Http\Response;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 
 class ApiResponse extends JsonResponse
 {

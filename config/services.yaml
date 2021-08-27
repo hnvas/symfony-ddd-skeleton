@@ -21,7 +21,7 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Core/Domain/Model/'
             - '../src/Core/Infrastructure/Support/'
-            - '../src/Core/Application/Filters/'
+            - '../src/Core/Infrastructure/Repository/Filters/'
             - '../src/Kernel.php'
             - '../src/Tests/'
 

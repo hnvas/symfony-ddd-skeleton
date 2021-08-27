@@ -5,6 +5,7 @@ namespace App\Core\Infrastructure\Repository;
 
 use App\Core\Domain\Model\User;
 use App\Core\Domain\Repository\UserRepositoryInterface;
+use App\Core\Infrastructure\Repository\Filters\UserFilter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -48,5 +49,18 @@ class UserRepository extends ServiceEntityRepository implements
         $user->setPassword($newHashedPassword);
         $this->_em->persist($user);
         $this->_em->flush();
+    }
+
+    /**
+     * @param array $params
+     *
+     * @return array
+     */
+    public function search(array $params): array
+    {
+        $qb     = $this->createQueryBuilder('u')->select('u');
+        $filter = new UserFilter($params, $qb);
+
+        return $filter->apply()->getQuery()->execute();
     }
 }
