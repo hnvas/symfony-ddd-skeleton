@@ -16,9 +16,9 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package App\Core\Infrastructure\Action\Api\User
  * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
  *
- * @Route("/user", name="listUsers", methods={"GET"})
+ * @Route("/user", name="userIndex", methods={"GET"})
  */
-class ListAction
+class IndexAction
 {
 
     /**
