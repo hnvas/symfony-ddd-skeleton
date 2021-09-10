@@ -7,7 +7,7 @@ use App\Core\Application\Exceptions\EntityNotFoundException;
 use App\Core\Application\Exceptions\InvalidEntityException;
 use App\Core\Application\Services\Concerns\Validatable;
 use App\Core\Domain\Model\Entity;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
+use App\Core\Domain\Repository\EntityRepositoryInterface;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -23,9 +23,9 @@ abstract class EntityFacade
     protected EntityManagerInterface $manager;
 
     /**
-     * @var \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface
+     * @var \App\Core\Domain\Repository\EntityRepositoryInterface
      */
-    protected ServiceEntityRepositoryInterface $repository;
+    protected EntityRepositoryInterface $repository;
 
     /**
      * @var \Symfony\Component\Validator\Validator\ValidatorInterface
@@ -34,13 +34,13 @@ abstract class EntityFacade
 
     /**
      * @param \Doctrine\ORM\EntityManagerInterface $manager
-     * @param \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface $repository
+     * @param \App\Core\Domain\Repository\EntityRepositoryInterface $repository
      * @param \Symfony\Component\Validator\Validator\ValidatorInterface $validator
      */
     public function __construct(
-        EntityManagerInterface           $manager,
-        ServiceEntityRepositoryInterface $repository,
-        ValidatorInterface               $validator
+        EntityManagerInterface    $manager,
+        EntityRepositoryInterface $repository,
+        ValidatorInterface        $validator
     ) {
         $this->manager    = $manager;
         $this->repository = $repository;
@@ -59,7 +59,7 @@ abstract class EntityFacade
         $this->validate($this->validator, $entity);
 
         try {
-            $this->manager->persist($entity);
+            $this->repository->add($entity);
             $this->manager->flush();
         } catch (UniqueConstraintViolationException $ex) {
             throw new InvalidEntityException(get_class($entity));
@@ -76,7 +76,7 @@ abstract class EntityFacade
      */
     public function read(int $id): Entity
     {
-        $user = $this->repository->find($id);
+        $user = $this->repository->findById($id);
 
         if (is_null($user)) {
             throw new EntityNotFoundException($this->repository->getClassName());
@@ -97,7 +97,7 @@ abstract class EntityFacade
     {
         $this->validate($this->validator, $entity);
 
-        $persistentEntity = $this->repository->find($id);
+        $persistentEntity = $this->repository->findById($id);
 
         if (is_null($persistentEntity)) {
             throw new EntityNotFoundException($this->repository->getClassName());
@@ -105,7 +105,6 @@ abstract class EntityFacade
 
         $this->patch($persistentEntity, $entity);
 
-        $this->manager->persist($persistentEntity);
         $this->manager->flush();
 
         return $persistentEntity;
@@ -124,7 +123,7 @@ abstract class EntityFacade
             throw new EntityNotFoundException($this->repository->getClassName());
         }
 
-        $this->manager->remove($persistentUser);
+        $this->repository->remove($persistentUser);
         $this->manager->flush();
     }
 

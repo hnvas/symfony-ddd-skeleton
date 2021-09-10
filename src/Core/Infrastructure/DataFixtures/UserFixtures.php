@@ -28,7 +28,7 @@ class UserFixtures extends Fixture
      */
     public function __construct(UserFacade $facade, KernelInterface $kernel)
     {
-        $this->facade = $facade;
+        $this->facade      = $facade;
         $this->environment = $kernel->getEnvironment();
     }
 
@@ -38,10 +38,11 @@ class UserFixtures extends Fixture
         $user->setEmail('user@admin.com');
         $user->setName('admin');
         $user->setPassword('12345678910');
+        $user->setRoles(['ROLE_USER', 'ROLE_ADMIN']);
 
         $this->facade->create($user);
 
-        if('test' === $this->environment) {
+        if ('test' === $this->environment) {
             $this->loadMany($manager);
         }
     }
@@ -50,14 +51,16 @@ class UserFixtures extends Fixture
     {
         $users = [
             [
-                'email' => 'user@test1.com',
-                'name' => 'test1',
+                'email'    => 'user@test1.com',
+                'name'     => 'test1',
                 'password' => 'test1pass',
+                'roles'    => ['ROLE_USER']
             ],
             [
-                'email' => 'user@test2.com',
-                'name' => 'test2',
+                'email'    => 'user@test2.com',
+                'name'     => 'test2',
                 'password' => 'test2pass',
+                'roles'    => ['ROLE_USER']
             ]
         ];
 

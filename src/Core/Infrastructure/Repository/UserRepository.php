@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\Repository;
 
+use App\Core\Domain\Model\Entity;
 use App\Core\Domain\Model\User;
 use App\Core\Domain\Repository\UserRepositoryInterface;
 use App\Core\Infrastructure\Repository\Filters\UserFilter;
@@ -49,6 +50,36 @@ class UserRepository extends ServiceEntityRepository implements
         $user->setPassword($newHashedPassword);
         $this->_em->persist($user);
         $this->_em->flush();
+    }
+
+    /**
+     * @param \App\Core\Domain\Model\User $entity
+     *
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function add(Entity $entity): void
+    {
+        $this->_em->persist($entity);
+    }
+
+    /**
+     * @param \App\Core\Domain\Model\User $entity
+     *
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function remove(Entity $entity): void
+    {
+        $this->_em->remove($entity);
+    }
+
+    /**
+     * @param int $entityId
+     *
+     * @return \App\Core\Domain\Model\User|null
+     */
+    public function findById(int $entityId): ?Entity
+    {
+        return $this->find($entityId);
     }
 
     /**

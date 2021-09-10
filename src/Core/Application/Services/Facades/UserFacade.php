@@ -68,6 +68,7 @@ class UserFacade extends EntityFacade
     {
         $persistentEntity->setName($entity->getName());
         $persistentEntity->setEmail($entity->getEmail());
+        $persistentEntity->setRoles($entity->getRoles());
 
         if (!empty($entity->getPassword())) {
             $persistentEntity->setPassword($this->hashPassword($entity));

@@ -139,9 +139,8 @@ class User extends Entity implements UserInterface, PasswordAuthenticatedUserInt
      */
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles   = $this->roles;
+        $roles[] = UserRoleEnum::ROLE_USER;
 
         return array_unique($roles);
     }
