@@ -3,18 +3,13 @@ declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\Repository;
 
+use App\Core\Domain\Model\Entity;
 use App\Core\Domain\Model\Permission;
 use App\Core\Domain\Repository\PermissionRepositoryInterface;
 use App\Core\Infrastructure\Repository\Filters\PermissionFilter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @method Permission|null find($id, $lockMode = null, $lockVersion = null)
- * @method Permission|null findOneBy(array $criteria, array $orderBy = null)
- * @method Permission[]    findAll()
- * @method Permission[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class PermissionRepository extends ServiceEntityRepository implements
     PermissionRepositoryInterface
 {
@@ -25,28 +20,28 @@ class PermissionRepository extends ServiceEntityRepository implements
     }
 
     /**
-     * @param \App\Core\Domain\Model\Permission $permission
+     * @param \App\Core\Domain\Model\Permission $entity
      *
      * @throws \Doctrine\ORM\ORMException
      */
-    public function add(Permission $permission): void
+    public function add(Entity $entity): void
     {
-        $this->_em->persist($permission);
+        $this->_em->persist($entity);
     }
 
     /**
-     * @param \App\Core\Domain\Model\Permission $permission
+     * @param \App\Core\Domain\Model\Permission $entity
      *
      * @throws \Doctrine\ORM\ORMException
      */
-    public function remove(Permission $permission): void
+    public function remove(Entity $entity): void
     {
-        $this->_em->remove($permission);
+        $this->_em->remove($entity);
     }
 
-    public function findById(int $permissionId): ?Permission
+    public function findById(int $entityId): ?Permission
     {
-        return $this->find($permissionId);
+        return $this->find($entityId);
     }
 
     public function search(array $params): array
@@ -55,5 +50,10 @@ class PermissionRepository extends ServiceEntityRepository implements
         $filter = new PermissionFilter($params, $qb);
 
         return $filter->apply()->getQuery()->execute();
+    }
+
+    public function getEntityClassName(): string
+    {
+        return $this->getEntityName();
     }
 }

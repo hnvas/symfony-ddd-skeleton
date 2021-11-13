@@ -16,4 +16,6 @@ interface EntityRepositoryInterface
 
     public function search(array $params): array;
 
+    public function getEntityClassName(): string;
+
 }

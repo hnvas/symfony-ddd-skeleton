@@ -13,12 +13,6 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
-/**
- * @method User|null find($id, $lockMode = null, $lockVersion = null)
- * @method User|null findOneBy(array $criteria, array $orderBy = null)
- * @method User[]    findAll()
- * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class UserRepository extends ServiceEntityRepository implements
     PasswordUpgraderInterface,
     UserRepositoryInterface
@@ -93,5 +87,10 @@ class UserRepository extends ServiceEntityRepository implements
         $filter = new UserFilter($params, $qb);
 
         return $filter->apply()->getQuery()->execute();
+    }
+
+    public function getEntityClassName(): string
+    {
+        return $this->getEntityName();
     }
 }

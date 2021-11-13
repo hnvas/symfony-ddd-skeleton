@@ -12,18 +12,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserFacade extends EntityFacade
 {
-
-    /**
-     * @var \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface
-     */
     private UserPasswordHasherInterface $passwordHarsher;
 
-    /**
-     * @param \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordHarsher
-     * @param \Doctrine\ORM\EntityManagerInterface $manager
-     * @param \App\Core\Domain\Repository\UserRepositoryInterface $repository
-     * @param \Symfony\Component\Validator\Validator\ValidatorInterface $validator
-     */
     public function __construct(
         UserPasswordHasherInterface $passwordHarsher,
         EntityManagerInterface      $manager,

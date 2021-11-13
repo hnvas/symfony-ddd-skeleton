@@ -14,29 +14,12 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 abstract class EntityFacade
 {
-
     use Validatable;
 
-    /**
-     * @var \Doctrine\ORM\EntityManagerInterface
-     */
-    protected EntityManagerInterface $manager;
-
-    /**
-     * @var \App\Core\Domain\Repository\EntityRepositoryInterface
-     */
+    protected EntityManagerInterface    $manager;
     protected EntityRepositoryInterface $repository;
+    protected ValidatorInterface        $validator;
 
-    /**
-     * @var \Symfony\Component\Validator\Validator\ValidatorInterface
-     */
-    protected ValidatorInterface $validator;
-
-    /**
-     * @param \Doctrine\ORM\EntityManagerInterface $manager
-     * @param \App\Core\Domain\Repository\EntityRepositoryInterface $repository
-     * @param \Symfony\Component\Validator\Validator\ValidatorInterface $validator
-     */
     public function __construct(
         EntityManagerInterface    $manager,
         EntityRepositoryInterface $repository,
@@ -79,7 +62,8 @@ abstract class EntityFacade
         $user = $this->repository->findById($id);
 
         if (is_null($user)) {
-            throw new EntityNotFoundException($this->repository->getClassName());
+            $entity = $this->repository->getEntityClassName();
+            throw new EntityNotFoundException($entity);
         }
 
         return $user;
@@ -100,7 +84,8 @@ abstract class EntityFacade
         $persistentEntity = $this->repository->findById($id);
 
         if (is_null($persistentEntity)) {
-            throw new EntityNotFoundException($this->repository->getClassName());
+            $entity = $this->repository->getEntityClassName();
+            throw new EntityNotFoundException($entity);
         }
 
         $this->patch($persistentEntity, $entity);
@@ -117,10 +102,11 @@ abstract class EntityFacade
      */
     public function delete(int $id): void
     {
-        $persistentUser = $this->repository->find($id);
+        $persistentUser = $this->repository->findById($id);
 
         if (is_null($persistentUser)) {
-            throw new EntityNotFoundException($this->repository->getClassName());
+            $entity = $this->repository->getEntityClassName();
+            throw new EntityNotFoundException($entity);
         }
 
         $this->repository->remove($persistentUser);
