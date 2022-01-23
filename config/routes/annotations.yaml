@@ -1,9 +1,9 @@
-public_controllers:
-    resource: ../../src/Core/Infrastructure/Action/
+action_controllers:
+    resource: ../../src/Core/Infrastructure/Controller/Action/
     type: annotation
 
-api_controllers:
-    resource: ../../src/Core/Infrastructure/Action/Api
+resource_controllers:
+    resource: ../../src/Core/Infrastructure/Controller/Resource/
     type: annotation
     prefix: /api
 

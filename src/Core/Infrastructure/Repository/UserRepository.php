@@ -9,6 +9,7 @@ use App\Core\Domain\Repository\UserRepositoryInterface;
 use App\Core\Infrastructure\Repository\Filters\UserFilter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -17,9 +18,14 @@ class UserRepository extends ServiceEntityRepository implements
     PasswordUpgraderInterface,
     UserRepositoryInterface
 {
-    public function __construct(ManagerRegistry $registry)
-    {
+    private UserPasswordHasherInterface $passwordHasher;
+
+    public function __construct(
+        ManagerRegistry             $registry,
+        UserPasswordHasherInterface $passwordHasher
+    ) {
         parent::__construct($registry, User::class);
+        $this->passwordHasher = $passwordHasher;
     }
 
     /**
@@ -53,6 +59,13 @@ class UserRepository extends ServiceEntityRepository implements
      */
     public function add(Entity $entity): void
     {
+        $hashedPassword = $this->passwordHasher->hashPassword(
+            $entity,
+            $entity->getPassword()
+        );
+
+        $entity->setPassword($hashedPassword);
+
         $this->_em->persist($entity);
     }
 
@@ -92,5 +105,14 @@ class UserRepository extends ServiceEntityRepository implements
     public function getEntityClassName(): string
     {
         return $this->getEntityName();
+    }
+
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function flush(): void
+    {
+        $this->_em->flush();
     }
 }

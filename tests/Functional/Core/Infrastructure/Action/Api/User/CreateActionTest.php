@@ -28,7 +28,7 @@ class CreateActionTest extends WebTestCase
     {
         $token = $this->login($this->client);
 
-        $this->client->request("POST", "/api/user", [], [], [
+        $this->client->request("POST", "/api/user/", [], [], [
             'CONTENT_TYPE'       => 'application/json',
             'HTTP_AUTHORIZATION' => $token
         ], json_encode([
@@ -44,7 +44,7 @@ class CreateActionTest extends WebTestCase
     {
         $token = $this->login($this->client);
 
-        $this->client->request("POST", "/api/user", [], [], [
+        $this->client->request("POST", "/api/user/", [], [], [
             'CONTENT_TYPE'       => 'application/json',
             'HTTP_AUTHORIZATION' => $token
         ], json_encode([

@@ -3,51 +3,49 @@ declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\DataFixtures;
 
-use App\Core\Application\Services\Facades\UserFacade;
 use App\Core\Domain\Model\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture
 {
-
-    /**
-     * @var \App\Core\Application\Services\Facades\UserFacade
-     */
-    private UserFacade $facade;
-
-    /**
-     * @var string
-     */
     private string $environment;
-
     /**
-     * @param \App\Core\Application\Services\Facades\UserFacade $facade
-     * @param \Symfony\Component\HttpKernel\KernelInterface $kernel
+     * @var \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface
      */
-    public function __construct(UserFacade $facade, KernelInterface $kernel)
-    {
-        $this->facade      = $facade;
-        $this->environment = $kernel->getEnvironment();
+    private UserPasswordHasherInterface $passwordHasher;
+
+    public function __construct(
+        KernelInterface             $kernel,
+        UserPasswordHasherInterface $passwordHasher
+    ) {
+        $this->environment    = $kernel->getEnvironment();
+        $this->passwordHasher = $passwordHasher;
     }
 
     public function load(ObjectManager $manager)
     {
         $user = new User();
+        $password = $this->passwordHasher
+            ->hashPassword($user, '12345678910');
+
         $user->setEmail('user@admin.com');
         $user->setName('admin');
-        $user->setPassword('12345678910');
+        $user->setPassword($password);
         $user->setRoles(['ROLE_USER', 'ROLE_ADMIN']);
 
-        $this->facade->create($user);
+        $manager->persist($user);
 
         if ('test' === $this->environment) {
             $this->loadMany($manager);
         }
+
+        $manager->flush();
     }
 
-    private function loadMany()
+    private function loadMany(ObjectManager $manager)
     {
         $users = [
             [
@@ -66,11 +64,14 @@ class UserFixtures extends Fixture
 
         foreach ($users as $userData) {
             $user = new User();
+            $password = $this->passwordHasher
+                ->hashPassword($user, $userData['password']);
+
             $user->setEmail($userData['email']);
             $user->setName($userData['name']);
-            $user->setPassword($userData['password']);
+            $user->setPassword($password);
 
-            $this->facade->create($user);
+            $manager->persist($user);
         }
     }
 }

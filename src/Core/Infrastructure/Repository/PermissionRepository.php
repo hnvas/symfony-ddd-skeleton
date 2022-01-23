@@ -56,4 +56,13 @@ class PermissionRepository extends ServiceEntityRepository implements
     {
         return $this->getEntityName();
     }
+
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function flush(): void
+    {
+        $this->_em->flush();
+    }
 }

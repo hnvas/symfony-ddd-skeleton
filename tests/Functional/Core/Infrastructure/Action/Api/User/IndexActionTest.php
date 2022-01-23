@@ -29,7 +29,7 @@ class IndexActionTest extends WebTestCase
     {
         $token = $this->login($this->client);
 
-        $this->client->request("GET", "/api/user", [], [], [
+        $this->client->request("GET", "/api/user/", [], [], [
             'CONTENT_TYPE'       => 'application/json',
             'HTTP_AUTHORIZATION' => $token
         ]);

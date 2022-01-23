@@ -18,4 +18,5 @@ interface EntityRepositoryInterface
 
     public function getEntityClassName(): string;
 
+    public function flush(): void;
 }

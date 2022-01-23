@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Core\Infrastructure\Action\Auth;
+namespace App\Core\Infrastructure\Controller\Action\Auth;
 
 use App\Core\Infrastructure\Security\TokenPayload;
 use App\Core\Infrastructure\Security\TokenServiceInterface;

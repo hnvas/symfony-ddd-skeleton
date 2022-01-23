@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Core\Application\Services\Concerns;
+namespace App\Core\Application\Services\Crud;
 
 use App\Core\Application\Exceptions\InvalidEntityException;
 use Symfony\Component\Validator\ConstraintViolationList;
@@ -14,7 +14,7 @@ trait Validatable
      * @param \Symfony\Component\Validator\Validator\ValidatorInterface $validator
      * @param $object
      *
-     * @throws InvalidEntityException
+     * @throws \App\Core\Application\Exceptions\InvalidEntityException
      */
     protected function validate(ValidatorInterface $validator, $object): void
     {
@@ -29,11 +29,6 @@ trait Validatable
         throw new InvalidEntityException(get_class($object), $errors);
     }
 
-    /**
-     * @param \Symfony\Component\Validator\ConstraintViolationList $violations
-     *
-     * @return array
-     */
     protected function collectErrors(ConstraintViolationList $violations): array
     {
         $errors = [];

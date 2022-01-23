@@ -31,6 +31,10 @@ class PermissionFixtures extends Fixture
             $permission->setUpdate($permissionValues['update']);
             $permission->setDelete($permissionValues['delete']);
             $permission->setIndex($permissionValues['index']);
+
+            $manager->persist($permission);
         }
+
+        $manager->flush();
     }
 }
