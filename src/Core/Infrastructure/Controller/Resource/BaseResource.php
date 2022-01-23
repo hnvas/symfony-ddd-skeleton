@@ -11,11 +11,12 @@ use App\Core\Infrastructure\Http\Response\ApiResponse;
 use App\Core\Infrastructure\Support\Paginator;
 use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\SerializerInterface as Serializer;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Validator\ValidatorInterface as Validator;
 
-abstract class BaseResource
+abstract class BaseResource extends AbstractController
 {
     private const SERIALIZATION_FORMAT = 'json';
 
@@ -34,8 +35,10 @@ abstract class BaseResource
         $this->queryParams = $queryParams;
     }
 
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('index', $request);
+
         $criteria = $this->queryParams->criteria();
         $entities = $this->facade->search($criteria);
         $pages    = (new Paginator($entities, $this->queryParams))->paginate();
@@ -45,8 +48,10 @@ abstract class BaseResource
         );
     }
 
-    public function read(int $id): Response
+    public function read(int $id, Request $request): Response
     {
+        $this->denyAccessUnlessGranted('read', $request);
+
         $entity = $this->facade->read($id);
 
         return new ApiResponse(
@@ -56,6 +61,8 @@ abstract class BaseResource
 
     public function create(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('create', $request);
+
         $content = $request->getContent();
         $entity = $this->serializer->deserialize(
             $content,
@@ -73,6 +80,8 @@ abstract class BaseResource
 
     public function update(int $id, Request $request): Response
     {
+        $this->denyAccessUnlessGranted('update', $request);
+
         $entity = $this->facade->read($id);
         $content = $request->getContent();
         $context = DeserializationContext::create();
@@ -91,8 +100,10 @@ abstract class BaseResource
         );
     }
 
-    public function delete(int $id): Response
+    public function delete(int $id, Request $request): Response
     {
+        $this->denyAccessUnlessGranted('delete', $request);
+
         $this->facade->delete($id);
 
         return new ApiEmptyResponse();

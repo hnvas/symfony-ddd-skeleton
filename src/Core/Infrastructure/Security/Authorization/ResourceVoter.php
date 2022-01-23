@@ -55,8 +55,9 @@ class ResourceVoter extends Voter
      */
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
     {
-        $uri   = $subject->getUri();
-        $roles = $token->getRoleNames();
+        $resource = preg_replace('/(\d+)?(\?.*)?/', '', $subject->getRequestUri());
+        $roles    = $token->getRoleNames();
+        $method   = "get" . ucfirst($attribute);
 
         if (in_array('ROLE_ADMIN', $roles)) {
             return true;
@@ -64,14 +65,14 @@ class ResourceVoter extends Voter
 
         $permission = $this->repository->findOneBy([
             'role'     => $roles,
-            'resource' => $uri
+            'resource' => $resource
         ]);
 
         if (empty($permission)) {
             return false;
         }
 
-        return $permission->{$subject};
+        return $permission->{$method}();
     }
 
     /**

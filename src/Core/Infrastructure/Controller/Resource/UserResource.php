@@ -33,17 +33,17 @@ class UserResource extends BaseResource
     /**
      * @Route("/", name="listUsers", methods={"GET"})
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        return parent::index();
+        return parent::index($request);
     }
 
     /**
      * @Route("/{id}", name="readUser", methods={"GET"})
      */
-    public function read(int $id): Response
+    public function read(int $id, Request $request): Response
     {
-        return parent::read($id);
+        return parent::read($id, $request);
     }
 
     /**
@@ -65,8 +65,8 @@ class UserResource extends BaseResource
     /**
      * @Route("/{id}", name="deleteUser", methods={"DELETE"})
      */
-    public function delete(int $id): Response
+    public function delete(int $id, Request $request): Response
     {
-        return parent::delete($id);
+        return parent::delete($id, $request);
     }
 }
