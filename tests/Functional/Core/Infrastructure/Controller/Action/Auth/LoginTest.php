@@ -1,16 +1,14 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Tests\Functional\Core\Infrastructure\Action\Auth;
+namespace App\Tests\Functional\Core\Infrastructure\Controller\Action\Auth;
 
-use App\Core\Domain\Model\User;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class LoginTest extends WebTestCase
 {
-
     use FixturesTrait;
 
     private KernelBrowser $client;

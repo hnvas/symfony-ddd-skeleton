@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Hateoas\Configuration\Annotation as Hateoas;
 use App\Core\Infrastructure\Repository\PermissionRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PermissionRepository::class)
@@ -32,6 +33,7 @@ class Permission extends Entity
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank
      *
      * @var string|null
      */
@@ -39,6 +41,7 @@ class Permission extends Entity
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank
      *
      * @var string|null
      */
@@ -46,38 +49,51 @@ class Permission extends Entity
 
     /**
      * @ORM\Column(type="boolean")
+     * @Assert\NotBlank
      *
      * @var bool|null
      */
-    private ?bool $create;
+    private ?bool $canCreate;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Assert\NotBlank
      *
      * @var bool|null
      */
-    private ?bool $read;
+    private ?bool $canRead;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Assert\NotBlank
      *
      * @var bool|null
      */
-    private ?bool $update;
+    private ?bool $canUpdate;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Assert\NotBlank
      *
      * @var bool|null
      */
-    private ?bool $delete;
+    private ?bool $canDelete;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Assert\NotBlank
      *
      * @var bool|null
      */
-    private ?bool $index;
+    private ?bool $canIndex;
+
+    /**
+     * @return int|null
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
     /**
      * @return string|null
@@ -114,80 +130,80 @@ class Permission extends Entity
     /**
      * @return bool|null
      */
-    public function getCreate(): ?bool
+    public function getCanCreate(): ?bool
     {
-        return $this->create;
+        return $this->canCreate;
     }
 
     /**
-     * @param bool|null $create
+     * @param bool|null $canCreate
      */
-    public function setCreate(?bool $create): void
+    public function setCanCreate(?bool $canCreate): void
     {
-        $this->create = $create;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getRead(): ?bool
-    {
-        return $this->read;
-    }
-
-    /**
-     * @param bool|null $read
-     */
-    public function setRead(?bool $read): void
-    {
-        $this->read = $read;
+        $this->canCreate = $canCreate;
     }
 
     /**
      * @return bool|null
      */
-    public function getUpdate(): ?bool
+    public function getCanRead(): ?bool
     {
-        return $this->update;
+        return $this->canRead;
     }
 
     /**
-     * @param bool|null $update
+     * @param bool|null $canRead
      */
-    public function setUpdate(?bool $update): void
+    public function setCanRead(?bool $canRead): void
     {
-        $this->update = $update;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getDelete(): ?bool
-    {
-        return $this->delete;
-    }
-
-    /**
-     * @param bool|null $delete
-     */
-    public function setDelete(?bool $delete): void
-    {
-        $this->delete = $delete;
+        $this->canRead = $canRead;
     }
 
     /**
      * @return bool|null
      */
-    public function getIndex(): ?bool
+    public function getCanUpdate(): ?bool
     {
-        return $this->index;
+        return $this->canUpdate;
     }
 
     /**
-     * @param bool|null $index
+     * @param bool|null $canUpdate
      */
-    public function setIndex(?bool $index): void
+    public function setCanUpdate(?bool $canUpdate): void
     {
-        $this->index = $index;
+        $this->canUpdate = $canUpdate;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getCanDelete(): ?bool
+    {
+        return $this->canDelete;
+    }
+
+    /**
+     * @param bool|null $canDelete
+     */
+    public function setCanDelete(?bool $canDelete): void
+    {
+        $this->canDelete = $canDelete;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getCanIndex(): ?bool
+    {
+        return $this->canIndex;
+    }
+
+    /**
+     * @param bool|null $canIndex
+     */
+    public function setCanIndex(?bool $canIndex): void
+    {
+        $this->canIndex = $canIndex;
     }
 }
