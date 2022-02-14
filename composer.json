@@ -14,6 +14,7 @@
     "doctrine/doctrine-migrations-bundle": "^3.1",
     "doctrine/orm": "^2.9",
     "firebase/php-jwt": "^5.4",
+    "nelmio/cors-bundle": "^2.2",
     "pagerfanta/pagerfanta": "^3.2",
     "sensio/framework-extra-bundle": "^6.1",
     "symfony/console": "5.3.*",
