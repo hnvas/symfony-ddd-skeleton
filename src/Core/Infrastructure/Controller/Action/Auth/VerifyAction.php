@@ -30,7 +30,7 @@ class VerifyAction extends AbstractController
 
     public function __invoke(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
 
         try {

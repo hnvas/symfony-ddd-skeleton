@@ -1,0 +1,20 @@
+services:
+  _defaults:
+    autowire: true      # Automatically injects dependencies in your services.
+    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+    public: true
+
+  App\Core\:
+    resource: '../../src/Core'
+    exclude:
+      - '../../src/DependencyInjection/'
+      - '../../src/Core/Application/Services/Crud/'
+      - '../../src/Core/Domain/Model/'
+      - '../../src/Core/Infrastructure/Support/'
+      - '../../src/Core/Infrastructure/Repository/Filters/'
+      - '../../src/Kernel.php'
+      - '../../src/Tests/'
+
+  App\Core\Infrastructure\EventListeners\Entity\UserListener:
+    tags:
+      - { name: doctrine.orm.entity_listener, lazy: true }

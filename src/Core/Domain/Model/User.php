@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
- * @ORM\EntityListeners({"App\Core\Infrastructure\EventListeners\Entity\UserHandler"})
+ * @ORM\EntityListeners({"App\Core\Infrastructure\EventListeners\Entity\UserListener"})
  *
  * @Serializer\XmlRoot("user")
  *

@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class ExceptionHandler implements EventSubscriberInterface
+class ExceptionListener implements EventSubscriberInterface
 {
 
     public static function getSubscribedEvents(): array
