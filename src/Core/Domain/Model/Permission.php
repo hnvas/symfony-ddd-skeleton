@@ -116,80 +116,40 @@ class Permission extends Entity
     /**
      * @return bool|null
      */
-    public function getCanCreate(): ?bool
+    public function canCreate(): ?bool
     {
         return $this->canCreate;
     }
 
     /**
-     * @param bool|null $canCreate
-     */
-    public function setCanCreate(?bool $canCreate): void
-    {
-        $this->canCreate = $canCreate;
-    }
-
-    /**
      * @return bool|null
      */
-    public function getCanRead(): ?bool
+    public function canRead(): ?bool
     {
         return $this->canRead;
     }
 
     /**
-     * @param bool|null $canRead
-     */
-    public function setCanRead(?bool $canRead): void
-    {
-        $this->canRead = $canRead;
-    }
-
-    /**
      * @return bool|null
      */
-    public function getCanUpdate(): ?bool
+    public function canUpdate(): ?bool
     {
         return $this->canUpdate;
     }
 
     /**
-     * @param bool|null $canUpdate
-     */
-    public function setCanUpdate(?bool $canUpdate): void
-    {
-        $this->canUpdate = $canUpdate;
-    }
-
-    /**
      * @return bool|null
      */
-    public function getCanDelete(): ?bool
+    public function canDelete(): ?bool
     {
         return $this->canDelete;
     }
 
     /**
-     * @param bool|null $canDelete
-     */
-    public function setCanDelete(?bool $canDelete): void
-    {
-        $this->canDelete = $canDelete;
-    }
-
-    /**
      * @return bool|null
      */
-    public function getCanIndex(): ?bool
+    public function canIndex(): ?bool
     {
         return $this->canIndex;
-    }
-
-    /**
-     * @param bool|null $canIndex
-     */
-    public function setCanIndex(?bool $canIndex): void
-    {
-        $this->canIndex = $canIndex;
     }
 }

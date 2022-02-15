@@ -4,8 +4,6 @@ declare(strict_types = 1);
 namespace App\Core\Domain\Model;
 
 use App\Core\Domain\Enum\UserRoleEnum;
-use App\Core\Infrastructure\Repository\UserRepository;
-use Doctrine\ORM\Mapping as ORM;
 use Hateoas\Configuration\Annotation as Hateoas;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -59,56 +57,37 @@ class User extends Entity implements UserInterface, PasswordAuthenticatedUserInt
     private ?string $password;
 
     /**
-     * @return int|null
+     * @var bool|null
      */
+    private ?bool $emailVerified = false;
+
+    /**
+     * @var bool|null
+     */
+    private ?bool $active = false;
+
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getEmail(): ?string
+    public function email(): ?string
     {
         return $this->email;
     }
 
-    /**
-     * @param string $email
-     *
-     * @return \App\Core\Domain\Model\User
-     */
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getName(): ?string
+    public function name(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string|null $name
-     *
-     * @return \App\Core\Domain\Model\User
-     */
-    public function setName(?string $name): self
+    public function setName(?string $name): void
     {
         $this->name = $name;
-
-        return $this;
     }
 
     /**
-     * A visual identifier that represents this user.
-     *
      * @see UserInterface
      */
     public function getUserIdentifier(): string
@@ -135,42 +114,42 @@ class User extends Entity implements UserInterface, PasswordAuthenticatedUserInt
         return array_unique($roles);
     }
 
-    /**
-     * @param array $roles
-     *
-     * @return $this
-     */
-    public function setRoles(array $roles): self
+    public function setRoles(array $roles): void
     {
         $this->roles = $roles;
-
-        return $this;
     }
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
     public function getPassword(): string
     {
         return $this->password;
     }
 
-    /**
-     * @param string $password
-     *
-     * @return $this
-     */
-    public function setPassword(string $password): self
+    public function setPassword(string $password): void
     {
         $this->password = $password;
+    }
 
-        return $this;
+    public function isEmailVerified(): ?bool
+    {
+        return $this->emailVerified;
+    }
+
+    public function verifyEmail(): void
+    {
+        $this->emailVerified = true;
+    }
+
+    public function isActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function activate(): void
+    {
+        $this->active = true;
     }
 
     /**
-     * Returning a salt is only needed, if you are not using a modern
-     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
-     *
      * @see UserInterface
      */
     public function getSalt(): ?string

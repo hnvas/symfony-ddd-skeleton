@@ -39,7 +39,7 @@ class UserEmailVerification
         $signedUrl = $this->generateSignedUrl($user);
 
         $email = new TemplatedEmail();
-        $email->to($user->getEmail());
+        $email->to($user->email());
         $email->subject(self::SUBJECT);
         $email->htmlTemplate(self::TEMPLATE);
         $email->context(['signedUrl' => $signedUrl]);
@@ -52,14 +52,22 @@ class UserEmailVerification
         $signatureComponents = $this->verifyEmailHelper->generateSignature(
             self::VERIFICATION_ROUTE,
             strval($user->getId()),
-            $user->getEmail()
+            $user->email()
         );
 
-        $url = parse_url($signatureComponents->getSignedUrl());
-        $url['scheme'] = $this->clientScheme;
-        $url['host'] = $this->clientHost;
+        return $this->replaceClientUrl($signatureComponents->getSignedUrl());
+    }
 
-        return http_build_url($url);
+    private function replaceClientUrl(string $url): string
+    {
+        $urlParts = parse_url($url);
+
+        return sprintf("%s://%s%s?%s",
+            $this->clientScheme,
+            $this->clientHost,
+            $urlParts['path'],
+            $urlParts['query']
+        );
     }
 
 }

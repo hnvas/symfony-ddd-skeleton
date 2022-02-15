@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\Security\Authorization;
 
+use App\Core\Domain\Enum\UserRoleEnum;
 use App\Core\Domain\Repository\PermissionRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -10,7 +11,6 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class ResourceVoter extends Voter
 {
-
     const CREATE = 'create';
     const READ   = 'read';
     const UPDATE = 'update';
@@ -57,9 +57,16 @@ class ResourceVoter extends Voter
     {
         $resource = preg_replace('/(\d+)?(\?.*)?/', '', $subject->getRequestUri());
         $roles    = $token->getRoleNames();
-        $method   = "get" . ucfirst($attribute);
+        $method   = "can" . ucfirst($attribute);
 
-        if (in_array('ROLE_ADMIN', $roles)) {
+        /** @var \App\Core\Domain\Model\User $user */
+        $user = $token->getUser();
+
+        if (!$user->isActive() || !$user->isEmailVerified()) {
+            return false;
+        }
+
+        if (in_array(UserRoleEnum::ROLE_ADMIN, $roles)) {
             return true;
         }
 

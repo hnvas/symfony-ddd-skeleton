@@ -13,6 +13,6 @@ doctrine:
             Core:
                 is_bundle: false
                 type: xml
-                dir: '%kernel.project_dir%/config/persistence/core'
+                dir: '%kernel.project_dir%/config/persistence/Core'
                 prefix: 'App\Core\Domain\Model'
                 alias: Core
