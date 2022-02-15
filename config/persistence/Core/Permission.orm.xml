@@ -1,0 +1,18 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                    https://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="App\Core\Domain\Model\Permission" table="public.permission"
+            repository-class="App\Core\Infrastructure\Repository\PermissionRepository">
+        <id name="id" type="integer" column="id">
+            <generator strategy="IDENTITY"/>
+        </id>
+        <field name="role" column="role" type="string" length="50" nullable="false"/>
+        <field name="resource" column="resource" type="string" length="100" nullable="false"/>
+        <field name="canCreate" column="can_create" type="boolean" nullable="false"/>
+        <field name="canRead" column="can_create" type="boolean" nullable="false"/>
+        <field name="canUpdate" column="can_update" type="boolean" nullable="false"/>
+        <field name="canDelete" column="can_delete" type="boolean" nullable="false"/>
+        <field name="canIndex" column="can_index" type="boolean" nullable="false"/>
+    </entity>
+</doctrine-mapping>

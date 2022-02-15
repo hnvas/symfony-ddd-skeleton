@@ -12,7 +12,7 @@ doctrine:
         mappings:
             Core:
                 is_bundle: false
-                type: annotation
-                dir: '%kernel.project_dir%/src/Core/Domain/Model'
+                type: xml
+                dir: '%kernel.project_dir%/config/persistence/core'
                 prefix: 'App\Core\Domain\Model'
                 alias: Core

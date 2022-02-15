@@ -10,9 +10,6 @@ use App\Core\Infrastructure\Repository\PermissionRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=PermissionRepository::class)
- * @ORM\Table(name="`permission`")
- *
  * @Serializer\XmlRoot("permission")
  *
  * @Hateoas\Relation("self", href = "expr('/api/permission/' ~ object.getId())")
@@ -21,10 +18,6 @@ class Permission extends Entity
 {
 
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     *
      * @Serializer\XmlAttribute
      *
      * @var int|null
@@ -32,7 +25,6 @@ class Permission extends Entity
     private ?int $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
      * @Assert\NotBlank
      *
      * @var string|null
@@ -40,7 +32,6 @@ class Permission extends Entity
     private ?string $role;
 
     /**
-     * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank
      *
      * @var string|null
@@ -48,7 +39,6 @@ class Permission extends Entity
     private ?string $resource;
 
     /**
-     * @ORM\Column(type="boolean")
      * @Assert\NotBlank
      *
      * @var bool|null
@@ -56,7 +46,6 @@ class Permission extends Entity
     private ?bool $canCreate;
 
     /**
-     * @ORM\Column(type="boolean")
      * @Assert\NotBlank
      *
      * @var bool|null
@@ -64,7 +53,6 @@ class Permission extends Entity
     private ?bool $canRead;
 
     /**
-     * @ORM\Column(type="boolean")
      * @Assert\NotBlank
      *
      * @var bool|null
@@ -72,7 +60,6 @@ class Permission extends Entity
     private ?bool $canUpdate;
 
     /**
-     * @ORM\Column(type="boolean")
      * @Assert\NotBlank
      *
      * @var bool|null
@@ -80,7 +67,6 @@ class Permission extends Entity
     private ?bool $canDelete;
 
     /**
-     * @ORM\Column(type="boolean")
      * @Assert\NotBlank
      *
      * @var bool|null

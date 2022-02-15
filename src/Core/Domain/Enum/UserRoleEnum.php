@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Core\Domain\Model;
+namespace App\Core\Domain\Enum;
 
 class UserRoleEnum
 {
