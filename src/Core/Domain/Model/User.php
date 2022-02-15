@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
+ * @ORM\EntityListeners({"App\Core\Infrastructure\EventListeners\Entity\UserHandler"})
  *
  * @Serializer\XmlRoot("user")
  *
@@ -53,7 +54,7 @@ class User extends Entity implements UserInterface, PasswordAuthenticatedUserInt
      * @ORM\Column(type="json")
      *
      * @Serializer\Accessor(getter="getRoles",setter="setRoles")
-     *
+     * @Serializer\Type("array<string>")
      * @var array|null
      */
     private ?array $roles = [];
@@ -107,7 +108,7 @@ class User extends Entity implements UserInterface, PasswordAuthenticatedUserInt
     /**
      * @param string|null $name
      *
-     * @return \App\Core\Domain\Model\Entity
+     * @return \App\Core\Domain\Model\User
      */
     public function setName(?string $name): self
     {

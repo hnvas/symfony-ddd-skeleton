@@ -34,3 +34,7 @@ services:
             - '../src/Kernel.php'
             - '../src/Tests/'
 
+    App\Core\Infrastructure\EventListeners\Entity\UserHandler:
+        tags:
+            - { name: doctrine.orm.entity_listener, lazy: true }
+

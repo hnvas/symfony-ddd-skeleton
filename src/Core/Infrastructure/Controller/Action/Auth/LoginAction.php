@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class PostLoginAction
+ * Class LoginAction
  * @package App\Core\Infrastructure\Action\Auth
  * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
  *

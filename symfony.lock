@@ -100,6 +100,9 @@
     "doctrine/sql-formatter": {
         "version": "1.1.1"
     },
+    "egulias/email-validator": {
+        "version": "3.1.2"
+    },
     "firebase/php-jwt": {
         "version": "v5.4.0"
     },
@@ -375,6 +378,18 @@
     "symfony/http-kernel": {
         "version": "v5.3.3"
     },
+    "symfony/mailer": {
+        "version": "4.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "bbfc7e27257d3a3f12a6fb0a42540a42d9623a37"
+        },
+        "files": [
+            "config/packages/mailer.yaml"
+        ]
+    },
     "symfony/maker-bundle": {
         "version": "1.0",
         "recipe": {
@@ -383,6 +398,9 @@
             "version": "1.0",
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
+    },
+    "symfony/mime": {
+        "version": "v5.3.14"
     },
     "symfony/orm-pack": {
         "version": "v2.1.0"
@@ -407,6 +425,9 @@
     },
     "symfony/polyfill-intl-grapheme": {
         "version": "v1.23.0"
+    },
+    "symfony/polyfill-intl-idn": {
+        "version": "v1.24.0"
     },
     "symfony/polyfill-intl-normalizer": {
         "version": "v1.23.0"
@@ -490,6 +511,22 @@
     "symfony/translation-contracts": {
         "version": "v2.4.0"
     },
+    "symfony/twig-bridge": {
+        "version": "v5.3.14"
+    },
+    "symfony/twig-bundle": {
+        "version": "5.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.3",
+            "ref": "ce42aa769cc2edfd9246e5647a3a967afe6387ca"
+        },
+        "files": [
+            "config/packages/twig.yaml",
+            "templates/base.html.twig"
+        ]
+    },
     "symfony/validator": {
         "version": "4.3",
         "recipe": {
@@ -512,8 +549,23 @@
     "symfony/yaml": {
         "version": "v5.3.3"
     },
+    "symfonycasts/verify-email-bundle": {
+        "version": "v1.8.0"
+    },
     "theseer/tokenizer": {
         "version": "1.2.1"
+    },
+    "tijsverkoyen/css-to-inline-styles": {
+        "version": "2.2.4"
+    },
+    "twig/cssinliner-extra": {
+        "version": "v3.3.5"
+    },
+    "twig/extra-bundle": {
+        "version": "v3.3.8"
+    },
+    "twig/twig": {
+        "version": "v3.3.8"
     },
     "webmozart/assert": {
         "version": "1.10.0"
