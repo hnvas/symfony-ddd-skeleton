@@ -13,7 +13,7 @@ class UserEmailVerification
 {
     private const TEMPLATE           = 'mail/email-verification.html.twig';
     private const VERIFICATION_ROUTE = 'email_verification';
-    private const SUBJECT            = 'Email verification';
+    private const SUBJECT            = 'Confirmação de registro';
 
     private VerifyEmailHelperInterface $verifyEmailHelper;
     private MailerInterface            $mailer;
@@ -42,7 +42,10 @@ class UserEmailVerification
         $email->to($user->email());
         $email->subject(self::SUBJECT);
         $email->htmlTemplate(self::TEMPLATE);
-        $email->context(['signedUrl' => $signedUrl]);
+        $email->context([
+            'signedUrl' => $signedUrl,
+            'username'  => $user->name()
+        ]);
 
         $this->mailer->send($email);
     }
