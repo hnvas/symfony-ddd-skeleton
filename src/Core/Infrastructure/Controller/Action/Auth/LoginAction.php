@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\Controller\Action\Auth;
 
+use App\Core\Domain\Model\User;
 use App\Core\Infrastructure\Security\TokenPayload;
 use App\Core\Infrastructure\Security\TokenServiceInterface;
 use DateTimeImmutable;
@@ -36,8 +37,12 @@ class LoginAction extends AbstractController
 
     public function __invoke(): JsonResponse
     {
+        /** @var User $user */
+        $user    = $this->getUser();
         $payload = new TokenPayload(
-            $this->getUser()->getUserIdentifier(),
+            $user->getUserIdentifier(),
+            $user->isActive(),
+            $user->isEmailVerified()
             (new DateTimeImmutable())->modify('+12 hours')
         );
 

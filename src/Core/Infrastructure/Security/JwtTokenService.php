@@ -40,6 +40,8 @@ class JwtTokenService implements TokenServiceInterface
 
         return new TokenPayload(
             $credentials->username,
+            $credentials->active,
+            $credentials->verified,
             (new DateTimeImmutable())->setTimestamp($credentials->expiresIn)
         );
     }
