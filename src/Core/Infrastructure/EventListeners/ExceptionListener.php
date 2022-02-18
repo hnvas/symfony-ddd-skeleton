@@ -3,8 +3,8 @@ declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\EventListeners;
 
-use App\Core\Application\Exceptions\EntityNotFoundException;
-use App\Core\Application\Exceptions\InvalidEntityException;
+use App\Core\Application\Exceptions\NotFoundException;
+use App\Core\Application\Exceptions\InvalidDataException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,8 +20,8 @@ class ExceptionListener implements EventSubscriberInterface
         return [
             KernelEvents::EXCEPTION => [
                 ['handleHttpException', 10],
-                ['handleEntityNotFoundException', 8],
-                ['handleInvalidEntityException', 6],
+                ['handleNotFoundException', 8],
+                ['handleInvalidDataException', 6],
                 ['handleGenericException', -1]
             ]
         ];
@@ -38,22 +38,22 @@ class ExceptionListener implements EventSubscriberInterface
         }
     }
 
-    public function handleEntityNotFoundException(ExceptionEvent $event)
+    public function handleNotFoundException(ExceptionEvent $event)
     {
         $throwable = $event->getThrowable();
 
-        if ($throwable instanceof EntityNotFoundException) {
+        if ($throwable instanceof NotFoundException) {
             $event->setResponse(new JsonResponse([
                 'message' => $throwable->getMessage()
             ], Response::HTTP_NOT_FOUND));
         }
     }
 
-    public function handleInvalidEntityException(ExceptionEvent $event)
+    public function handleInvalidDataException(ExceptionEvent $event)
     {
         $throwable = $event->getThrowable();
 
-        if ($throwable instanceof InvalidEntityException) {
+        if ($throwable instanceof InvalidDataException) {
             $event->setResponse(new JsonResponse([
                 'message' => $throwable->getMessage(),
                 'details' => $throwable->getDetails()

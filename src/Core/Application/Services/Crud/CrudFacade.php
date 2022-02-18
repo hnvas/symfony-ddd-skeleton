@@ -3,8 +3,8 @@ declare(strict_types = 1);
 
 namespace App\Core\Application\Services\Crud;
 
-use App\Core\Application\Exceptions\EntityNotFoundException;
-use App\Core\Application\Exceptions\InvalidEntityException;
+use App\Core\Application\Exceptions\NotFoundException;
+use App\Core\Application\Exceptions\InvalidDataException;
 use App\Core\Domain\Model\Entity;
 use App\Core\Domain\Repository\EntityRepositoryInterface as EntityRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -31,7 +31,7 @@ final class CrudFacade
      * @param \App\Core\Domain\Model\Entity $entity
      *
      * @return \App\Core\Domain\Model\Entity
-     * @throws \App\Core\Application\Exceptions\InvalidEntityException
+     * @throws \App\Core\Application\Exceptions\InvalidDataException
      */
     public function save(Entity $entity): Entity
     {
@@ -41,7 +41,7 @@ final class CrudFacade
             $this->repository->add($entity);
             $this->repository->flush();
         } catch (UniqueConstraintViolationException $ex) {
-            throw new InvalidEntityException(get_class($entity));
+            throw new InvalidDataException(get_class($entity));
         }
 
         return $entity;
@@ -51,7 +51,7 @@ final class CrudFacade
      * @param int $id
      *
      * @return \App\Core\Domain\Model\Entity
-     * @throws \App\Core\Application\Exceptions\EntityNotFoundException
+     * @throws \App\Core\Application\Exceptions\NotFoundException
      */
     public function read(int $id): Entity
     {
@@ -59,7 +59,7 @@ final class CrudFacade
 
         if (is_null($entity)) {
             $entity = $this->repository->getEntityClassName();
-            throw new EntityNotFoundException($entity);
+            throw new NotFoundException($entity);
         }
 
         return $entity;
@@ -68,7 +68,7 @@ final class CrudFacade
     /**
      * @param int $id
      *
-     * @throws \App\Core\Application\Exceptions\EntityNotFoundException
+     * @throws \App\Core\Application\Exceptions\NotFoundException
      */
     public function delete(int $id): void
     {
@@ -76,7 +76,7 @@ final class CrudFacade
 
         if (is_null($entity)) {
             $entity = $this->repository->getEntityClassName();
-            throw new EntityNotFoundException($entity);
+            throw new NotFoundException($entity);
         }
 
         $this->repository->remove($entity);

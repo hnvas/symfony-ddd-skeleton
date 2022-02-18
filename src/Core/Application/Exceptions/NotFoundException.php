@@ -5,14 +5,14 @@ namespace App\Core\Application\Exceptions;
 
 use App\Core\Domain\Functions\Classname;
 
-class EntityNotFoundException extends ApplicationException
+class NotFoundException extends ApplicationException
 {
 
     public function __construct(string $classpath = "")
     {
         $classname = Classname::getBaseName($classpath);
 
-        parent::__construct("The entity $classname was not found", []);
+        parent::__construct("The resource $classname was not found", []);
     }
 
 }

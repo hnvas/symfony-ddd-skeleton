@@ -5,7 +5,7 @@ namespace App\Core\Application\Exceptions;
 
 use App\Core\Domain\Functions\Classname;
 
-class InvalidEntityException extends ApplicationException
+class InvalidDataException extends ApplicationException
 {
 
     public function __construct(string $classpath = "", array $errors = [])

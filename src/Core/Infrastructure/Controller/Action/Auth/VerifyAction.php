@@ -3,15 +3,13 @@ declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\Controller\Action\Auth;
 
+use App\Core\Application\UseCases\VerifyUserEmail;
+use App\Core\Domain\Model\User;
 use App\Core\Infrastructure\Http\Response\ApiEmptyResponse;
-use App\Core\Infrastructure\Http\Response\ApiResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
-use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
 /**
  * Class VerifyAction
@@ -22,29 +20,25 @@ use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
  */
 class VerifyAction extends AbstractController
 {
-    private VerifyEmailHelperInterface $verifyEmailHelper;
 
-    public function __construct(VerifyEmailHelperInterface $verifyEmailHelper)
+    private VerifyUserEmail $verifyUserEmail;
+
+    public function __construct(VerifyUserEmail $verifyUserEmail)
     {
-        $this->verifyEmailHelper = $verifyEmailHelper;
+        $this->verifyUserEmail = $verifyUserEmail;
     }
 
+    /**
+     * @throws \App\Core\Application\Exceptions\InvalidDataException
+     */
     public function __invoke(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
+
+        /** @var User $user */
         $user = $this->getUser();
 
-        try {
-            $this->verifyEmailHelper->validateEmailConfirmation(
-                $request->getUri(),
-                strval($user->getId()),
-                $user->getUserIdentifier()
-            );
-        } catch (VerifyEmailExceptionInterface $e) {
-            return new JsonResponse([
-                "message" => $e->getReason()
-            ], Response::HTTP_BAD_REQUEST);
-        }
+        $this->verifyUserEmail->execute($request->getUri(), $user);
 
         return new ApiEmptyResponse();
     }
