@@ -42,7 +42,7 @@ class LoginAction extends AbstractController
         $payload = new TokenPayload(
             $user->getUserIdentifier(),
             $user->isActive(),
-            $user->isEmailVerified()
+            $user->isEmailVerified(),
             (new DateTimeImmutable())->modify('+12 hours')
         );
 

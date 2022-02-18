@@ -6,6 +6,7 @@ namespace App\Core\Infrastructure\Controller\Action\Auth;
 use App\Core\Infrastructure\Http\Response\ApiEmptyResponse;
 use App\Core\Infrastructure\Http\Response\ApiResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,11 +37,13 @@ class VerifyAction extends AbstractController
         try {
             $this->verifyEmailHelper->validateEmailConfirmation(
                 $request->getUri(),
-                $user->getId(),
+                strval($user->getId()),
                 $user->getUserIdentifier()
             );
         } catch (VerifyEmailExceptionInterface $e) {
-            return new ApiResponse($e->getMessage(), Response::HTTP_BAD_REQUEST);
+            return new JsonResponse([
+                "message" => $e->getReason()
+            ], Response::HTTP_BAD_REQUEST);
         }
 
         return new ApiEmptyResponse();
