@@ -14,5 +14,9 @@
         <field name="canUpdate" column="can_update" type="boolean" nullable="false"/>
         <field name="canDelete" column="can_delete" type="boolean" nullable="false"/>
         <field name="canIndex" column="can_index" type="boolean" nullable="false"/>
+        <many-to-one field="module" target-entity="App\Core\Domain\Model\Module"
+                     inversed-by="permissions">
+            <join-column name="module_id" referenced-column-name="id"/>
+        </many-to-one>
     </entity>
 </doctrine-mapping>

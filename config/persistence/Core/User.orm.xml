@@ -8,7 +8,8 @@
             <generator strategy="IDENTITY"/>
         </id>
         <field name="name" column="name" type="string" length="100" nullable="false"/>
-        <field name="email" column="email" type="string" length="180" nullable="false" unique="true"/>
+        <field name="email" column="email" type="string" length="180" nullable="false"
+               unique="true"/>
         <field name="roles" column="roles" type="json"/>
         <field name="password" column="password" type="string" length="255" nullable="false"/>
         <field name="emailVerified" column="email_verified" type="boolean" nullable="false">

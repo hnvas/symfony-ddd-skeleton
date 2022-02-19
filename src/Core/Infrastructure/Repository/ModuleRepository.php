@@ -4,23 +4,23 @@ declare(strict_types = 1);
 namespace App\Core\Infrastructure\Repository;
 
 use App\Core\Domain\Model\Entity;
-use App\Core\Domain\Model\Permission;
-use App\Core\Domain\Repository\PermissionRepositoryInterface;
-use App\Core\Infrastructure\Repository\Filters\PermissionFilter;
+use App\Core\Domain\Model\Module;
+use App\Core\Domain\Repository\ModuleRepositoryInterface;
+use App\Core\Infrastructure\Repository\Filters\ModuleFilter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-class PermissionRepository extends ServiceEntityRepository implements
-    PermissionRepositoryInterface
+class ModuleRepository extends ServiceEntityRepository implements
+    ModuleRepositoryInterface
 {
 
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Permission::class);
+        parent::__construct($registry, Module::class);
     }
 
     /**
-     * @param \App\Core\Domain\Model\Permission $entity
+     * @param \App\Core\Domain\Model\Module $entity
      *
      * @throws \Doctrine\ORM\ORMException
      */
@@ -30,7 +30,7 @@ class PermissionRepository extends ServiceEntityRepository implements
     }
 
     /**
-     * @param \App\Core\Domain\Model\Permission $entity
+     * @param \App\Core\Domain\Model\Module $entity
      *
      * @throws \Doctrine\ORM\ORMException
      */
@@ -39,15 +39,15 @@ class PermissionRepository extends ServiceEntityRepository implements
         $this->_em->remove($entity);
     }
 
-    public function findById(int $entityId): ?Permission
+    public function findById(int $entityId): ?Module
     {
         return $this->find($entityId);
     }
 
     public function search(array $params): array
     {
-        $qb     = $this->createQueryBuilder('p')->select('p');
-        $filter = new PermissionFilter($params, $qb);
+        $qb     = $this->createQueryBuilder('m')->select('m');
+        $filter = new ModuleFilter($params, $qb);
 
         return $filter->apply()->getQuery()->execute();
     }

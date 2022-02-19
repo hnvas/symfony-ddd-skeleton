@@ -6,22 +6,20 @@ namespace App\Core\Infrastructure\DataFixtures;
 use App\Core\Domain\Model\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture
 {
-    private string $environment;
-    /**
-     * @var \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface
-     */
+    private string                      $environment;
     private UserPasswordHasherInterface $passwordHasher;
 
     public function __construct(
-        KernelInterface             $kernel,
+        ContainerBagInterface       $containerBag,
         UserPasswordHasherInterface $passwordHasher
     ) {
-        $this->environment    = $kernel->getEnvironment();
+        $this->environment    = $containerBag->get('kernel.environment');
         $this->passwordHasher = $passwordHasher;
     }
 

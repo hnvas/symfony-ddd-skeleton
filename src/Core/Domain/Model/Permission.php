@@ -3,10 +3,8 @@ declare(strict_types = 1);
 
 namespace App\Core\Domain\Model;
 
-use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Hateoas\Configuration\Annotation as Hateoas;
-use App\Core\Infrastructure\Repository\PermissionRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -30,6 +28,13 @@ class Permission extends Entity
      * @var string|null
      */
     private ?string $role;
+
+    /**
+     * @Assert\NotNull
+     *
+     * @var \App\Core\Domain\Model\Module|null
+     */
+    private ?Module $module;
 
     /**
      * @Assert\NotBlank
@@ -76,6 +81,7 @@ class Permission extends Entity
     public function __construct(
         string $role,
         string $resource,
+        Module $module,
         ?bool  $canCreate = false,
         ?bool  $canRead = false,
         ?bool  $canUpdate = false,
@@ -84,6 +90,7 @@ class Permission extends Entity
     ) {
         $this->role      = $role;
         $this->resource  = $resource;
+        $this->module    = $module;
         $this->canCreate = $canCreate;
         $this->canRead   = $canRead;
         $this->canUpdate = $canUpdate;
@@ -102,33 +109,25 @@ class Permission extends Entity
     /**
      * @return string|null
      */
-    public function getRole(): ?string
+    public function role(): ?string
     {
         return $this->role;
     }
 
     /**
-     * @param string|null $role
-     */
-    public function setRole(?string $role): void
-    {
-        $this->role = $role;
-    }
-
-    /**
      * @return string|null
      */
-    public function getResource(): ?string
+    public function resource(): ?string
     {
         return $this->resource;
     }
 
     /**
-     * @param string|null $resource
+     * @return Module|null
      */
-    public function setResource(?string $resource): void
+    public function module(): ?Module
     {
-        $this->resource = $resource;
+        return $this->module;
     }
 
     /**

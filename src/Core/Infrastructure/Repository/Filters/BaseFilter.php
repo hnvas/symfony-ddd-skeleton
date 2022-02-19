@@ -36,7 +36,7 @@ abstract class BaseFilter
      */
     public function apply(): QueryBuilder
     {
-        $filters           = array_merge($this->defaultFilters(), $this->filters());
+        $filters = array_merge($this->defaultFilters(), $this->filters());
 
         foreach ($filters as $name => $value) {
             $method = Str::camel($name);
@@ -91,7 +91,7 @@ abstract class BaseFilter
     protected function order(array $order)
     {
         foreach ($order as $column => $sort) {
-            $this->builder->addOrderBy($this->queryAlias($column) , $sort);
+            $this->builder->addOrderBy($this->queryAlias($column), $sort);
         }
     }
 }
