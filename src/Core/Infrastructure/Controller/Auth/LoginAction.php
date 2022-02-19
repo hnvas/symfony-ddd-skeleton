@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Core\Infrastructure\Controller\Action\Auth;
+namespace App\Core\Infrastructure\Controller\Auth;
 
 use App\Core\Domain\Model\User;
 use App\Core\Infrastructure\Security\TokenPayload;
@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package App\Core\Infrastructure\Action\Auth
  * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
  *
- * @Route("/auth/login", name="login", methods={"POST"})
+ * @Route("/login", name="login", methods={"POST"})
  */
 class LoginAction extends AbstractController
 {

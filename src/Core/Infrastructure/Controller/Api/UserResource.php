@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Core\Infrastructure\Controller\Resource;
+namespace App\Core\Infrastructure\Controller\Api;
 
 use App\Core\Domain\Repository\UserRepositoryInterface as UserRepository;
 use App\Core\Infrastructure\Http\Request\QueryParams;

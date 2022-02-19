@@ -1,9 +1,10 @@
 action_controllers:
-    resource: ../../src/Core/Infrastructure/Controller/Action/
+    resource: ../../src/Core/Infrastructure/Controller/Auth/
     type: annotation
+    prefix: /auth
 
 resource_controllers:
-    resource: ../../src/Core/Infrastructure/Controller/Resource/
+    resource: ../../src/Core/Infrastructure/Controller/Api/
     type: annotation
     prefix: /api
 

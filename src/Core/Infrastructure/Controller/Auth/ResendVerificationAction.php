@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Core\Infrastructure\Controller\Action\Auth;
+namespace App\Core\Infrastructure\Controller\Auth;
 
 use App\Core\Application\Services\Mail\UserEmailVerification;
 use App\Core\Domain\Model\User;
@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package App\Core\Infrastructure\Controller\Action\Auth
  * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
  *
- * @Route("/auth/resend", name="resend_verification_email", methods={"GET"})
+ * @Route("/resend", name="resend_verification_email", methods={"GET"})
  */
 class ResendVerificationAction extends AbstractController
 {
