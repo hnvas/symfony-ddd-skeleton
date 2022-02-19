@@ -18,7 +18,8 @@ class UserListener
 
     public function postPersist(User $user, LifecycleEventArgs $event): void
     {
-        $this->emailVerification->send($user);
+        if (!$user->isEmailVerified()) {
+            $this->emailVerification->send($user);
+        }
     }
-
 }

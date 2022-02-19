@@ -55,7 +55,8 @@ class ResourceVoter extends Voter
      */
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
     {
-        $resource = preg_replace('/(\d+)?(\?.*)?/', '', $subject->getRequestUri());
+        $route    = $subject->get('_route');
+        $resource = str_replace("_$attribute", '', $route);
         $roles    = $token->getRoleNames();
         $method   = "can" . ucfirst($attribute);
 

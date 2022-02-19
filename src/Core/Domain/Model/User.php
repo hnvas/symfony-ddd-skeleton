@@ -66,6 +66,29 @@ class User extends Entity implements UserInterface, PasswordAuthenticatedUserInt
      */
     private ?bool $active = false;
 
+    /**
+     * @param string|null $email
+     * @param string|null $name
+     * @param array|null $roles
+     * @param string|null $password
+     * @param bool|null $emailVerified
+     * @param bool|null $active
+     */
+    public function __construct(
+        string $email,
+        string $name,
+        string $password,
+        array  $roles = [UserRoleEnum::ROLE_USER],
+        ?bool  $emailVerified = false,
+        ?bool  $active = false
+    ) {
+        $this->email         = $email;
+        $this->name          = $name;
+        $this->roles         = $roles;
+        $this->password      = $password;
+        $this->emailVerified = $emailVerified;
+        $this->active        = $active;
+    }
 
     public function getId(): ?int
     {
@@ -92,7 +115,7 @@ class User extends Entity implements UserInterface, PasswordAuthenticatedUserInt
      */
     public function getUserIdentifier(): string
     {
-        return (string)$this->email;
+        return (string) $this->email;
     }
 
     /**
@@ -100,7 +123,7 @@ class User extends Entity implements UserInterface, PasswordAuthenticatedUserInt
      */
     public function getUsername(): string
     {
-        return (string)$this->email;
+        return (string) $this->email;
     }
 
     /**

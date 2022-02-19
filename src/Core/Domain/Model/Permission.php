@@ -73,6 +73,24 @@ class Permission extends Entity
      */
     private ?bool $canIndex;
 
+    public function __construct(
+        string $role,
+        string $resource,
+        ?bool  $canCreate = false,
+        ?bool  $canRead = false,
+        ?bool  $canUpdate = false,
+        ?bool  $canDelete = false,
+        ?bool  $canIndex = false
+    ) {
+        $this->role      = $role;
+        $this->resource  = $resource;
+        $this->canCreate = $canCreate;
+        $this->canRead   = $canRead;
+        $this->canUpdate = $canUpdate;
+        $this->canDelete = $canDelete;
+        $this->canIndex  = $canIndex;
+    }
+
     /**
      * @return int|null
      */

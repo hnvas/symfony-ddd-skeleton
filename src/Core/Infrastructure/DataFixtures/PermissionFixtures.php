@@ -14,7 +14,7 @@ class PermissionFixtures extends Fixture
         $permissions = [
             [
                 'role'     => 'ROLE_USER',
-                'resource' => '/api/user/',
+                'resource' => 'user_resource',
                 'create'   => false,
                 'read'     => true,
                 'update'   => true,
@@ -23,7 +23,7 @@ class PermissionFixtures extends Fixture
             ],
             [
                 'role'     => 'ROLE_USER',
-                'resource' => '/api/permission/',
+                'resource' => 'permission_resource',
                 'create'   => false,
                 'read'     => false,
                 'update'   => false,
@@ -33,14 +33,15 @@ class PermissionFixtures extends Fixture
         ];
 
         foreach ($permissions as $permissionValues) {
-            $permission = new Permission();
-            $permission->setRole($permissionValues['role']);
-            $permission->setResource($permissionValues['resource']);
-            $permission->setCanCreate($permissionValues['create']);
-            $permission->setCanRead($permissionValues['read']);
-            $permission->setCanUpdate($permissionValues['update']);
-            $permission->setCanDelete($permissionValues['delete']);
-            $permission->setCanIndex($permissionValues['index']);
+            $permission = new Permission(
+                $permissionValues['role'],
+                $permissionValues['resource'],
+                $permissionValues['create'],
+                $permissionValues['read'],
+                $permissionValues['update'],
+                $permissionValues['delete'],
+                $permissionValues['index']
+            );
 
             $manager->persist($permission);
         }
