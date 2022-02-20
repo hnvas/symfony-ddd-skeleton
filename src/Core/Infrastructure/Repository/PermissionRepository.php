@@ -6,7 +6,6 @@ namespace App\Core\Infrastructure\Repository;
 use App\Core\Domain\Model\Entity;
 use App\Core\Domain\Model\Permission;
 use App\Core\Domain\Repository\PermissionRepositoryInterface;
-use App\Core\Infrastructure\Repository\Filters\PermissionFilter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -42,14 +41,6 @@ class PermissionRepository extends ServiceEntityRepository implements
     public function findById(int $entityId): ?Permission
     {
         return $this->find($entityId);
-    }
-
-    public function search(array $params): array
-    {
-        $qb     = $this->createQueryBuilder('p')->select('p');
-        $filter = new PermissionFilter($params, $qb);
-
-        return $filter->apply()->getQuery()->execute();
     }
 
     public function getEntityClassName(): string

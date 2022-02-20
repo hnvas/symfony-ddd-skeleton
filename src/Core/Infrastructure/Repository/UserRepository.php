@@ -5,6 +5,7 @@ namespace App\Core\Infrastructure\Repository;
 
 use App\Core\Domain\Model\Entity;
 use App\Core\Domain\Model\User;
+use App\Core\Domain\Repository\SearchableRepositoryInterface;
 use App\Core\Domain\Repository\UserRepositoryInterface;
 use App\Core\Infrastructure\Repository\Filters\UserFilter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -16,7 +17,8 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 class UserRepository extends ServiceEntityRepository implements
     PasswordUpgraderInterface,
-    UserRepositoryInterface
+    UserRepositoryInterface,
+    SearchableRepositoryInterface
 {
     private UserPasswordHasherInterface $passwordHasher;
 
@@ -28,15 +30,6 @@ class UserRepository extends ServiceEntityRepository implements
         $this->passwordHasher = $passwordHasher;
     }
 
-    /**
-     * Used to upgrade (rehash) the user's password automatically over time.
-     *
-     * @param \Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface $user
-     * @param string $newHashedPassword
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
     public function upgradePassword(
         PasswordAuthenticatedUserInterface $user,
         string                             $newHashedPassword
@@ -84,7 +77,7 @@ class UserRepository extends ServiceEntityRepository implements
      *
      * @return \App\Core\Domain\Model\User|null
      */
-    public function findById(int $entityId): ?Entity
+    public function findById(int $entityId): ?User
     {
         return $this->find($entityId);
     }

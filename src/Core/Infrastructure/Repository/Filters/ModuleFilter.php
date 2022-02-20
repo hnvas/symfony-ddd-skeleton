@@ -10,11 +10,9 @@ class ModuleFilter extends BaseFilter
 
     public function roles(array $roles): void
     {
-        $alias = $this->queryAlias('roles');
-        $exp   = $this->builder->expr()->in($alias, $roles);
-
         $this->builder
             ->join('m.permissions', 'p', Join::WITH)
-            ->andWhere($exp);
+            ->andWhere($this->builder->expr()->in('p.role', $roles));
     }
+
 }

@@ -14,8 +14,6 @@ interface EntityRepositoryInterface
 
     public function findById(int $entityId): ?Entity;
 
-    public function search(array $params): array;
-
     public function getEntityClassName(): string;
 
     public function flush(): void;

@@ -47,6 +47,11 @@ class Module extends Entity
         $this->permissions = new ArrayCollection([]);
     }
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
     public function name(): string
     {
         return $this->name;
