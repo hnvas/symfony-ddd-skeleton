@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package App\Core\Infrastructure\Action\Auth
  * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
  *
- * @Route("/verify", name="email_verification", methods={"GET"})
+ * @Route("/verify", name="verify_action", methods={"GET"})
  */
 class VerifyAction extends AbstractController
 {

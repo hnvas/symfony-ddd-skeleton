@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package App\Core\Infrastructure\Action\Auth
  * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
  *
- * @Route("/login", name="login", methods={"POST"})
+ * @Route("/login", name="login_action", methods={"POST"})
  */
 class LoginAction extends AbstractController
 {

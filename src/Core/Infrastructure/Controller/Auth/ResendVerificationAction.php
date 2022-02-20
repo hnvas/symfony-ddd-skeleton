@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package App\Core\Infrastructure\Controller\Action\Auth
  * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
  *
- * @Route("/resend", name="resend_verification_email", methods={"GET"})
+ * @Route("/resend", name="resend_verification_action", methods={"GET"})
  */
 class ResendVerificationAction extends AbstractController
 {
