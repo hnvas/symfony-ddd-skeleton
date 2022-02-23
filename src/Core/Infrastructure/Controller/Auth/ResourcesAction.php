@@ -36,10 +36,10 @@ class ResourcesAction extends AbstractController
     public function __invoke(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
+
         /** @var User $user */
         $user = $this->getUser();
         $params = ['roles' => $user->getRoles()];
-
         $resources = $this->moduleRepository->search($params);
 
         return new ApiResponse($this->serializer->serialize($resources, 'json'));

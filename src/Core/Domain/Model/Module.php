@@ -6,13 +6,10 @@ namespace App\Core\Domain\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use JMS\Serializer\Annotation as Serializer;
-use Hateoas\Configuration\Annotation as Hateoas;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @Serializer\XmlRoot("module")
- *
- * @Hateoas\Relation("self", href = "expr('/api/module/' ~ object.getId())")
  */
 class Module extends Entity
 {
