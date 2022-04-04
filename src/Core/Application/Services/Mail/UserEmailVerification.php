@@ -12,7 +12,7 @@ use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 class UserEmailVerification
 {
     private const TEMPLATE           = 'mail/email-verification.html.twig';
-    private const VERIFICATION_ROUTE = 'email_verification';
+    private const VERIFICATION_ROUTE = 'verify_action';
     private const SUBJECT            = 'Confirmação de registro';
 
     private VerifyEmailHelperInterface $verifyEmailHelper;

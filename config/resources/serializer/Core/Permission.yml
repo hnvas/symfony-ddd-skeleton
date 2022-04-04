@@ -1,0 +1,33 @@
+App\Core\Domain\Model\Permission:
+  xml_root_name: permission
+  read_only: true
+  properties:
+    id:
+      xml_attribute: true
+      type: int
+      groups: [ default ]
+    name:
+      type: string
+      groups: [ default ]
+    module:
+      type: App\Core\Domain\Model\Module
+      groups: [ default ]
+    resource:
+      type: string
+      groups: [ default ]
+    canCreate:
+      type: bool
+      groups: [ default ]
+    canRead:
+      type: bool
+      groups: [ default ]
+    canUpdate:
+      type: bool
+      groups: [ default ]
+    canDelete:
+      type: bool
+      groups: [ default ]
+    canIndex:
+      type: bool
+      groups: [ default ]
+

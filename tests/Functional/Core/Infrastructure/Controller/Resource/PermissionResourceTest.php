@@ -17,6 +17,7 @@ class PermissionResourceTest extends BaseResourceTest
                 'uri'     => '/api/permission/',
                 'payload' => [
                     'role'      => 'ROLE_TEST',
+                    'module'    => ['id' => 1],
                     'resource'  => '/api/permission/',
                     'canCreate' => 'true',
                     'canRead'   => 'true',
@@ -77,6 +78,7 @@ class PermissionResourceTest extends BaseResourceTest
                 'id'      => 1,
                 'payload' => [
                     'role'      => 'ROLE_TEST',
+                    'module'    => ['id' => 1],
                     'resource'  => '/api/permission/',
                     'canCreate' => 'false',
                     'canRead'   => 'true',

@@ -5,18 +5,12 @@ namespace App\Core\Domain\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @Serializer\XmlRoot("module")
- */
 class Module extends Entity
 {
 
     /**
-     * @Serializer\XmlAttribute
-     *
      * @var int|null
      */
     private ?int $id;
@@ -38,9 +32,10 @@ class Module extends Entity
      */
     private ?Collection $permissions;
 
-    public function __construct(string $name, bool $enabled = false){
-        $this->name    = $name;
-        $this->enabled = $enabled;
+    public function __construct(string $name, bool $enabled = false)
+    {
+        $this->name        = $name;
+        $this->enabled     = $enabled;
         $this->permissions = new ArrayCollection([]);
     }
 

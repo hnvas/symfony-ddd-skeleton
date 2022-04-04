@@ -6,12 +6,14 @@ namespace App\Core\Infrastructure\Repository;
 use App\Core\Domain\Model\Entity;
 use App\Core\Domain\Model\Module;
 use App\Core\Domain\Repository\ModuleRepositoryInterface;
+use App\Core\Domain\Repository\SearchableRepositoryInterface;
 use App\Core\Infrastructure\Repository\Filters\ModuleFilter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 class ModuleRepository extends ServiceEntityRepository implements
-    ModuleRepositoryInterface
+    ModuleRepositoryInterface,
+    SearchableRepositoryInterface
 {
 
     public function __construct(ManagerRegistry $registry)

@@ -4,22 +4,14 @@ declare(strict_types = 1);
 namespace App\Core\Domain\Model;
 
 use App\Core\Domain\Enum\UserRoleEnum;
-use Hateoas\Configuration\Annotation as Hateoas;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @Serializer\XmlRoot("user")
- *
- * @Hateoas\Relation("self", href = "expr('/api/user/' ~ object.getId())")
- */
 class User extends Entity implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
-     * @Serializer\XmlAttribute
-     *
      * @var int|null
      */
     private ?int $id;

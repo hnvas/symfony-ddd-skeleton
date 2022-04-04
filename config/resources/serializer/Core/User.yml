@@ -1,0 +1,21 @@
+App\Core\Domain\Model\User:
+  xml_root_name: module
+  read_only: true
+  relations:
+    - rel: [ self, href: expr('/api/user/' ~ object.getId()) ]
+  properties:
+    id:
+      xml_attribute: true
+      type: int
+      groups: [ default ]
+    email:
+      type: string
+      groups: [ default ]
+    name:
+      type: string
+      groups: [ default ]
+    roles:
+      type: array
+      groups: [ default ]
+
+

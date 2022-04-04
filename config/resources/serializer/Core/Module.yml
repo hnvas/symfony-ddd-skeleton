@@ -1,0 +1,15 @@
+App\Core\Domain\Model\Module:
+  xml_root_name: module
+  read_only: true
+  properties:
+    id:
+      xml_attribute: true
+      type: int
+      groups: [ default ]
+    role:
+      type: string
+      groups: [ default ]
+    enabled:
+      type: boolean
+      groups: [ default ]
+

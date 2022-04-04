@@ -3,18 +3,12 @@ declare(strict_types = 1);
 
 namespace App\Core\Domain\Model;
 
-use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @Serializer\XmlRoot("permission")
- */
 class Permission extends Entity
 {
 
     /**
-     * @Serializer\XmlAttribute
-     *
      * @var int|null
      */
     private ?int $id;
