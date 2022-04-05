@@ -4,12 +4,9 @@ declare(strict_types = 1);
 namespace App\Core\Domain\Model;
 
 use App\Core\Domain\Enum\UserRoleEnum;
-use JMS\Serializer\Annotation as Serializer;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class User extends Entity implements UserInterface, PasswordAuthenticatedUserInterface
+class User extends Entity
 {
     /**
      * @var int|null
@@ -32,18 +29,11 @@ class User extends Entity implements UserInterface, PasswordAuthenticatedUserInt
     private ?string $name;
 
     /**
-     *
-     * @Serializer\Accessor(getter="getRoles",setter="setRoles")
-     * @Serializer\Type("array<string>")
      * @var array|null
      */
     private ?array $roles = [];
 
     /**
-     * @var string|null The hashed password
-     *
-     * @Serializer\Exclude(if="context.getDirection() === 1")
-     *
      * @var string|null
      */
     private ?string $password;
@@ -102,25 +92,6 @@ class User extends Entity implements UserInterface, PasswordAuthenticatedUserInt
         $this->name = $name;
     }
 
-    /**
-     * @see UserInterface
-     */
-    public function getUserIdentifier(): string
-    {
-        return (string) $this->email;
-    }
-
-    /**
-     * @deprecated since Symfony 5.3, use getUserIdentifier instead
-     */
-    public function getUsername(): string
-    {
-        return (string) $this->email;
-    }
-
-    /**
-     * @see UserInterface
-     */
     public function getRoles(): array
     {
         $roles   = $this->roles;
@@ -134,7 +105,7 @@ class User extends Entity implements UserInterface, PasswordAuthenticatedUserInt
         $this->roles = $roles;
     }
 
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
@@ -162,20 +133,5 @@ class User extends Entity implements UserInterface, PasswordAuthenticatedUserInt
     public function activate(): void
     {
         $this->active = true;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function getSalt(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials()
-    {
     }
 }

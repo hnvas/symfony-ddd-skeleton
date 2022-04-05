@@ -12,6 +12,7 @@ services:
       - '../../src/Core/Domain/Model/'
       - '../../src/Core/Infrastructure/Support/'
       - '../../src/Core/Infrastructure/Repository/Filters/'
+      - '../../src/Core/Infrastructure/Security/AuthUser.php'
       - '../../src/Kernel.php'
       - '../../src/Tests/'
 

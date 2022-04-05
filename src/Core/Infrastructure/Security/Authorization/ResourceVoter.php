@@ -61,7 +61,7 @@ class ResourceVoter extends Voter
         $method   = "can" . ucfirst($attribute);
 
         /** @var \App\Core\Domain\Model\User $user */
-        $user = $token->getUser();
+        $user = $token->getUser()->model();
 
         if (!$user->isActive() || !$user->isEmailVerified()) {
             return false;

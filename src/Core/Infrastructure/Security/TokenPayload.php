@@ -20,26 +20,28 @@ class TokenPayload
      * TokenPayload constructor.
      *
      * @param string|null $username
+     * @param bool|null $active
+     * @param bool|null $verified
      * @param \DateTimeImmutable|null $expiresIn
      */
     public function __construct(
-        ?string $username = null,
-        ?bool $active = null,
-        ?bool $verified = null,
+        ?string            $username = null,
+        ?bool              $active = null,
+        ?bool              $verified = null,
         ?DateTimeImmutable $expiresIn = null
     ) {
         $this->username  = $username;
         $this->expiresIn = $expiresIn;
-        $this->active = $active;
-        $this->verified = $verified;
+        $this->active    = $active;
+        $this->verified  = $verified;
     }
 
     public function toArray(): array
     {
         return [
             "username"  => $this->username,
-            "active" => $this->active,
-            "verified" => $this->verified,
+            "active"    => $this->active,
+            "verified"  => $this->verified,
             "expiresIn" => $this->expiresIn->getTimestamp()
         ];
     }

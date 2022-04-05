@@ -38,9 +38,9 @@ class LoginAction extends AbstractController
     public function __invoke(): JsonResponse
     {
         /** @var User $user */
-        $user    = $this->getUser();
+        $user    = $this->getUser()->model();
         $payload = new TokenPayload(
-            $user->getUserIdentifier(),
+            $user->email(),
             $user->isActive(),
             $user->isEmailVerified(),
             (new DateTimeImmutable())->modify('+12 hours')
@@ -50,8 +50,7 @@ class LoginAction extends AbstractController
             "access_token" => $this->tokenService->encodeToken($payload),
             "token_type"   => $this->tokenService->tokenType(),
             "expires_in"   => $payload->expiresIn->getTimestamp(),
-            "user_name"    => $payload->username,
-            "scope"        => 'all'
+            "user_name"    => $payload->username
         ]);
     }
 }

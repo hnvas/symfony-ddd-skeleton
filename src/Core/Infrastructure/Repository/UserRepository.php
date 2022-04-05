@@ -8,17 +8,16 @@ use App\Core\Domain\Model\User;
 use App\Core\Domain\Repository\SearchableRepositoryInterface;
 use App\Core\Domain\Repository\UserRepositoryInterface;
 use App\Core\Infrastructure\Repository\Filters\UserFilter;
+use App\Core\Infrastructure\Security\AuthUser;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 class UserRepository extends ServiceEntityRepository implements
-    PasswordUpgraderInterface,
     UserRepositoryInterface,
-    SearchableRepositoryInterface
+    SearchableRepositoryInterface,
+    UserLoaderInterface
 {
     private UserPasswordHasherInterface $passwordHasher;
 
@@ -30,30 +29,10 @@ class UserRepository extends ServiceEntityRepository implements
         $this->passwordHasher = $passwordHasher;
     }
 
-    public function upgradePassword(
-        PasswordAuthenticatedUserInterface $user,
-        string                             $newHashedPassword
-    ): void {
-        if (!$user instanceof User) {
-            throw new UnsupportedUserException(
-                sprintf('Instances of "%s" are not supported.', get_class($user))
-            );
-        }
-
-        $user->setPassword($newHashedPassword);
-        $this->_em->persist($user);
-        $this->_em->flush();
-    }
-
-    /**
-     * @param \App\Core\Domain\Model\User $entity
-     *
-     * @throws \Doctrine\ORM\ORMException
-     */
     public function add(Entity $entity): void
     {
         $hashedPassword = $this->passwordHasher->hashPassword(
-            $entity,
+            new AuthUser($entity),
             $entity->getPassword()
         );
 
@@ -62,31 +41,16 @@ class UserRepository extends ServiceEntityRepository implements
         $this->_em->persist($entity);
     }
 
-    /**
-     * @param \App\Core\Domain\Model\User $entity
-     *
-     * @throws \Doctrine\ORM\ORMException
-     */
     public function remove(Entity $entity): void
     {
         $this->_em->remove($entity);
     }
 
-    /**
-     * @param int $entityId
-     *
-     * @return \App\Core\Domain\Model\User|null
-     */
     public function findById(int $entityId): ?User
     {
         return $this->find($entityId);
     }
 
-    /**
-     * @param array $params
-     *
-     * @return array
-     */
     public function search(array $params): array
     {
         $qb     = $this->createQueryBuilder('u')->select('u');
@@ -100,12 +64,20 @@ class UserRepository extends ServiceEntityRepository implements
         return $this->getEntityName();
     }
 
-    /**
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
     public function flush(): void
     {
         $this->_em->flush();
+    }
+
+    public function loadUserByUsername(string $username): ?AuthUser
+    {
+        return $this->loadUserByIdentifier($username);
+    }
+
+    public function loadUserByIdentifier(string $identifier): ?AuthUser
+    {
+        $user = $this->findOneBy(['email' => $identifier]);
+
+        return !$user ? null : new AuthUser($user);
     }
 }

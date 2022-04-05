@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace App\Core\Infrastructure\DataFixtures;
 
 use App\Core\Domain\Model\User;
+use App\Core\Infrastructure\Security\AuthUser;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
@@ -34,10 +35,7 @@ class UserFixtures extends Fixture
             true
         );
 
-        $user->setPassword(
-            $this->passwordHasher->hashPassword($user, $user->getPassword())
-        );
-
+        $user->setPassword($this->hashPassword($user, $user->getPassword()));
         $manager->persist($user);
 
         if ('test' === $this->environment) {
@@ -74,11 +72,15 @@ class UserFixtures extends Fixture
                 true
             );
 
-            $user->setPassword(
-                $this->passwordHasher->hashPassword($user, $user->getPassword())
-            );
-
+            $user->setPassword($this->hashPassword($user, $user->getPassword()));
             $manager->persist($user);
         }
+    }
+
+    private function hashPassword(User $user, string $password): string
+    {
+        $authUser = new AuthUser($user);
+
+        return $this->passwordHasher->hashPassword($authUser, $password);
     }
 }

@@ -67,8 +67,9 @@ class TokenAuthenticator extends AbstractAuthenticator
         }
 
         return new SelfValidatingPassport(
-            new UserBadge($credentials->username, function ($userIdentifier) {
-                return $this->userRepository->findOneBy(['email' => $userIdentifier]);
+            new UserBadge($credentials->username, function ($identifier) {
+                $user = $this->userRepository->findOneBy(['email' => $identifier]);
+                return new AuthUser($user);
             })
         );
     }
