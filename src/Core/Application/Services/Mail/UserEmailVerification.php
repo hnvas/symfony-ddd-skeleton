@@ -54,7 +54,7 @@ class UserEmailVerification
     {
         $signatureComponents = $this->verifyEmailHelper->generateSignature(
             self::VERIFICATION_ROUTE,
-            strval($user->getId()),
+            strval($user->id()),
             $user->email()
         );
 

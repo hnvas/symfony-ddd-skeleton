@@ -1,0 +1,8 @@
+App\Core\Domain\Model\Module:
+  properties:
+    name:
+      - NotBlank: ~
+      - Type: string
+    enabled:
+      - Type: bool
+

@@ -5,31 +5,12 @@ namespace App\Core\Domain\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Validator\Constraints as Assert;
 
-class Module extends Entity
+class Module implements Entity
 {
-
-    /**
-     * @var int|null
-     */
-    private ?int $id;
-
-    /**
-     * @Assert\NotBlank
-     *
-     * @var string
-     */
-    private string $name;
-
-    /**
-     * @var bool
-     */
-    private bool $enabled = false;
-
-    /**
-     * @var Collection<Permission>|null
-     */
+    private ?int        $id;
+    private string      $name;
+    private bool        $enabled = false;
     private ?Collection $permissions;
 
     public function __construct(string $name, bool $enabled = false)
@@ -39,7 +20,7 @@ class Module extends Entity
         $this->permissions = new ArrayCollection([]);
     }
 
-    public function getId(): ?int
+    public function id(): ?int
     {
         return $this->id;
     }
@@ -52,16 +33,6 @@ class Module extends Entity
     public function isEnabled(): bool
     {
         return $this->enabled;
-    }
-
-    public function setPermissions(Collection $permissions): void
-    {
-        $this->permissions = $permissions;
-    }
-
-    public function addPermission(Permission $permission): void
-    {
-        $this->permissions->add($permission);
     }
 
     public function permissions(): ?Collection

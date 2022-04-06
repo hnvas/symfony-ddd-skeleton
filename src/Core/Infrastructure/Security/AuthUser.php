@@ -23,12 +23,12 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles(): array
     {
-        return $this->user->getRoles();
+        return $this->user->roles();
     }
 
     public function getPassword(): ?string
     {
-        return $this->user->getPassword();
+        return $this->user->password();
     }
 
     /**

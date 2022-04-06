@@ -3,81 +3,27 @@ declare(strict_types = 1);
 
 namespace App\Core\Domain\Model;
 
-use Symfony\Component\Validator\Constraints as Assert;
-
-class Permission extends Entity
+class Permission implements Entity
 {
-
-    /**
-     * @var int|null
-     */
-    private ?int $id;
-
-    /**
-     * @Assert\NotBlank
-     *
-     * @var string|null
-     */
-    private ?string $role;
-
-    /**
-     * @Assert\NotNull
-     *
-     * @var \App\Core\Domain\Model\Module|null
-     */
-    private ?Module $module;
-
-    /**
-     * @Assert\NotBlank
-     *
-     * @var string|null
-     */
-    private ?string $resource;
-
-    /**
-     * @Assert\NotBlank
-     *
-     * @var bool|null
-     */
-    private ?bool $canCreate;
-
-    /**
-     * @Assert\NotBlank
-     *
-     * @var bool|null
-     */
-    private ?bool $canRead;
-
-    /**
-     * @Assert\NotBlank
-     *
-     * @var bool|null
-     */
-    private ?bool $canUpdate;
-
-    /**
-     * @Assert\NotBlank
-     *
-     * @var bool|null
-     */
-    private ?bool $canDelete;
-
-    /**
-     * @Assert\NotBlank
-     *
-     * @var bool|null
-     */
-    private ?bool $canIndex;
+    private ?int   $id;
+    private string $role;
+    private Module $module;
+    private string $resource;
+    private bool   $canCreate;
+    private bool   $canRead;
+    private bool   $canUpdate;
+    private bool   $canDelete;
+    private bool   $canIndex;
 
     public function __construct(
         string $role,
         string $resource,
         Module $module,
-        ?bool  $canCreate = false,
-        ?bool  $canRead = false,
-        ?bool  $canUpdate = false,
-        ?bool  $canDelete = false,
-        ?bool  $canIndex = false
+        bool  $canCreate = false,
+        bool  $canRead = false,
+        bool  $canUpdate = false,
+        bool  $canDelete = false,
+        bool  $canIndex = false
     ) {
         $this->role      = $role;
         $this->resource  = $resource;
@@ -92,7 +38,7 @@ class Permission extends Entity
     /**
      * @return int|null
      */
-    public function getId(): ?int
+    public function id(): ?int
     {
         return $this->id;
     }

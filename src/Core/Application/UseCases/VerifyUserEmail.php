@@ -31,7 +31,7 @@ class VerifyUserEmail
         try {
             $this->verifyEmailHelper->validateEmailConfirmation(
                 $signedUrl,
-                strval($user->getId()),
+                strval($user->id()),
                 $user->getUserIdentifier()
             );
         } catch (VerifyEmailExceptionInterface $e) {

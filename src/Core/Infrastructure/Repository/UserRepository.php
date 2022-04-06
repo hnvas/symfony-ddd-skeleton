@@ -33,10 +33,10 @@ class UserRepository extends ServiceEntityRepository implements
     {
         $hashedPassword = $this->passwordHasher->hashPassword(
             new AuthUser($entity),
-            $entity->getPassword()
+            $entity->password()
         );
 
-        $entity->setPassword($hashedPassword);
+        $entity->changePassword($hashedPassword);
 
         $this->_em->persist($entity);
     }

@@ -39,7 +39,7 @@ class ResourcesAction extends AbstractController
 
         /** @var User $user */
         $user = $this->getUser();
-        $params = ['roles' => $user->getRoles()];
+        $params = ['roles' => $user->roles()];
         $resources = $this->moduleRepository->search($params);
 
         return new ApiResponse($this->serializer->serialize($resources, 'json'));

@@ -35,7 +35,7 @@ class UserFixtures extends Fixture
             true
         );
 
-        $user->setPassword($this->hashPassword($user, $user->getPassword()));
+        $user->changePassword($this->hashPassword($user, $user->password()));
         $manager->persist($user);
 
         if ('test' === $this->environment) {
@@ -72,7 +72,7 @@ class UserFixtures extends Fixture
                 true
             );
 
-            $user->setPassword($this->hashPassword($user, $user->getPassword()));
+            $user->changePassword($this->hashPassword($user, $user->password()));
             $manager->persist($user);
         }
     }

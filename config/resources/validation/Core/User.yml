@@ -1,0 +1,18 @@
+App\Core\Domain\Model\User:
+  properties:
+    email:
+      - Email: ~
+      - NotBlank: ~
+    name:
+      - NotBlank: ~
+      - Type: string
+    roles:
+      - Type: array
+    password:
+      - Type: string
+      - NotBlank: ~
+    emailVerified:
+      - Type: bool
+    active:
+      - Type: bool
+

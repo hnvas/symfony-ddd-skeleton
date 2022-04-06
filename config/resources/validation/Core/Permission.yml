@@ -1,0 +1,26 @@
+App\Core\Domain\Model\Permission:
+  properties:
+    role:
+      - NotBlank: ~
+      - Type: string
+    module:
+      - NotNull: ~
+      - Type: App\Core\Domain\Model\Module
+    resource:
+      - NotBlank: ~
+      - Type: string
+    canCreate:
+      - NotNull: ~
+      - Type: bool
+    canRead:
+      - NotNull: ~
+      - Type: bool
+    canUpdate:
+      - NotNull: ~
+      - Type: bool
+    canDelete:
+      - NotNull: ~
+      - Type: bool
+    canIndex:
+      - NotNull: ~
+      - Type: bool

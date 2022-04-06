@@ -4,58 +4,17 @@ declare(strict_types = 1);
 namespace App\Core\Domain\Model;
 
 use App\Core\Domain\Enum\UserRoleEnum;
-use Symfony\Component\Validator\Constraints as Assert;
 
-class User extends Entity
+class User implements Entity
 {
-    /**
-     * @var int|null
-     */
-    private ?int $id;
+    private ?int   $id;
+    private string $email;
+    private string $name;
+    private ?array $roles         = [];
+    private string $password;
+    private bool   $emailVerified = false;
+    private bool   $active        = false;
 
-    /**
-     * @Assert\Email
-     * @Assert\NotBlank
-     *
-     * @var string|null
-     */
-    private ?string $email;
-
-    /**
-     * @Assert\NotBlank
-     *
-     * @var string|null
-     */
-    private ?string $name;
-
-    /**
-     * @var array|null
-     */
-    private ?array $roles = [];
-
-    /**
-     * @var string|null
-     */
-    private ?string $password;
-
-    /**
-     * @var bool|null
-     */
-    private ?bool $emailVerified = false;
-
-    /**
-     * @var bool|null
-     */
-    private ?bool $active = false;
-
-    /**
-     * @param string|null $email
-     * @param string|null $name
-     * @param array|null $roles
-     * @param string|null $password
-     * @param bool|null $emailVerified
-     * @param bool|null $active
-     */
     public function __construct(
         string $email,
         string $name,
@@ -72,7 +31,7 @@ class User extends Entity
         $this->active        = $active;
     }
 
-    public function getId(): ?int
+    public function id(): ?int
     {
         return $this->id;
     }
@@ -87,12 +46,7 @@ class User extends Entity
         return $this->name;
     }
 
-    public function setName(?string $name): void
-    {
-        $this->name = $name;
-    }
-
-    public function getRoles(): array
+    public function roles(): array
     {
         $roles   = $this->roles;
         $roles[] = UserRoleEnum::ROLE_USER;
@@ -100,17 +54,12 @@ class User extends Entity
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): void
-    {
-        $this->roles = $roles;
-    }
-
-    public function getPassword(): ?string
+    public function password(): ?string
     {
         return $this->password;
     }
 
-    public function setPassword(string $password): void
+    public function changePassword(string $password): void
     {
         $this->password = $password;
     }
