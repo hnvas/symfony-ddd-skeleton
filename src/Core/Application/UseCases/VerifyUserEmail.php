@@ -32,7 +32,7 @@ class VerifyUserEmail
             $this->verifyEmailHelper->validateEmailConfirmation(
                 $signedUrl,
                 strval($user->id()),
-                $user->getUserIdentifier()
+                $user->email()
             );
         } catch (VerifyEmailExceptionInterface $e) {
             throw new InvalidDataException("Invalid Token", [$e->getReason()]);
