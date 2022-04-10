@@ -7,7 +7,7 @@ use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class LoginTest extends WebTestCase
+class LoginActionTest extends WebTestCase
 {
     use FixturesTrait;
 

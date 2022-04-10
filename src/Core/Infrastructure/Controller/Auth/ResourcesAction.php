@@ -6,6 +6,7 @@ namespace App\Core\Infrastructure\Controller\Auth;
 use App\Core\Domain\Model\User;
 use App\Core\Domain\Repository\ModuleRepositoryInterface;
 use App\Core\Infrastructure\Http\Response\ApiResponse;
+use App\Core\Infrastructure\Security\AuthUser;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,9 +38,9 @@ class ResourcesAction extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        /** @var User $user */
+        /** @var AuthUser $user */
         $user = $this->getUser();
-        $params = ['roles' => $user->roles()];
+        $params = ['roles' => $user->model()->roles()];
         $resources = $this->moduleRepository->search($params);
 
         return new ApiResponse($this->serializer->serialize($resources, 'json'));
