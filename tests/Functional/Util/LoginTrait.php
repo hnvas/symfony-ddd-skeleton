@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Tests\Util;
+namespace App\Tests\Functional\Util;
 
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 

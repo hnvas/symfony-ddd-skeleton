@@ -8,6 +8,7 @@ use App\Core\Domain\Model\Permission;
 use App\Core\Domain\Model\User;
 use App\Core\Infrastructure\Repository\Filters\BaseFilter;
 use App\Core\Infrastructure\Repository\Filters\FilterFactory;
+use App\Core\Infrastructure\Repository\Filters\ModuleFilter;
 use App\Core\Infrastructure\Repository\Filters\PermissionFilter;
 use App\Core\Infrastructure\Repository\Filters\UserFilter;
 use Doctrine\ORM\QueryBuilder;
@@ -34,16 +35,16 @@ class FilterFactoryTest extends TestCase
     public function provideRelatedFilters(): array
     {
         return [
-            'related'   => [
+            [
                 'model'    => User::class,
                 'expected' => UserFilter::class
             ],
-            'variation' => [
+            [
                 'model'    => Permission::class,
                 'expected' => PermissionFilter::class
             ],
-            'default'   => [
-                'model'    => Module::class,
+            [
+                'model'    => '',
                 'expected' => BaseFilter::class
             ]
         ];

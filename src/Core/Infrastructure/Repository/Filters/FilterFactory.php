@@ -13,7 +13,8 @@ class FilterFactory
 
     const BIND_RELATED = [
         User::class       => UserFilter::class,
-        Permission::class => PermissionFilter::class
+        Permission::class => PermissionFilter::class,
+        Module::class     => ModuleFilter::class
     ];
 
     public static function create(
@@ -21,7 +22,7 @@ class FilterFactory
         QueryBuilder $queryBuilder,
         string       $className
     ): BaseFilter {
-        $class = self::BIND_RELATED[$className] ?? BaseFilter::class;
+        $class = self::BIND_RELATED[ $className ] ?? BaseFilter::class;
 
         return new $class($params, $queryBuilder);
     }

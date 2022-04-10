@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Tests\Functional\Core\Infrastructure\Controller\Resource;
+namespace App\Tests\Functional\Core\Infrastructure\Controller\Api;
 
-use App\Tests\Util\LoginTrait;
+use App\Tests\Functional\Util\LoginTrait;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;

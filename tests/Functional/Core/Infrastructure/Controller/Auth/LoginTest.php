@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Tests\Functional\Core\Infrastructure\Controller\Action\Auth;
+namespace App\Tests\Functional\Core\Infrastructure\Controller\Auth;
 
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;

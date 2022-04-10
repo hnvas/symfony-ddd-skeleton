@@ -11,7 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
 class ModuleRepository extends ServiceEntityRepository implements
     ModuleRepositoryInterface
 {
-    use RepositoryBehaviorTrait;
+    use RepositoryBehaviorTrait, RepositorySearchableTrait;
 
     public function __construct(ManagerRegistry $registry)
     {
