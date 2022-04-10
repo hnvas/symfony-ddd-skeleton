@@ -18,7 +18,7 @@ class UserRepository extends ServiceEntityRepository implements
     SearchableRepositoryInterface,
     UserLoaderInterface
 {
-    use SearchableTrait;
+    use RepositoryBehaviorTrait, RepositorySearchableTrait;
 
     private UserPasswordHasherInterface $passwordHasher;
 
@@ -30,6 +30,10 @@ class UserRepository extends ServiceEntityRepository implements
         $this->passwordHasher = $passwordHasher;
     }
 
+    /**
+     * @inheritDoc
+     * @param \App\Core\Domain\Model\User $entity
+     */
     public function add(Entity $entity): void
     {
         $hashedPassword = $this->passwordHasher->hashPassword(
@@ -40,26 +44,6 @@ class UserRepository extends ServiceEntityRepository implements
         $entity->changePassword($hashedPassword);
 
         $this->_em->persist($entity);
-    }
-
-    public function remove(Entity $entity): void
-    {
-        $this->_em->remove($entity);
-    }
-
-    public function findById(int $entityId): ?User
-    {
-        return $this->find($entityId);
-    }
-
-    public function getEntityClassName(): string
-    {
-        return $this->getEntityName();
-    }
-
-    public function flush(): void
-    {
-        $this->_em->flush();
     }
 
     public function loadUserByUsername(string $username): ?AuthUser

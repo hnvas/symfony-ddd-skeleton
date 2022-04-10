@@ -5,7 +5,7 @@ namespace App\Core\Infrastructure\Repository;
 
 use App\Core\Infrastructure\Repository\Filters\FilterFactory;
 
-trait SearchableTrait
+trait RepositorySearchableTrait
 {
 
     public function search(array $params): array
