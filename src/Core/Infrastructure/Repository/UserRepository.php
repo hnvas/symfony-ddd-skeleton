@@ -7,7 +7,6 @@ use App\Core\Domain\Model\Entity;
 use App\Core\Domain\Model\User;
 use App\Core\Domain\Repository\SearchableRepositoryInterface;
 use App\Core\Domain\Repository\UserRepositoryInterface;
-use App\Core\Infrastructure\Repository\Filters\UserFilter;
 use App\Core\Infrastructure\Security\AuthUser;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,6 +18,8 @@ class UserRepository extends ServiceEntityRepository implements
     SearchableRepositoryInterface,
     UserLoaderInterface
 {
+    use SearchableTrait;
+
     private UserPasswordHasherInterface $passwordHasher;
 
     public function __construct(
@@ -49,14 +50,6 @@ class UserRepository extends ServiceEntityRepository implements
     public function findById(int $entityId): ?User
     {
         return $this->find($entityId);
-    }
-
-    public function search(array $params): array
-    {
-        $qb     = $this->createQueryBuilder('u')->select('u');
-        $filter = new UserFilter($params, $qb);
-
-        return $filter->apply()->getQuery()->execute();
     }
 
     public function getEntityClassName(): string

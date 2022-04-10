@@ -15,6 +15,7 @@ class PermissionRepository extends ServiceEntityRepository implements
     PermissionRepositoryInterface,
     SearchableRepositoryInterface
 {
+    use SearchableTrait;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -44,14 +45,6 @@ class PermissionRepository extends ServiceEntityRepository implements
     public function findById(int $entityId): ?Permission
     {
         return $this->find($entityId);
-    }
-
-    public function search(array $params): array
-    {
-        $qb     = $this->createQueryBuilder('m')->select('m');
-        $filter = new PermissionFilter($params, $qb);
-
-        return $filter->apply()->getQuery()->execute();
     }
 
     public function getEntityClassName(): string
