@@ -7,6 +7,7 @@ use App\Core\Domain\Model\Module;
 use App\Core\Domain\Model\Permission;
 use App\Core\Domain\Model\User;
 use Doctrine\ORM\QueryBuilder;
+use InvalidArgumentException;
 
 class FilterFactory
 {
@@ -22,8 +23,19 @@ class FilterFactory
         QueryBuilder $queryBuilder,
         string       $className
     ): BaseFilter {
-        $class = self::BIND_RELATED[ $className ] ?? BaseFilter::class;
+        if (!self::hasRelatedFilter($className)) {
+            throw new InvalidArgumentException(
+                'No filter related to provided class'
+            );
+        }
+
+        $class = self::BIND_RELATED[ $className ];
 
         return new $class($params, $queryBuilder);
+    }
+
+    private static function hasRelatedFilter(string $className): bool
+    {
+        return array_key_exists($className, self::BIND_RELATED);
     }
 }

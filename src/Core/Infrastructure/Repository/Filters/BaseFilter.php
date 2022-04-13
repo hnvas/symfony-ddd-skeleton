@@ -6,7 +6,7 @@ namespace App\Core\Infrastructure\Repository\Filters;
 use App\Core\Domain\Functions\Str;
 use Doctrine\ORM\QueryBuilder;
 
-class BaseFilter
+abstract class BaseFilter
 {
 
     /**

@@ -32,6 +32,18 @@ class FilterFactoryTest extends TestCase
         self::assertInstanceOf($expected, $filter);
     }
 
+    public function testShouldThrowsAnExceptionWhenEntityIsNotRelated()
+    {
+        $queryBuilderMock = self::createMock(QueryBuilder::class);
+        $queryParams      = [];
+        $model            = 'Any';
+
+        self::expectException(\InvalidArgumentException::class);
+        self::expectExceptionMessage('No filter related to provided class');
+
+        FilterFactory::create($queryParams, $queryBuilderMock, $model);
+    }
+
     public function provideRelatedFilters(): array
     {
         return [
@@ -44,8 +56,8 @@ class FilterFactoryTest extends TestCase
                 'expected' => PermissionFilter::class
             ],
             [
-                'model'    => '',
-                'expected' => BaseFilter::class
+                'model'    => Module::class,
+                'expected' => ModuleFilter::class
             ]
         ];
     }
