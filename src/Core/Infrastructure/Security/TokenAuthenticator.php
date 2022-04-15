@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace App\Core\Infrastructure\Security;
 
 use App\Core\Domain\Repository\UserRepositoryInterface;
+use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,23 +17,14 @@ use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPasspor
 
 class TokenAuthenticator extends AbstractAuthenticator
 {
-
-    /**
-     * @var \App\Core\Domain\Repository\UserRepositoryInterface
-     */
-    private UserRepositoryInterface $userRepository;
-
     /**
      * @var \App\Core\Infrastructure\Security\TokenServiceInterface
      */
     private TokenServiceInterface $tokenService;
 
-    public function __construct(
-        UserRepositoryInterface $userRepository,
-        TokenServiceInterface   $tokenService
-    ) {
-        $this->userRepository = $userRepository;
-        $this->tokenService   = $tokenService;
+    public function __construct(TokenServiceInterface $tokenService)
+    {
+        $this->tokenService = $tokenService;
     }
 
     public function supports(Request $request): bool
@@ -67,10 +59,7 @@ class TokenAuthenticator extends AbstractAuthenticator
         }
 
         return new SelfValidatingPassport(
-            new UserBadge($credentials->username, function ($identifier) {
-                $user = $this->userRepository->findOneBy(['email' => $identifier]);
-                return new AuthUser($user);
-            })
+            new UserBadge($credentials->username)
         );
     }
 }
