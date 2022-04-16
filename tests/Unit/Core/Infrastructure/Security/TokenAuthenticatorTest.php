@@ -32,6 +32,35 @@ class TokenAuthenticatorTest extends TestCase
         $this->instance     = new TokenAuthenticator($this->tokenService);
     }
 
+    /**
+     * @dataProvider provideHeaders
+     */
+    public function testShouldValidateIfAuthorizationIsPresent(
+        array $headers,
+        bool $expected
+    ): void {
+        $requestMock          = self::createMock(Request::class);
+        $requestMock->headers = new HeaderBag($headers);
+
+        $result = $this->instance->supports($requestMock);
+
+        self::assertEquals($expected, $result);
+    }
+
+    public function provideHeaders(): array
+    {
+        return [
+            'valid' => [
+                'value' => ['Authorization' => 'token'],
+                'expected' => true
+            ],
+            'invalid' => [
+                'value' => ['Content-Type'  => 'application/json'],
+                'expected' => false
+            ]
+        ];
+    }
+
     public function testShouldAuthenticateWithToken(): void
     {
         $expires = new DateTimeImmutable('+12 hours');
