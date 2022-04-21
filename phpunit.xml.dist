@@ -30,6 +30,13 @@
         <include>
             <directory suffix=".php">src</directory>
         </include>
+        <exclude>
+            <directory suffix=".php">src/Core/Infrastructure/DataFixtures</directory>
+            <file>src/Kernel.php</file>
+        </exclude>
+        <report>
+            <html outputDirectory="tests/build/coverage"/>
+        </report>
     </coverage>
 
     <listeners>

@@ -19,4 +19,5 @@
 ###> phpunit/phpunit ###
 /phpunit.xml
 .phpunit.result.cache
+tests/build/coverage
 ###< phpunit/phpunit ###
