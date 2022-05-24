@@ -4,12 +4,10 @@ declare(strict_types = 1);
 namespace App\Core\Infrastructure\Support;
 
 use App\Core\Infrastructure\Http\Request\QueryParams;
-use Doctrine\ORM\QueryBuilder;
 use Hateoas\Configuration\Route as HateoasRoute;
 use Hateoas\Representation\Factory\PagerfantaFactory;
 use Hateoas\Representation\PaginatedRepresentation;
 use Pagerfanta\Adapter\ArrayAdapter;
-use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
 
 class Paginator
@@ -31,7 +29,7 @@ class Paginator
      */
     public function __construct(array $collection, QueryParams $queryParams)
     {
-        $this->queryBuilder = $collection;
+        $this->collection = $collection;
         $this->queryParams  = $queryParams;
     }
 
@@ -46,7 +44,7 @@ class Paginator
             $this->queryParams->all()
         );
 
-        $pager = new Pagerfanta(new ArrayAdapter($this->queryBuilder));
+        $pager = new Pagerfanta(new ArrayAdapter($this->collection));
         $pager->setMaxPerPage($this->queryParams->limit())
               ->setCurrentPage($this->queryParams->page());
 
