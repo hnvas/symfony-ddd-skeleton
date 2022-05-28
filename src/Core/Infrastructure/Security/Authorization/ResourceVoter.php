@@ -17,9 +17,6 @@ class ResourceVoter extends Voter
     const DELETE = 'delete';
     const INDEX  = 'index';
 
-    /**
-     * @var \App\Core\Domain\Repository\PermissionRepositoryInterface
-     */
     private PermissionRepositoryInterface $repository;
 
     public function __construct(PermissionRepositoryInterface $repository)
@@ -27,34 +24,23 @@ class ResourceVoter extends Voter
         $this->repository = $repository;
     }
 
-    /**
-     * @param string $attribute
-     * @param mixed $subject
-     *
-     * @return bool
-     */
-    protected function supports(string $attribute, $subject)
+    protected function supports(string $attribute, $subject): bool
     {
-        if (!in_array($attribute, $this->actions())) {
-            return false;
-        }
-
-        if (!$subject instanceof Request) {
+        if (
+            !in_array($attribute, $this->actions()) ||
+            !$subject instanceof Request
+        ) {
             return false;
         }
 
         return true;
     }
 
-    /**
-     * @param string $attribute
-     * @param Request $subject
-     * @param TokenInterface $token
-     *
-     * @return bool
-     */
-    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
-    {
+    protected function voteOnAttribute(
+        string $attribute,
+        $subject,
+        TokenInterface $token
+    ): bool {
         $route    = $subject->get('_route');
         $resource = str_replace("_$attribute", '', $route);
         $roles    = $token->getRoleNames();
@@ -83,9 +69,6 @@ class ResourceVoter extends Voter
         return $permission->{$method}();
     }
 
-    /**
-     * @return string[]
-     */
     private function actions(): array
     {
         return [

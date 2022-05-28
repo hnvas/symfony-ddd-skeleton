@@ -8,7 +8,7 @@ use App\Core\Domain\Repository\EntityRepositoryInterface as EntityRepository;
 use App\Core\Infrastructure\Http\Request\QueryParams;
 use App\Core\Infrastructure\Http\Response\ApiEmptyResponse;
 use App\Core\Infrastructure\Http\Response\ApiResponse;
-use App\Core\Infrastructure\Support\Paginator;
+use App\Core\Infrastructure\Support\PaginatorAssembler;
 use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\SerializerInterface as Serializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -45,7 +45,7 @@ abstract class BaseResource extends AbstractController
 
         $criteria = $this->queryParams->criteria();
         $entities = $this->facade->search($criteria);
-        $pages    = (new Paginator($entities, $this->queryParams))->paginate();
+        $pages    = (new PaginatorAssembler($entities, $this->queryParams))->assemble();
 
         return new ApiResponse(
             $this->serializer->serialize($pages, self::SERIALIZATION_FORMAT)

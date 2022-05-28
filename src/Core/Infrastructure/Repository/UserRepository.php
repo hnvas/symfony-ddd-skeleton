@@ -5,6 +5,7 @@ namespace App\Core\Infrastructure\Repository;
 
 use App\Core\Domain\Model\Entity;
 use App\Core\Domain\Model\User;
+use App\Core\Domain\Repository\SearchableRepositoryInterface;
 use App\Core\Domain\Repository\UserRepositoryInterface;
 use App\Core\Infrastructure\Security\AuthUser;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -14,7 +15,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserRepository extends ServiceEntityRepository implements
     UserRepositoryInterface,
-    UserLoaderInterface
+    UserLoaderInterface,
+    SearchableRepositoryInterface
 {
     use RepositoryBehaviorTrait, RepositorySearchableTrait;
 

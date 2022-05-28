@@ -7,6 +7,7 @@ use App\Core\Application\Exceptions\NotFoundException;
 use App\Core\Application\Exceptions\InvalidDataException;
 use App\Core\Domain\Model\Entity;
 use App\Core\Domain\Repository\EntityRepositoryInterface as EntityRepository;
+use App\Core\Domain\Repository\Pageable;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\Validator\Validator\ValidatorInterface as Validator;
 
@@ -83,7 +84,7 @@ final class CrudFacade
         $this->repository->flush();
     }
 
-    public function search(array $criteria): array
+    public function search(array $criteria): Pageable
     {
         return $this->repository->search($criteria);
     }
