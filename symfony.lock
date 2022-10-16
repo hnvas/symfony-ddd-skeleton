@@ -162,18 +162,6 @@
     "phar-io/version": {
         "version": "3.1.0"
     },
-    "phpdocumentor/reflection-common": {
-        "version": "2.2.0"
-    },
-    "phpdocumentor/reflection-docblock": {
-        "version": "5.2.2"
-    },
-    "phpdocumentor/type-resolver": {
-        "version": "1.4.0"
-    },
-    "phpspec/prophecy": {
-        "version": "1.13.0"
-    },
     "phpstan/phpdoc-parser": {
         "version": "0.5.5"
     },
@@ -369,9 +357,6 @@
             "src/Kernel.php"
         ]
     },
-    "symfony/http-client-contracts": {
-        "version": "v2.4.0"
-    },
     "symfony/http-foundation": {
         "version": "v5.3.3"
     },
@@ -566,9 +551,6 @@
     },
     "twig/twig": {
         "version": "v3.3.8"
-    },
-    "webmozart/assert": {
-        "version": "1.10.0"
     },
     "willdurand/hateoas": {
         "version": "3.7.0"
