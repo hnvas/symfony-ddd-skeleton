@@ -374,10 +374,10 @@
         ]
     },
     "symfony/maker-bundle": {
-        "version": "1.0",
+        "version": "1.43",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
+            "branch": "main",
             "version": "1.0",
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }

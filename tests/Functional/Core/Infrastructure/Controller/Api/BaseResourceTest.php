@@ -4,16 +4,18 @@ declare(strict_types = 1);
 namespace App\Tests\Functional\Core\Infrastructure\Controller\Api;
 
 use App\Tests\Functional\Util\LoginTrait;
-use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 abstract class BaseResourceTest extends WebTestCase
 {
-    use FixturesTrait, LoginTrait;
+    use LoginTrait;
 
     private KernelBrowser $client;
+    private AbstractDatabaseTool $databaseTool;
 
     protected const FIXTURES = [];
 
@@ -21,8 +23,15 @@ abstract class BaseResourceTest extends WebTestCase
     {
         static::ensureKernelShutdown();
         $this->client = static::createClient();
+        $this->databaseTool = $this->client->getContainer()
+                                           ->get(DatabaseToolCollection::class)
+                                           ->get();
+    }
 
-        $this->loadFixtures(static::FIXTURES);
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->databaseTool);
     }
 
     private function assembleHeaders(string $token): array
@@ -80,6 +89,8 @@ abstract class BaseResourceTest extends WebTestCase
      */
     public function testResourceShouldBeCreated(string $uri, array $payload)
     {
+        $this->databaseTool->loadFixtures(static::FIXTURES);
+
         $response = $this->post($uri, $payload);
 
         $this->assertEquals(201, $response->getStatusCode());
@@ -90,6 +101,8 @@ abstract class BaseResourceTest extends WebTestCase
      */
     public function testResourceShouldNotBeCreatedWithInvalidData(string $uri, array $payload)
     {
+        $this->databaseTool->loadFixtures(static::FIXTURES);
+
         $response = $this->post($uri, $payload);
 
         $this->assertEquals(422, $response->getStatusCode());
@@ -100,6 +113,8 @@ abstract class BaseResourceTest extends WebTestCase
      */
     public function testResourceShouldBeDeleted(string $uri, int $id)
     {
+        $this->databaseTool->loadFixtures(static::FIXTURES);
+
         $response = $this->delete($uri . $id);
 
         $this->assertEquals(204, $response->getStatusCode());
@@ -110,6 +125,8 @@ abstract class BaseResourceTest extends WebTestCase
      */
     public function testResourceIndex(string $uri)
     {
+        $this->databaseTool->loadFixtures(static::FIXTURES);
+
         $response = $this->get($uri);
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -120,6 +137,8 @@ abstract class BaseResourceTest extends WebTestCase
      */
     public function testResourceShouldBeRead(string $uri, int $id)
     {
+        $this->databaseTool->loadFixtures(static::FIXTURES);
+
         $response = $this->get($uri . $id);
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -130,6 +149,8 @@ abstract class BaseResourceTest extends WebTestCase
      */
     public function testResourceShouldBeUpdated(string $uri, int $id, array $payload)
     {
+        $this->databaseTool->loadFixtures(static::FIXTURES);
+
         $response = $this->put($uri . $id, $payload);
 
         $this->assertEquals(200, $response->getStatusCode());

@@ -3,28 +3,32 @@ declare(strict_types = 1);
 
 namespace App\Tests\Functional\Core\Infrastructure\Controller\Auth;
 
-use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class LoginActionTest extends WebTestCase
 {
-    use FixturesTrait;
 
     private KernelBrowser $client;
+    private AbstractDatabaseTool $databaseTool;
 
     protected function setUp(): void
     {
         self::ensureKernelShutdown();
         $this->client = static::createClient();
-
-        $this->loadFixtures([
-            'App\Core\Infrastructure\DataFixtures\UserFixtures'
-        ]);
+        $this->databaseTool = $this->client->getContainer()
+                                     ->get(DatabaseToolCollection::class)
+                                     ->get();
     }
 
     public function testUserShouldLoginWithValidCredentials()
     {
+        $this->databaseTool->loadFixtures([
+            'App\Core\Infrastructure\DataFixtures\UserFixtures'
+        ]);
+
         $this->client->request("POST", "/auth/login", [], [], [
             'CONTENT_TYPE' => 'application/json'
         ], json_encode([
@@ -41,6 +45,10 @@ class LoginActionTest extends WebTestCase
 
     public function testUserShouldNotLoginWithInvalidCredentials()
     {
+        $this->databaseTool->loadFixtures([
+            'App\Core\Infrastructure\DataFixtures\UserFixtures'
+        ]);
+
         $this->client->request("POST", "/auth/login", [], [], [
             'CONTENT_TYPE' => 'application/json'
         ], json_encode([

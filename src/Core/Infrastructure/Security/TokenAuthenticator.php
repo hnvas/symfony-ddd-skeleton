@@ -49,7 +49,7 @@ class TokenAuthenticator extends AbstractAuthenticator
         return null;
     }
 
-    public function authenticate(Request $request): PassportInterface
+    public function authenticate(Request $request): SelfValidatingPassport
     {
         $authorization = $request->headers->get('Authorization');
         $credentials   = $this->tokenService->decodeToken($authorization);
