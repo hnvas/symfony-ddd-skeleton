@@ -4,3 +4,8 @@ framework:
         mapping:
             paths:
                 - '%kernel.project_dir%/config/resources/validation/Core'
+
+when@test:
+    framework:
+        validation:
+            not_compromised_password: false
