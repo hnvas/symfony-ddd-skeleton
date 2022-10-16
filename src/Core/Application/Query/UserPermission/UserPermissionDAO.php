@@ -31,20 +31,22 @@ class UserPermissionDAO
         $builder->select([
             'm.name as module',
             'p.resource as resource',
-            'sum(can_create::int)::int::bool as can_create',
-            'sum(can_read::int)::int::bool   as can_read',
-            'sum(can_update::int)::int::bool as can_update',
-            'sum(can_delete::int)::int::bool as can_delete',
-            'sum(can_index::int)::int::bool  as can_index'
-        ])->from('public.module', 'm')
-          ->join('m', 'public.permission', 'p', 'm.id = p.module_id')
-          ->where('m.enabled')
-          ->andWhere('p.role in (:roles)')
+            'cast(cast(sum(cast(can_create as int)) as int) as bool) as can_create',
+            'cast(cast(sum(cast(can_read as int)) as int) as bool) as can_read',
+            'cast(cast(sum(cast(can_update as int)) as int) as bool) as can_update',
+            'cast(cast(sum(cast(can_delete as int)) as int) as bool) as can_delete',
+            'cast(cast(sum(cast(can_index as int)) as int) as bool)  as can_index'
+        ])->from('module', 'm')
+          ->join('m', 'permission', 'p', 'm.id = p.module_id')
+          ->where('m.enabled = true')
+          ->andWhere($builder->expr()->in('p.role', ':roles'))
+          ->setParameter('roles', $user->roles(), Connection::PARAM_STR_ARRAY)
           ->groupBy(['m.name', 'p.resource']);
 
         return $this->connection->fetchAllAssociative(
             $builder->getSQL(),
-            ['roles' => $user->roles()]
+            $builder->getParameters(),
+            $builder->getParameterTypes()
         );
     }
 }

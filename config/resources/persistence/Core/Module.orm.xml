@@ -2,7 +2,7 @@
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                     https://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-    <entity name="App\Core\Domain\Model\Module" table="module"
+    <entity name="App\Core\Domain\Model\Module" table="module" schema="public"
             repository-class="App\Core\Infrastructure\Repository\ModuleRepository">
         <id name="id" type="integer" column="id">
             <generator strategy="IDENTITY"/>

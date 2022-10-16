@@ -3,8 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\Controller\Auth;
 
-use App\Core\Domain\Model\User;
-use App\Core\Domain\Repository\ModuleRepositoryInterface;
+use App\Core\Application\Query\UserPermission\GetUserPermissions;
 use App\Core\Infrastructure\Http\Response\ApiResponse;
 use App\Core\Infrastructure\Security\AuthUser;
 use JMS\Serializer\SerializerInterface;
@@ -22,25 +21,28 @@ use Symfony\Component\Routing\Annotation\Route;
 class ResourcesAction extends AbstractController
 {
 
-    private ModuleRepositoryInterface $moduleRepository;
-
+    private GetUserPermissions $userPermissions;
     private SerializerInterface $serializer;
 
     public function __construct(
-        ModuleRepositoryInterface $moduleRepository,
+        GetUserPermissions  $getUserPermissions,
         SerializerInterface $serializer
     ){
-        $this->moduleRepository = $moduleRepository;
-        $this->serializer = $serializer;
+        $this->userPermissions = $getUserPermissions;
+        $this->serializer      = $serializer;
     }
 
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function __invoke(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         /** @var AuthUser $user */
         $user = $this->getUser();
-        $resources = $this->moduleRepository->findByUser($user->model());
+        $resources = $this->userPermissions->execute($user->model());
 
         return new ApiResponse($this->serializer->serialize($resources, 'json'));
     }

@@ -40,10 +40,8 @@ class ResourcesActionTest extends WebTestCase
         );
 
         $response = $this->client->getResponse();
-        $modules = json_decode($response->getContent());
-        $permissions = current($modules)->permissions;
+        $permissions = json_decode($response->getContent());
 
-        self::assertNotEmpty($modules);
         self::assertNotEmpty($permissions);
     }
 
