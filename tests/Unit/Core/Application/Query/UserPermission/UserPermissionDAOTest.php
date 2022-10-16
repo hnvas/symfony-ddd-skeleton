@@ -8,6 +8,7 @@ use App\Core\Domain\Enum\UserRoleEnum;
 use App\Core\Domain\Model\User;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\ORM\Query\Expr;
 use PHPUnit\Framework\TestCase;
 
 class UserPermissionDAOTest extends TestCase
@@ -18,7 +19,15 @@ class UserPermissionDAOTest extends TestCase
         $roles = [UserRoleEnum::ROLE_USER];
         $user  = new User('user@email', 'user', 'any', $roles);
 
+        $expMock = self::createMock(Expr::class);
+        $expMock->expects(self::once())
+                ->method('in')
+                ->willReturnSelf();
+
         $queryBuilderMock = self::createMock(QueryBuilder::class);
+        $queryBuilderMock->expects(self::once())
+                         ->method('expr')
+                         ->willReturn($expMock);
         $queryBuilderMock->expects(self::once())
                          ->method('select')
                          ->willReturnSelf();
@@ -35,11 +44,20 @@ class UserPermissionDAOTest extends TestCase
                          ->method('andWhere')
                          ->willReturnSelf();
         $queryBuilderMock->expects(self::once())
+                         ->method('setParameter')
+                         ->willReturnSelf();
+        $queryBuilderMock->expects(self::once())
                          ->method('groupBy')
                          ->willReturnSelf();
         $queryBuilderMock->expects(self::once())
                          ->method('getSQL')
                          ->willReturn('querySQL');
+        $queryBuilderMock->expects(self::once())
+                         ->method('getParameters')
+                         ->willReturn([]);
+        $queryBuilderMock->expects(self::once())
+                         ->method('getParameterTypes')
+                         ->willReturn([]);
 
         $connectionMock = $this->createMock(Connection::class);
         $connectionMock->expects(self::once())
@@ -47,6 +65,7 @@ class UserPermissionDAOTest extends TestCase
                        ->willReturn($queryBuilderMock);
         $connectionMock->expects(self::once())
                        ->method('fetchAllAssociative')
+                       ->with()
                        ->willReturn([]);
 
         $userPermissionDAO = new UserPermissionDAO($connectionMock);
