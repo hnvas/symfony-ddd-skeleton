@@ -3,15 +3,16 @@ declare(strict_types = 1);
 
 namespace App\Tests\Functional\Core\Infrastructure\Controller\Auth;
 
+use App\Core\Infrastructure\DataFixtures\PermissionFixtures;
+use App\Core\Infrastructure\DataFixtures\UserFixtures;
+use App\Tests\Functional\Util\FixtureAwareTrait;
 use App\Tests\Functional\Util\LoginTrait;
-use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
-use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ResourcesActionTest extends WebTestCase
 {
-    use LoginTrait;
+    use LoginTrait, FixtureAwareTrait;
 
     private KernelBrowser $client;
 
@@ -19,20 +20,13 @@ class ResourcesActionTest extends WebTestCase
     {
         self::ensureKernelShutdown();
         $this->client = static::createClient();
-        $databaseTool = $this->client->getContainer()
-                                     ->get(DatabaseToolCollection::class)
-                                     ->get();
 
-        $databaseTool->loadFixtures([
-            'App\Core\Infrastructure\DataFixtures\UserFixtures',
-            'App\Core\Infrastructure\DataFixtures\PermissionFixtures'
-        ]);
+        $this->loadFixtures([UserFixtures::class, PermissionFixtures::class]);
+        $this->executeFixtures();
     }
 
     public function testShouldListResourcesWhenUserIsAuthenticated()
     {
-
-
         $token = $this->login($this->client);
         $this->client->request(
             "GET",
