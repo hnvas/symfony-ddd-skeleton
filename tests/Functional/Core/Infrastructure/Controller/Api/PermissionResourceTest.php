@@ -3,12 +3,12 @@ declare(strict_types = 1);
 
 namespace App\Tests\Functional\Core\Infrastructure\Controller\Api;
 
+use App\Core\Infrastructure\DataFixtures\PermissionFixtures;
+use App\Core\Infrastructure\DataFixtures\UserFixtures;
+
 class PermissionResourceTest extends BaseResourceTest
 {
-    protected const FIXTURES = [
-        'App\Core\Infrastructure\DataFixtures\UserFixtures',
-        'App\Core\Infrastructure\DataFixtures\PermissionFixtures'
-    ];
+    protected const FIXTURES = [UserFixtures::class, PermissionFixtures::class];
 
     public function validCreateData(): array
     {

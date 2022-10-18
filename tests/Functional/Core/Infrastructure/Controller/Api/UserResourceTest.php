@@ -3,11 +3,11 @@ declare(strict_types = 1);
 
 namespace App\Tests\Functional\Core\Infrastructure\Controller\Api;
 
+use App\Core\Infrastructure\DataFixtures\UserFixtures;
+
 class UserResourceTest extends BaseResourceTest
 {
-    protected const FIXTURES = [
-        'App\Core\Infrastructure\DataFixtures\UserFixtures'
-    ];
+    protected const FIXTURES = [UserFixtures::class];
 
     public function validCreateData(): array
     {

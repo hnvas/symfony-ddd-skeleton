@@ -4,14 +4,14 @@ declare(strict_types = 1);
 namespace App\Tests\Functional\Core\Infrastructure\Controller\Auth;
 
 use App\Core\Infrastructure\DataFixtures\UserFixtures;
-use App\Tests\Functional\Util\FixtureAwareTrait;
+use App\Tests\Functional\Util\FixtureLoaderTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class LoginActionTest extends WebTestCase
 {
 
-    use FixtureAwareTrait;
+    use FixtureLoaderTrait;
 
     private KernelBrowser $client;
 
@@ -22,7 +22,6 @@ class LoginActionTest extends WebTestCase
 
         $this->loadFixtures([UserFixtures::class]);
         $this->executeFixtures();
-
     }
 
     public function testUserShouldLoginWithValidCredentials()

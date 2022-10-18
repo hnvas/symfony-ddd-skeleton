@@ -130,9 +130,6 @@
     "laminas/laminas-code": {
         "version": "4.4.2"
     },
-    "liip/test-fixtures-bundle": {
-        "version": "1.12.0"
-    },
     "myclabs/deep-copy": {
         "version": "1.10.2"
     },

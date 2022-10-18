@@ -8,7 +8,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
 
-trait FixtureAwareTrait
+trait FixtureLoaderTrait
 {
 
     protected ?ORMExecutor          $fixtureExecutor = null;
@@ -40,15 +40,15 @@ trait FixtureAwareTrait
     private function getFixtureExecutor(): ORMExecutor
     {
         if (!$this->fixtureExecutor) {
-            /** @var \Doctrine\ORM\EntityManager $entityManager */
-            $entityManager = self::$kernel->getContainer()
+            /** @var \Doctrine\ORM\EntityManager $manager */
+            $manager = self::$kernel->getContainer()
                                           ->get('doctrine')
                                           ->getManager();
 
-            $this->fixtureExecutor = new ORMExecutor(
-                $entityManager,
-                new ORMPurger($entityManager)
-            );
+            $purger = new ORMPurger($manager);
+            $purger->setPurgeMode(ORMPurger::PURGE_MODE_TRUNCATE);
+
+            $this->fixtureExecutor = new ORMExecutor($manager, $purger);
         }
 
         return $this->fixtureExecutor;

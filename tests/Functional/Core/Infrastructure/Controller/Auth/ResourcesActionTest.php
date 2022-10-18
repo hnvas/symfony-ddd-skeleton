@@ -5,14 +5,14 @@ namespace App\Tests\Functional\Core\Infrastructure\Controller\Auth;
 
 use App\Core\Infrastructure\DataFixtures\PermissionFixtures;
 use App\Core\Infrastructure\DataFixtures\UserFixtures;
-use App\Tests\Functional\Util\FixtureAwareTrait;
+use App\Tests\Functional\Util\FixtureLoaderTrait;
 use App\Tests\Functional\Util\LoginTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ResourcesActionTest extends WebTestCase
 {
-    use LoginTrait, FixtureAwareTrait;
+    use LoginTrait, FixtureLoaderTrait;
 
     private KernelBrowser $client;
 
