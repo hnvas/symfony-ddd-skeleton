@@ -15,6 +15,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 
+/**
+ * Class UserRepositoryTest
+ * @package App\Tests\Unit\Core\Infrastructure\Repository
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class UserRepositoryTest extends TestCase
 {
 

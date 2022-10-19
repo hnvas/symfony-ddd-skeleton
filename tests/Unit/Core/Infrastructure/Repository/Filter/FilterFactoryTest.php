@@ -14,6 +14,11 @@ use App\Core\Infrastructure\Repository\Filters\UserFilter;
 use Doctrine\ORM\QueryBuilder;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class FilterFactoryTest
+ * @package App\Tests\Unit\Core\Infrastructure\Repository\Filter
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class FilterFactoryTest extends TestCase
 {
 

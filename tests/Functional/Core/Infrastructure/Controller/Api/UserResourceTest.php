@@ -5,6 +5,11 @@ namespace App\Tests\Functional\Core\Infrastructure\Controller\Api;
 
 use App\Core\Infrastructure\DataFixtures\UserFixtures;
 
+/**
+ * Class UserResourceTest
+ * @package App\Tests\Functional\Core\Infrastructure\Controller\Api
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class UserResourceTest extends BaseResourceTest
 {
     protected const FIXTURES = [UserFixtures::class];

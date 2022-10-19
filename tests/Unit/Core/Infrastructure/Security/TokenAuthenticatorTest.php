@@ -14,6 +14,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 
+/**
+ * Class TokenAuthenticatorTest
+ * @package App\Tests\Unit\Core\Infrastructure\Security
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class TokenAuthenticatorTest extends TestCase
 {
 

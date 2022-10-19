@@ -15,6 +15,11 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
+/**
+ * Class TokenAuthenticator
+ * @package App\Core\Infrastructure\Security
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class TokenAuthenticator extends AbstractAuthenticator
 {
     /**

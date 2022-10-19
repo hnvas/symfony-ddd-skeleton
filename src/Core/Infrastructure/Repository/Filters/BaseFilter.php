@@ -6,6 +6,11 @@ namespace App\Core\Infrastructure\Repository\Filters;
 use App\Core\Domain\Functions\Str;
 use Doctrine\ORM\QueryBuilder;
 
+/**
+ * Class BaseFilter
+ * @package App\Core\Infrastructure\Repository\Filters
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 abstract class BaseFilter
 {
 

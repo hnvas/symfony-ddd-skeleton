@@ -3,6 +3,11 @@ declare(strict_types = 1);
 
 namespace App\Core\Domain\Functions;
 
+/**
+ * Class Str
+ * @package App\Core\Domain\Functions
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class Str
 {
 

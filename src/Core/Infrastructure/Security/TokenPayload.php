@@ -5,6 +5,11 @@ namespace App\Core\Infrastructure\Security;
 
 use DateTimeImmutable;
 
+/**
+ * Class TokenPayload
+ * @package App\Core\Infrastructure\Security
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class TokenPayload
 {
 

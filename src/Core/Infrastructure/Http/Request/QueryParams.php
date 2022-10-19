@@ -7,6 +7,11 @@ use Symfony\Component\HttpFoundation\InputBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
+/**
+ * Class QueryParams
+ * @package App\Core\Infrastructure\Http\Request
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class QueryParams
 {
 

@@ -10,6 +10,11 @@ use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
+/**
+ * Class JwtTokenServiceTest
+ * @package App\Tests\Unit\Core\Infrastructure\Security
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class JwtTokenServiceTest extends TestCase
 {
 

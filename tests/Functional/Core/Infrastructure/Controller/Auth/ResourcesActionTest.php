@@ -10,6 +10,11 @@ use App\Tests\Functional\Util\LoginTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+/**
+ * Class ResourcesActionTest
+ * @package App\Tests\Functional\Core\Infrastructure\Controller\Auth
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class ResourcesActionTest extends WebTestCase
 {
     use LoginTrait, FixtureLoaderTrait;

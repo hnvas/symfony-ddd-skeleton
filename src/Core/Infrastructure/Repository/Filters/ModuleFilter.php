@@ -5,6 +5,11 @@ namespace App\Core\Infrastructure\Repository\Filters;
 
 use Doctrine\ORM\Query\Expr\Join;
 
+/**
+ * Class ModuleFilter
+ * @package App\Core\Infrastructure\Repository\Filters
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class ModuleFilter extends BaseFilter
 {
     public function roles(array $roles): void

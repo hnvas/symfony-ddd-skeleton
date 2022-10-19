@@ -9,6 +9,11 @@ use App\Core\Domain\Model\User;
 use Doctrine\ORM\QueryBuilder;
 use InvalidArgumentException;
 
+/**
+ * Class FilterFactory
+ * @package App\Core\Infrastructure\Repository\Filters
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class FilterFactory
 {
 

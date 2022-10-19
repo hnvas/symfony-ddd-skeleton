@@ -13,6 +13,11 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+/**
+ * Class UserRepository
+ * @package App\Core\Infrastructure\Repository
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class UserRepository extends ServiceEntityRepository implements
     UserRepositoryInterface,
     UserLoaderInterface,

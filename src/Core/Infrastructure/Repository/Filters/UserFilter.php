@@ -3,6 +3,11 @@ declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\Repository\Filters;
 
+/**
+ * Class UserFilter
+ * @package App\Core\Infrastructure\Repository\Filters
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class UserFilter extends BaseFilter
 {
 

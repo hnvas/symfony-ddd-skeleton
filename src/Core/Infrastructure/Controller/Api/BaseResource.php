@@ -17,6 +17,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface as Validator;
 
+/**
+ * Class BaseResource
+ * @package App\Core\Infrastructure\Controller\Api
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 abstract class BaseResource extends AbstractController
 {
     private const SERIALIZATION_FORMAT = 'json';

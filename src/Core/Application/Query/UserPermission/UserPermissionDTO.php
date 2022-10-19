@@ -3,6 +3,11 @@ declare(strict_types = 1);
 
 namespace App\Core\Application\Query\UserPermission;
 
+/**
+ * Class UserPermissionDTO
+ * @package App\Core\Application\Query\UserPermission
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class UserPermissionDTO
 {
 

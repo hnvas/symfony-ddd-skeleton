@@ -11,6 +11,11 @@ use App\Core\Domain\Repository\Pageable;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\Validator\Validator\ValidatorInterface as Validator;
 
+/**
+ * Class CrudFacade
+ * @package App\Core\Application\Services\Crud
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 final class CrudFacade
 {
     use Validatable;

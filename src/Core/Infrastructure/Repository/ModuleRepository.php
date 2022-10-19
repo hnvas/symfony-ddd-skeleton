@@ -11,6 +11,11 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * Class ModuleRepository
+ * @package App\Core\Infrastructure\Repository
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class ModuleRepository extends ServiceEntityRepository implements
     ModuleRepositoryInterface,
     SearchableRepositoryInterface

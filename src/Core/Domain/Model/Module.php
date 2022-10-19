@@ -6,6 +6,11 @@ namespace App\Core\Domain\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
+/**
+ * Class Module
+ * @package App\Core\Domain\Model
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class Module implements Entity
 {
     private ?int        $id;

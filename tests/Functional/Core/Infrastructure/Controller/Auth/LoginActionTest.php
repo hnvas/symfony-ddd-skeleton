@@ -8,6 +8,11 @@ use App\Tests\Functional\Util\FixtureLoaderTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+/**
+ * Class LoginActionTest
+ * @package App\Tests\Functional\Core\Infrastructure\Controller\Auth
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class LoginActionTest extends WebTestCase
 {
 

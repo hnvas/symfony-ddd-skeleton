@@ -6,6 +6,11 @@ namespace App\Tests\Functional\Core\Infrastructure\Controller\Api;
 use App\Core\Infrastructure\DataFixtures\PermissionFixtures;
 use App\Core\Infrastructure\DataFixtures\UserFixtures;
 
+/**
+ * Class PermissionResourceTest
+ * @package App\Tests\Functional\Core\Infrastructure\Controller\Api
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class PermissionResourceTest extends BaseResourceTest
 {
     protected const FIXTURES = [UserFixtures::class, PermissionFixtures::class];

@@ -11,6 +11,11 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\Query\Expr;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class UserPermissionDAOTest
+ * @package App\Tests\Unit\Core\Application\Query\UserPermission
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class UserPermissionDAOTest extends TestCase
 {
 

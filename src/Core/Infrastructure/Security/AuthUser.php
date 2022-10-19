@@ -7,6 +7,11 @@ use App\Core\Domain\Model\User;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ * Class AuthUser
+ * @package App\Core\Infrastructure\Security
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
 {
     private User $user;

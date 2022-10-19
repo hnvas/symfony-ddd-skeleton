@@ -3,21 +3,22 @@ declare(strict_types = 1);
 
 namespace App\Tests\Functional\Core\Infrastructure\Controller\Api;
 
-use App\Core\Infrastructure\DataFixtures\UserFixtures;
 use App\Tests\Functional\Util\FixtureLoaderTrait;
 use App\Tests\Functional\Util\LoginTrait;
-use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
-use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class BaseResourceTest
+ * @package App\Tests\Functional\Core\Infrastructure\Controller\Api
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 abstract class BaseResourceTest extends WebTestCase
 {
     use LoginTrait, FixtureLoaderTrait;
 
     private KernelBrowser        $client;
-    private AbstractDatabaseTool $databaseTool;
 
     protected const FIXTURES = [];
 
@@ -28,12 +29,6 @@ abstract class BaseResourceTest extends WebTestCase
 
         $this->loadFixtures(static::FIXTURES);
         $this->executeFixtures();
-    }
-
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-        unset($this->databaseTool);
     }
 
     private function assembleHeaders(string $token): array

@@ -9,6 +9,11 @@ use App\Core\Domain\Repository\UserRepositoryInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
+/**
+ * Class VerifyUserEmail
+ * @package App\Core\Application\UseCases
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class VerifyUserEmail
 {
 

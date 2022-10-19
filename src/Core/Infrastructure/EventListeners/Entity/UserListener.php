@@ -7,6 +7,11 @@ use App\Core\Application\Services\Mail\UserEmailVerification;
 use App\Core\Domain\Model\User;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
+/**
+ * Class UserListener
+ * @package App\Core\Infrastructure\EventListeners\Entity
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class UserListener
 {
     private UserEmailVerification $emailVerification;

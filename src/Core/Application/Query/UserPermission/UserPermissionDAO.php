@@ -6,6 +6,11 @@ namespace App\Core\Application\Query\UserPermission;
 use App\Core\Domain\Model\User;
 use Doctrine\DBAL\Connection;
 
+/**
+ * Class UserPermissionDAO
+ * @package App\Core\Application\Query\UserPermission
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class UserPermissionDAO
 {
 

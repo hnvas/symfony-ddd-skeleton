@@ -11,6 +11,11 @@ use Doctrine\ORM\QueryBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class ModuleFilterTest
+ * @package App\Tests\Unit\Core\Infrastructure\Repository\Filter
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class ModuleFilterTest extends TestCase
 {
 

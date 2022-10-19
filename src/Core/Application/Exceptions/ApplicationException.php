@@ -5,6 +5,11 @@ namespace App\Core\Application\Exceptions;
 
 use Exception;
 
+/**
+ * Class ApplicationException
+ * @package App\Core\Application\Exceptions
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class ApplicationException extends Exception
 {
 

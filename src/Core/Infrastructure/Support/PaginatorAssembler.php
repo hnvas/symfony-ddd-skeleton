@@ -10,6 +10,11 @@ use Hateoas\Representation\PaginatedRepresentation;
 use Pagerfanta\Adapter\AdapterInterface;
 use Pagerfanta\Pagerfanta;
 
+/**
+ * Class PaginatorAssembler
+ * @package App\Core\Infrastructure\Support
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class PaginatorAssembler
 {
     private AdapterInterface $adapter;

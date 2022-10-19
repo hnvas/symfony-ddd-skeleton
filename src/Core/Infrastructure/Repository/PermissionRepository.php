@@ -9,6 +9,11 @@ use App\Core\Domain\Repository\SearchableRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * Class PermissionRepository
+ * @package App\Core\Infrastructure\Repository
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class PermissionRepository extends ServiceEntityRepository implements
     PermissionRepositoryInterface,
     SearchableRepositoryInterface

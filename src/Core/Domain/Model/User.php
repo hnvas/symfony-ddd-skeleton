@@ -5,6 +5,11 @@ namespace App\Core\Domain\Model;
 
 use App\Core\Domain\Enum\UserRoleEnum;
 
+/**
+ * Class User
+ * @package App\Core\Domain\Model
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class User implements Entity
 {
     private ?int   $id;

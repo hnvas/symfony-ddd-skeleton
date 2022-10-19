@@ -12,6 +12,11 @@ use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 
+/**
+ * Class ExceptionListener
+ * @package App\Core\Infrastructure\EventListeners
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class ExceptionListener implements EventSubscriberInterface
 {
 

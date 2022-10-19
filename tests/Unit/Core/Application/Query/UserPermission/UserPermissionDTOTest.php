@@ -6,6 +6,11 @@ namespace App\Tests\Unit\Core\Application\Query\UserPermission;
 use App\Core\Application\Query\UserPermission\UserPermissionDTO;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class UserPermissionDTOTest
+ * @package App\Tests\Unit\Core\Application\Query\UserPermission
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class UserPermissionDTOTest extends TestCase
 {
 

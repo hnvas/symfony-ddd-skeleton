@@ -9,6 +9,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
+/**
+ * Class ResourceVoter
+ * @package App\Core\Infrastructure\Security\Authorization
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class ResourceVoter extends Voter
 {
     const CREATE = 'create';

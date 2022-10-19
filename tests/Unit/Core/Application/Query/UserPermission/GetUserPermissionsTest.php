@@ -10,6 +10,11 @@ use App\Core\Domain\Enum\UserRoleEnum;
 use App\Core\Domain\Model\User;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class GetUserPermissionsTest
+ * @package App\Tests\Unit\Core\Application\Query\UserPermission
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class GetUserPermissionsTest extends TestCase
 {
 

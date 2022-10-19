@@ -9,6 +9,11 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
+/**
+ * Class ModuleFixtures
+ * @package App\Core\Infrastructure\DataFixtures
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class ModuleFixtures extends Fixture implements FixtureGroupInterface
 {
 

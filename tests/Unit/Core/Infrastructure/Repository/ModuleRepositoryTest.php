@@ -17,6 +17,11 @@ use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class ModuleRepositoryTest
+ * @package App\Tests\Unit\Core\Infrastructure\Repository
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class ModuleRepositoryTest extends TestCase
 {
 

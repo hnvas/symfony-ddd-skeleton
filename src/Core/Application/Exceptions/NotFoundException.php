@@ -5,6 +5,11 @@ namespace App\Core\Application\Exceptions;
 
 use App\Core\Domain\Functions\Classname;
 
+/**
+ * Class NotFoundException
+ * @package App\Core\Application\Exceptions
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class NotFoundException extends ApplicationException
 {
 

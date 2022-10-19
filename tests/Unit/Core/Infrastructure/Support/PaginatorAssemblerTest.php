@@ -9,6 +9,11 @@ use Hateoas\Representation\PaginatedRepresentation;
 use Pagerfanta\Adapter\NullAdapter;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class PaginatorAssemblerTest
+ * @package App\Tests\Unit\Core\Infrastructure\Support
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class PaginatorAssemblerTest extends TestCase
 {
 

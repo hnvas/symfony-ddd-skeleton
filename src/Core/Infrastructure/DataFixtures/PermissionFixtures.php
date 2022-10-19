@@ -10,6 +10,11 @@ use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
+/**
+ * Class PermissionFixtures
+ * @package App\Core\Infrastructure\DataFixtures
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class PermissionFixtures extends Fixture implements
     DependentFixtureInterface, FixtureGroupInterface
 {

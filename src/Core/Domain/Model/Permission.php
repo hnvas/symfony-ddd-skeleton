@@ -3,6 +3,11 @@ declare(strict_types = 1);
 
 namespace App\Core\Domain\Model;
 
+/**
+ * Class Permission
+ * @package App\Core\Domain\Model
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class Permission implements Entity
 {
     private ?int   $id;

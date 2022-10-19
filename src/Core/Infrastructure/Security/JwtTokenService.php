@@ -7,6 +7,11 @@ use DateTimeImmutable;
 use Firebase\JWT\JWT;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
+/**
+ * Class JwtTokenService
+ * @package App\Core\Infrastructure\Security
+ * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
+ */
 class JwtTokenService implements TokenServiceInterface
 {
 
