@@ -22,7 +22,7 @@ class Str
     {
         return strtolower(
             preg_replace(
-                '/(?<!^)[A-Z\s]/',
+                '/(?<!^)[A-Z]/',
                 '_$0',
                 str_replace(' ', '_', $input)
             )

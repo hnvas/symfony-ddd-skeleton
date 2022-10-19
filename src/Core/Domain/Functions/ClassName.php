@@ -8,7 +8,7 @@ namespace App\Core\Domain\Functions;
  * @package App\Core\Domain\Functions
  * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
  */
-class Classname
+class ClassName
 {
 
     /**

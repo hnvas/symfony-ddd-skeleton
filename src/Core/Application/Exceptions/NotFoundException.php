@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Core\Application\Exceptions;
 
-use App\Core\Domain\Functions\Classname;
+use App\Core\Domain\Functions\ClassName;
 
 /**
  * Class NotFoundException
@@ -15,7 +15,7 @@ class NotFoundException extends ApplicationException
 
     public function __construct(string $classpath = "")
     {
-        $classname = Classname::getBaseName($classpath);
+        $classname = ClassName::getBaseName($classpath);
 
         parent::__construct("The resource $classname was not found", []);
     }
