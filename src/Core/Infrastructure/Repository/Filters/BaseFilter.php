@@ -44,7 +44,7 @@ abstract class BaseFilter
         $filters = array_merge($this->defaultFilters(), $this->filters());
 
         foreach ($filters as $name => $value) {
-            $method = Str::camel($name);
+            $method = lcfirst(Str::camel($name));
 
             if (!method_exists($this, $method) || is_null($value) || $value == '') {
                 continue;

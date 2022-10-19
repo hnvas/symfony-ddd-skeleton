@@ -20,7 +20,13 @@ class Str
      */
     public static function snake($input): string
     {
-        return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $input));
+        return strtolower(
+            preg_replace(
+                '/(?<!^)[A-Z\s]/',
+                '_$0',
+                str_replace(' ', '_', $input)
+            )
+        );
     }
 
     /**
@@ -32,7 +38,7 @@ class Str
      */
     public static function camel($input): string
     {
-        return lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $input))));
+        return str_replace(' ', '', ucwords(str_replace('_', ' ', $input)));
     }
 
 }
