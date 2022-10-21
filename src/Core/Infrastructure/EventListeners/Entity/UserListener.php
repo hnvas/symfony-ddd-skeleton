@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\EventListeners\Entity;
 
-use App\Core\Application\Services\Mail\UserEmailVerification;
+use App\Core\Application\UseCases\SendUserEmailVerification;
 use App\Core\Domain\Model\User;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
@@ -14,9 +14,10 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
  */
 class UserListener
 {
-    private UserEmailVerification $emailVerification;
 
-    public function __construct(UserEmailVerification $emailVerification)
+    private SendUserEmailVerification $emailVerification;
+
+    public function __construct(SendUserEmailVerification $emailVerification)
     {
         $this->emailVerification = $emailVerification;
     }
@@ -24,7 +25,7 @@ class UserListener
     public function postPersist(User $user, LifecycleEventArgs $event): void
     {
         if (!$user->isEmailVerified()) {
-            $this->emailVerification->send($user);
+            $this->emailVerification->execute($user);
         }
     }
 }

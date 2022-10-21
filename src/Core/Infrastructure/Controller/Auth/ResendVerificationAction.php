@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\Controller\Auth;
 
-use App\Core\Application\Services\Mail\UserEmailVerification;
+use App\Core\Application\UseCases\SendUserEmailVerification;
 use App\Core\Domain\Model\User;
 use App\Core\Infrastructure\Http\Response\ApiEmptyResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,9 +20,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class ResendVerificationAction extends AbstractController
 {
 
-    private UserEmailVerification $emailVerification;
+    private SendUserEmailVerification $emailVerification;
 
-    public function __construct(UserEmailVerification $emailVerification)
+    public function __construct(SendUserEmailVerification $emailVerification)
     {
         $this->emailVerification = $emailVerification;
     }
@@ -36,7 +36,7 @@ class ResendVerificationAction extends AbstractController
         /** @var User $user */
         $this->getUser();
 
-        $this->emailVerification->send($user);
+        $this->emailVerification->execute($user);
 
         return new ApiEmptyResponse();
     }

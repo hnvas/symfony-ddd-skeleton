@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Core\Application\Services\Mail;
+namespace App\Core\Application\UseCases;
 
 use App\Core\Domain\Model\User;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
-class UserEmailVerification
+class SendUserEmailVerification
 {
     private const TEMPLATE           = 'mail/email-verification.html.twig';
     private const VERIFICATION_ROUTE = 'verify_action';
@@ -34,7 +34,7 @@ class UserEmailVerification
     /**
      * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
      */
-    public function send(User $user): void
+    public function execute(User $user): void
     {
         $signedUrl = $this->generateSignedUrl($user);
 
