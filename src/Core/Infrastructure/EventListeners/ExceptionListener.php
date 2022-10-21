@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\EventListeners;
 
+use App\Core\Application\Exceptions\ApplicationException;
 use App\Core\Application\Exceptions\NotFoundException;
 use App\Core\Application\Exceptions\InvalidDataException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -26,7 +27,7 @@ class ExceptionListener implements EventSubscriberInterface
             KernelEvents::EXCEPTION => [
                 ['handleHttpException', 10],
                 ['handleNotFoundException', 8],
-                ['handleInvalidDataException', 6],
+                ['handleApplicationException', 6],
                 ['handleGenericException', -1]
             ]
         ];
@@ -54,11 +55,11 @@ class ExceptionListener implements EventSubscriberInterface
         }
     }
 
-    public function handleInvalidDataException(ExceptionEvent $event)
+    public function handleApplicationException(ExceptionEvent $event)
     {
         $throwable = $event->getThrowable();
 
-        if ($throwable instanceof InvalidDataException) {
+        if ($throwable instanceof ApplicationException) {
             $event->setResponse(new JsonResponse([
                 'message' => $throwable->getMessage(),
                 'details' => $throwable->getDetails()

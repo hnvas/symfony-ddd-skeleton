@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Core\Application\UseCases;
 
+use App\Core\Application\Exceptions\ApplicationException;
 use App\Core\Application\Exceptions\InvalidDataException;
 use App\Core\Domain\Model\User;
 use App\Core\Domain\Repository\UserRepositoryInterface;
@@ -29,7 +30,7 @@ class VerifyUserEmail
     }
 
     /**
-     * @throws \App\Core\Application\Exceptions\InvalidDataException
+     * @throws \App\Core\Application\Exceptions\ApplicationException
      */
     public function execute(string $signedUrl, User $user): void
     {
@@ -40,7 +41,7 @@ class VerifyUserEmail
                 $user->email()
             );
         } catch (VerifyEmailExceptionInterface $e) {
-            throw new InvalidDataException("Invalid Token", [$e->getReason()]);
+            throw new ApplicationException("Invalid Token", [$e->getReason()]);
         }
 
         $user->verifyEmail();
