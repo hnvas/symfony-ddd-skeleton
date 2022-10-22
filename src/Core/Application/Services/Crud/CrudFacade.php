@@ -3,12 +3,12 @@ declare(strict_types = 1);
 
 namespace App\Core\Application\Services\Crud;
 
-use App\Core\Application\Exceptions\NotFoundException;
 use App\Core\Application\Exceptions\InvalidDataException;
+use App\Core\Application\Exceptions\NotFoundException;
 use App\Core\Domain\Model\Entity;
 use App\Core\Domain\Repository\EntityRepositoryInterface as EntityRepository;
 use App\Core\Domain\Repository\Pageable;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Symfony\Component\Validator\Validator\ValidatorInterface as Validator;
 
 /**
@@ -46,8 +46,8 @@ final class CrudFacade
         try {
             $this->repository->add($entity);
             $this->repository->flush();
-        } catch (UniqueConstraintViolationException $ex) {
-            throw new InvalidDataException(get_class($entity));
+        } catch (ConstraintViolationException $ex) {
+            throw new InvalidDataException($this->entityName);
         }
 
         return $entity;
@@ -64,8 +64,7 @@ final class CrudFacade
         $entity = $this->repository->findById($id);
 
         if (is_null($entity)) {
-            $entity = $this->repository->getEntityClassName();
-            throw new NotFoundException($entity);
+            throw new NotFoundException($this->entityName);
         }
 
         return $entity;
@@ -81,8 +80,7 @@ final class CrudFacade
         $entity = $this->repository->findById($id);
 
         if (is_null($entity)) {
-            $entity = $this->repository->getEntityClassName();
-            throw new NotFoundException($entity);
+            throw new NotFoundException($this->entityName);
         }
 
         $this->repository->remove($entity);

@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace App\Core\Application\Services\Crud;
 
 use App\Core\Application\Exceptions\InvalidDataException;
-use Symfony\Component\Validator\ConstraintViolationList;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 trait Validatable
@@ -29,7 +29,7 @@ trait Validatable
         throw new InvalidDataException(get_class($object), $errors);
     }
 
-    protected function collectErrors(ConstraintViolationList $violations): array
+    protected function collectErrors(ConstraintViolationListInterface $violations): array
     {
         $errors = [];
 
