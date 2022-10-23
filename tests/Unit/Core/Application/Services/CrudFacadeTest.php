@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace App\Tests\Unit\Core\Application\Services;
 
 use App\Core\Application\Exceptions\InvalidDataException;
+use App\Core\Application\Exceptions\NotFoundException;
 use App\Core\Application\Services\Crud\CrudFacade;
 use App\Core\Domain\Enum\UserRoleEnum;
 use App\Core\Domain\Functions\ClassName;
@@ -12,6 +13,8 @@ use App\Core\Domain\Model\Module;
 use App\Core\Domain\Model\Permission;
 use App\Core\Domain\Model\User;
 use App\Core\Domain\Repository\EntityRepositoryInterface;
+use App\Core\Domain\Repository\Pageable;
+use App\Core\Domain\Repository\SearchableRepositoryInterface;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\ConstraintViolation;
@@ -28,6 +31,7 @@ class CrudFacadeTest extends TestCase
 
     private ValidatorInterface        $validatorMock;
     private EntityRepositoryInterface $entityRepositoryMock;
+    private CrudFacade                $service;
 
     protected function setUp(): void
     {
@@ -35,9 +39,14 @@ class CrudFacadeTest extends TestCase
         $this->entityRepositoryMock = self::createMock(
             EntityRepositoryInterface::class
         );
+
+        $this->service = new CrudFacade(
+            $this->entityRepositoryMock,
+            $this->validatorMock
+        );
     }
 
-    /** @dataProvider entitiesProvider */
+    /** @dataProvider entitiesToSave */
     public function testShouldSaveEntity(Entity $entity)
     {
         $violationsListMock = self::createMock(ConstraintViolationList::class);
@@ -49,24 +58,16 @@ class CrudFacadeTest extends TestCase
                             ->willReturn($violationsListMock);
 
         $this->entityRepositoryMock->expects(self::once())
-                                   ->method('getEntityClassName')
-                                   ->willReturn(get_class($entity));
-        $this->entityRepositoryMock->expects(self::once())
                                    ->method('add')
                                    ->with($entity);
         $this->entityRepositoryMock->expects(self::once())
                                    ->method('flush');
 
-        $service = new CrudFacade(
-            $this->entityRepositoryMock,
-            $this->validatorMock
-        );
-
-        $service->save($entity);
+        $this->service->save($entity);
     }
 
-    /** @dataProvider entitiesProvider */
-    public function testShouldThrownExceptionWhenEntityIsNotValid(Entity $entity)
+    /** @dataProvider entitiesToSave */
+    public function testShouldThrownExceptionWhenEntityIdIsNotUnique(Entity $entity)
     {
         $violationsListMock = self::createMock(ConstraintViolationList::class);
         $violationsListMock->method('count')->willReturn(0);
@@ -79,8 +80,8 @@ class CrudFacadeTest extends TestCase
         $uniqueExceptionMock = self::getMockBuilder(
             UniqueConstraintViolationException::class
         )->disableOriginalConstructor()
-         ->disableOriginalClone()
-         ->getMock();
+                                   ->disableOriginalClone()
+                                   ->getMock();
 
         $this->entityRepositoryMock->expects(self::once())
                                    ->method('getEntityClassName')
@@ -97,21 +98,12 @@ class CrudFacadeTest extends TestCase
         self::expectExceptionMessage($exMessage);
         self::expectException(InvalidDataException::class);
 
-        $service = new CrudFacade(
-            $this->entityRepositoryMock,
-            $this->validatorMock
-        );
-
-        $service->save($entity);
+        $this->service->save($entity);
     }
 
-    /** @dataProvider entitiesProvider */
-    public function testShouldThrownExceptionWhenEntityIdIsNotUnique(Entity $entity)
+    /** @dataProvider entitiesToSave */
+    public function testShouldThrownExceptionWhenEntityIsNotValid(Entity $entity)
     {
-        $this->entityRepositoryMock->expects(self::once())
-                                   ->method('getEntityClassName')
-                                   ->willReturn(get_class($entity));
-
         $violationMock = self::createMock(ConstraintViolation::class);
         $violationMock->expects(self::once())
                       ->method('getPropertyPath')
@@ -138,15 +130,103 @@ class CrudFacadeTest extends TestCase
         self::expectExceptionMessage($exMessage);
         self::expectException(InvalidDataException::class);
 
-        $service = new CrudFacade(
-            $this->entityRepositoryMock,
-            $this->validatorMock
-        );
-
-        $service->save($entity);
+        $this->service->save($entity);
     }
 
-    public function entitiesProvider(): array
+    /** @dataProvider entitiesToReadOrDelete */
+    public function testShouldReadAnEntity(int $id, Entity $entity)
+    {
+        $this->entityRepositoryMock->expects(self::once())
+                                   ->method('findById')
+                                   ->willReturn($entity);
+
+        $this->service->read($id);
+    }
+
+    /** @dataProvider entitiesToReadOrDelete */
+    public function testShouldThrowAnExceptionWhenReadNotFound(int $id, Entity $entity)
+    {
+        $this->entityRepositoryMock->expects(self::once())
+                                   ->method('getEntityClassName')
+                                   ->willReturn(get_class($entity));
+        $this->entityRepositoryMock->expects(self::once())
+                                   ->method('findById')
+                                   ->willReturn(null);
+
+        $classname = ClassName::getBaseName(get_class($entity));
+        self::expectExceptionMessage("The resource $classname was not found");
+        self::expectException(NotFoundException::class);
+
+        $this->service->read($id);
+    }
+
+    /** @dataProvider entitiesToReadOrDelete */
+    public function testShouldDeleteAnEntity(int $id, Entity $entity)
+    {
+        $this->entityRepositoryMock->expects(self::once())
+                                   ->method('findById')
+                                   ->willReturn($entity);
+        $this->entityRepositoryMock->expects(self::once())
+                                   ->method('remove')
+                                   ->with($entity);
+        $this->entityRepositoryMock->expects(self::once())
+                                   ->method('flush');
+
+        $this->service->delete($id);
+    }
+
+    /** @dataProvider entitiesToReadOrDelete */
+    public function testShouldThrowAnExceptionWhenDeleteNotFound(int $id, Entity $entity)
+    {
+        $this->entityRepositoryMock->expects(self::once())
+                                   ->method('getEntityClassName')
+                                   ->willReturn(get_class($entity));
+        $this->entityRepositoryMock->expects(self::once())
+                                   ->method('findById')
+                                   ->willReturn(null);
+
+        $classname = ClassName::getBaseName(get_class($entity));
+        self::expectExceptionMessage("The resource $classname was not found");
+        self::expectException(NotFoundException::class);
+
+        $this->service->delete($id);
+    }
+
+    public function testShouldSearch()
+    {
+        $criteria = ['attribute' => 'value'];
+
+        $pageableMock = self::createMock(Pageable::class);
+        $this->entityRepositoryMock->expects(self::once())
+                                   ->method('search')
+                                   ->willReturn($pageableMock);
+
+        $this->service->search($criteria);
+    }
+
+    public function entitiesToReadOrDelete(): array
+    {
+        [$module, $user, $permission] = $this->assemblyEntities();
+
+        return [
+            'user'       => ['id' => 10, 'entity' => $user],
+            'permission' => ['id' => 3, 'entity' => $permission],
+            'module'     => ['id' => 5, 'entity' => $module]
+        ];
+    }
+
+    public function entitiesToSave(): array
+    {
+        [$module, $user, $permission] = $this->assemblyEntities();
+
+        return [
+            'user'       => [$user],
+            'permission' => [$permission],
+            'module'     => [$module]
+        ];
+    }
+
+    private function assemblyEntities(): array
     {
         $module     = new Module('Core', true);
         $user       = new User('user@test.com', 'username', '123qwe456ert');
@@ -156,10 +236,6 @@ class CrudFacadeTest extends TestCase
             $module
         );
 
-        return [
-            ['user' => $user],
-            ['permission' => $permission],
-            ['module' => $module]
-        ];
+        return [$module, $user, $permission];
     }
 }

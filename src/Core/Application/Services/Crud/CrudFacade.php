@@ -20,7 +20,6 @@ final class CrudFacade
 {
     use Validatable;
 
-    public string            $entityName;
     private EntityRepository $repository;
     private Validator        $validator;
 
@@ -30,7 +29,6 @@ final class CrudFacade
     ) {
         $this->repository = $repository;
         $this->validator  = $validator;
-        $this->entityName = $repository->getEntityClassName();
     }
 
     /**
@@ -47,7 +45,7 @@ final class CrudFacade
             $this->repository->add($entity);
             $this->repository->flush();
         } catch (ConstraintViolationException $ex) {
-            throw new InvalidDataException($this->entityName);
+            throw new InvalidDataException($this->repository->getEntityClassName());
         }
 
         return $entity;
@@ -64,7 +62,7 @@ final class CrudFacade
         $entity = $this->repository->findById($id);
 
         if (is_null($entity)) {
-            throw new NotFoundException($this->entityName);
+            throw new NotFoundException($this->repository->getEntityClassName());
         }
 
         return $entity;
@@ -80,7 +78,7 @@ final class CrudFacade
         $entity = $this->repository->findById($id);
 
         if (is_null($entity)) {
-            throw new NotFoundException($this->entityName);
+            throw new NotFoundException($this->repository->getEntityClassName());
         }
 
         $this->repository->remove($entity);

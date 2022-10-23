@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace App\Core\Infrastructure\Controller\Api;
 
 use App\Core\Application\Services\Crud\CrudFacade;
+use App\Core\Domain\Repository\EntityRepositoryInterface;
 use App\Core\Domain\Repository\EntityRepositoryInterface as EntityRepository;
 use App\Core\Infrastructure\Http\Request\QueryParams;
 use App\Core\Infrastructure\Http\Response\ApiEmptyResponse;
@@ -26,9 +27,10 @@ abstract class BaseResource extends AbstractController
 {
     private const SERIALIZATION_FORMAT = 'json';
 
-    private CrudFacade  $facade;
-    private QueryParams $queryParams;
-    private Serializer  $serializer;
+    private EntityRepositoryInterface $repository;
+    private CrudFacade                $facade;
+    private QueryParams               $queryParams;
+    private Serializer                $serializer;
 
     public function __construct(
         EntityRepository $repository,
@@ -36,6 +38,7 @@ abstract class BaseResource extends AbstractController
         Serializer       $serializer,
         QueryParams      $queryParams
     ) {
+        $this->repository  = $repository;
         $this->facade      = new CrudFacade($repository, $validator);
         $this->serializer  = $serializer;
         $this->queryParams = $queryParams;
@@ -79,9 +82,9 @@ abstract class BaseResource extends AbstractController
         $this->denyAccessUnlessGranted('create', $request);
 
         $content = $request->getContent();
-        $entity = $this->serializer->deserialize(
+        $entity  = $this->serializer->deserialize(
             $content,
-            $this->facade->entityName,
+            $this->repository->getEntityClassName(),
             self::SERIALIZATION_FORMAT
         );
 
@@ -100,13 +103,13 @@ abstract class BaseResource extends AbstractController
     {
         $this->denyAccessUnlessGranted('update', $request);
 
-        $entity = $this->facade->read($id);
+        $entity  = $this->facade->read($id);
         $content = $request->getContent();
         $context = DeserializationContext::create();
         $context->setAttribute('target', $entity);
         $patchedEntity = $this->serializer->deserialize(
             $content,
-            $this->facade->entityName,
+            $this->repository->getEntityClassName(),
             self::SERIALIZATION_FORMAT,
             $context
         );

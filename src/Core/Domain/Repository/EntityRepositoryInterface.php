@@ -17,4 +17,6 @@ interface EntityRepositoryInterface
     public function getEntityClassName(): string;
 
     public function flush(): void;
+
+    public function search(array $params): Pageable;
 }

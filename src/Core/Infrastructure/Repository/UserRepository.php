@@ -20,10 +20,9 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
  */
 class UserRepository extends ServiceEntityRepository implements
     UserRepositoryInterface,
-    UserLoaderInterface,
-    SearchableRepositoryInterface
+    UserLoaderInterface
 {
-    use RepositoryBehaviorTrait, RepositorySearchableTrait;
+    use RepositoryBehaviorTrait;
 
     private UserPasswordHasherInterface $passwordHasher;
 

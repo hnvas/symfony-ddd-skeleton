@@ -17,10 +17,9 @@ use Doctrine\Persistence\ManagerRegistry;
  * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
  */
 class ModuleRepository extends ServiceEntityRepository implements
-    ModuleRepositoryInterface,
-    SearchableRepositoryInterface
+    ModuleRepositoryInterface
 {
-    use RepositoryBehaviorTrait, RepositorySearchableTrait;
+    use RepositoryBehaviorTrait;
 
     public function __construct(ManagerRegistry $registry)
     {

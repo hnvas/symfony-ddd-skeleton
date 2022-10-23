@@ -15,10 +15,9 @@ use Doctrine\Persistence\ManagerRegistry;
  * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
  */
 class PermissionRepository extends ServiceEntityRepository implements
-    PermissionRepositoryInterface,
-    SearchableRepositoryInterface
+    PermissionRepositoryInterface
 {
-    use RepositoryBehaviorTrait, RepositorySearchableTrait;
+    use RepositoryBehaviorTrait;
 
     public function __construct(ManagerRegistry $registry)
     {
