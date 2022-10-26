@@ -14,7 +14,6 @@ use App\Core\Domain\Model\Permission;
 use App\Core\Domain\Model\User;
 use App\Core\Domain\Repository\EntityRepositoryInterface;
 use App\Core\Domain\Repository\Pageable;
-use App\Core\Domain\Repository\SearchableRepositoryInterface;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\ConstraintViolation;
