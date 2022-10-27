@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
+use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
 /**
  * Class TokenAuthenticatorTest
@@ -82,7 +83,7 @@ class TokenAuthenticatorTest extends TestCase
 
         $result = $this->instance->authenticate($requestMock);
 
-        self::assertInstanceOf(PassportInterface::class, $result);
+        self::assertInstanceOf(SelfValidatingPassport::class, $result);
     }
 
     public function testShouldThrowExceptionWhenTokenIsExpired(): void

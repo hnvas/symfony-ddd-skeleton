@@ -1,6 +1,12 @@
-controllers:
-    resource: ../src/Controller/
+action_controllers:
+    resource: ../src/Core/Infrastructure/Controller/Auth/
     type: annotation
+    prefix: /auth
+
+resource_controllers:
+    resource: ../src/Core/Infrastructure/Controller/Api/
+    type: annotation
+    prefix: /api
 
 kernel:
     resource: ../src/Kernel.php

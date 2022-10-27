@@ -15,6 +15,9 @@ services:
     autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
     public: true
 
+  jms_serializer.unserialize_object_constructor:
+    class: JMS\Serializer\Construction\UnserializeObjectConstructor
+
   jms_serializer.object_constructor:
     alias: jms_serializer.existing_object_constructor
     public: false
