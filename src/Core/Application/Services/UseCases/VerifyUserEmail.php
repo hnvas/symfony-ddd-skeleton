@@ -1,10 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Core\Application\UseCases;
+namespace App\Core\Application\Services\UseCases;
 
 use App\Core\Application\Exceptions\ApplicationException;
-use App\Core\Application\Exceptions\InvalidDataException;
 use App\Core\Domain\Model\User;
 use App\Core\Domain\Repository\UserRepositoryInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;

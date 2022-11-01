@@ -1,10 +1,10 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Tests\Unit\Core\Application\UseCases;
+namespace App\Tests\Unit\Core\Application\Services\UseCases;
 
 use App\Core\Application\Exceptions\ApplicationException;
-use App\Core\Application\UseCases\VerifyUserEmail;
+use App\Core\Application\Services\UseCases\VerifyUserEmail;
 use App\Core\Domain\Model\User;
 use App\Core\Domain\Repository\UserRepositoryInterface;
 use PHPUnit\Framework\TestCase;

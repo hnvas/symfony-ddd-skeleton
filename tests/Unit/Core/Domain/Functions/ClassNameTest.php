@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Tests\Unit\Core\Domain\Functions;
 
-use App\Core\Application\Services\Crud\CrudFacade;
+use App\Core\Application\Services\CRUD\CrudFacade;
 use App\Core\Domain\Functions\ClassName;
 use App\Core\Domain\Model\User;
 use App\Core\Infrastructure\Security\JwtTokenService;

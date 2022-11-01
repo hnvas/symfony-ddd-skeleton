@@ -1,11 +1,11 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Tests\Unit\Core\Application\Services;
+namespace App\Tests\Unit\Core\Application\Services\CRUD;
 
 use App\Core\Application\Exceptions\InvalidDataException;
 use App\Core\Application\Exceptions\NotFoundException;
-use App\Core\Application\Services\Crud\CrudFacade;
+use App\Core\Application\Services\CRUD\CrudFacade;
 use App\Core\Domain\Enum\UserRoleEnum;
 use App\Core\Domain\Functions\ClassName;
 use App\Core\Domain\Model\Entity;

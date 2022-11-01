@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Tests\Unit\Core\Application\UseCases;
+namespace App\Tests\Unit\Core\Application\Services\UseCases;
 
-use App\Core\Application\UseCases\SendUserEmailVerification;
+use App\Core\Application\Services\UseCases\SendUserEmailVerification;
 use App\Core\Domain\Model\User;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBag;

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Core\Application\Services\Crud;
+namespace App\Core\Application\Services\CRUD;
 
 use App\Core\Application\Exceptions\InvalidDataException;
 use App\Core\Application\Exceptions\NotFoundException;

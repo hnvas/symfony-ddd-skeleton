@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Core\Application\UseCases;
+namespace App\Core\Application\Services\UseCases;
 
 use App\Core\Domain\Model\User;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;

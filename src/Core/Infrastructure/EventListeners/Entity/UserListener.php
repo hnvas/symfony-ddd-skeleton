@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\EventListeners\Entity;
 
-use App\Core\Application\UseCases\SendUserEmailVerification;
+use App\Core\Application\Services\UseCases\SendUserEmailVerification;
 use App\Core\Domain\Model\User;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 

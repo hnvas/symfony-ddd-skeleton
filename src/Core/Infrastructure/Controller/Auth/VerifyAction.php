@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\Controller\Auth;
 
-use App\Core\Application\UseCases\VerifyUserEmail;
+use App\Core\Application\Services\UseCases\VerifyUserEmail;
 use App\Core\Domain\Model\User;
 use App\Core\Infrastructure\Http\Response\ApiEmptyResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
