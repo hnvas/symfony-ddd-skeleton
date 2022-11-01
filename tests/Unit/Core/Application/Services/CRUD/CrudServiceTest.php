@@ -5,7 +5,7 @@ namespace App\Tests\Unit\Core\Application\Services\CRUD;
 
 use App\Core\Application\Exceptions\InvalidDataException;
 use App\Core\Application\Exceptions\NotFoundException;
-use App\Core\Application\Services\CRUD\CrudFacade;
+use App\Core\Application\Services\CRUD\CrudService;
 use App\Core\Domain\Enum\UserRoleEnum;
 use App\Core\Domain\Functions\ClassName;
 use App\Core\Domain\Model\Entity;
@@ -25,12 +25,12 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  * @package App\Tests\Unit\Core\Application\Services
  * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
  */
-class CrudFacadeTest extends TestCase
+class CrudServiceTest extends TestCase
 {
 
     private ValidatorInterface        $validatorMock;
     private EntityRepositoryInterface $entityRepositoryMock;
-    private CrudFacade                $service;
+    private CrudService               $service;
 
     protected function setUp(): void
     {
@@ -39,7 +39,7 @@ class CrudFacadeTest extends TestCase
             EntityRepositoryInterface::class
         );
 
-        $this->service = new CrudFacade(
+        $this->service = new CrudService(
             $this->entityRepositoryMock,
             $this->validatorMock
         );

@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface as Validator;
  * @package App\Core\Application\Services\Crud
  * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
  */
-final class CrudFacade
+final class CrudService
 {
     use Validatable;
 
