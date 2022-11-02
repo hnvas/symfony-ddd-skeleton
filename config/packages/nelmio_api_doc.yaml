@@ -1,0 +1,19 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: Symfony DDD Skeleton
+            description: A base application to build a mid or high complex applications
+            version: 1.0.0
+        components:
+            securitySchemes:
+                Bearer:
+                    type: http
+                    scheme: bearer
+                    bearerFormat: JWT
+        security:
+            - Bearer: [ ]
+    areas: # to filter documented areas
+        path_patterns:
+            - ^/api
+            - ^/auth
+
