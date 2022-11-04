@@ -1,19 +1,61 @@
 nelmio_api_doc:
-    documentation:
-        info:
-            title: Symfony DDD Skeleton
-            description: A base application to build a mid or high complex applications
-            version: 1.0.0
-        components:
-            securitySchemes:
-                Bearer:
-                    type: http
-                    scheme: bearer
-                    bearerFormat: JWT
-        security:
-            - Bearer: [ ]
-    areas: # to filter documented areas
-        path_patterns:
-            - ^/api
-            - ^/auth
+  documentation:
+    info:
+      title: Symfony DDD Skeleton
+      description: A base application to build a mid or high complex applications
+      version: 1.0.0
+    components:
+      securitySchemes:
+        Bearer:
+          type: http
+          scheme: bearer
+          bearerFormat: JWT
+    security:
+      - Bearer: []
+    paths:
+      /auth/login:
+        post:
+          tags:
+            - auth
+          summary: 'Authenticate an registered user'
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  properties:
+                    username: { type: string }
+                    password: { type: string }
+          responses:
+            '200':
+              description: 'Returns the credentials of authenticated user'
+              content:
+                application/json:
+                  schema:
+                    properties:
+                      access_token:
+                        type: string
+                      token_type:
+                        type: string
+                      expires_in:
+                        type: string
+                      user_name:
+                        type: string
+            '401':
+              description: 'Invalid username/password supplied'
+      /auth/resend:
+        get:
+          tags:
+            - auth
+          summary: 'Resend verification email'
+          responses:
+            '200':
+              description: 'E-mail was successfully sent'
+            '401':
+              description: 'This path requires authentication'
+
+  areas: # to filter documented areas
+    path_patterns:
+      - ^/api
+      - ^/auth
 
