@@ -33,16 +33,13 @@ nelmio_api_doc:
                 application/json:
                   schema:
                     properties:
-                      access_token:
-                        type: string
-                      token_type:
-                        type: string
-                      expires_in:
-                        type: string
-                      user_name:
-                        type: string
+                      access_token: { type: string }
+                      token_type: { type: string }
+                      expires_in: { type: string }
+                      user_name: { type: string }
             '401':
               description: 'Invalid username/password supplied'
+          security: []
       /auth/resend:
         get:
           tags:
@@ -53,6 +50,27 @@ nelmio_api_doc:
               description: 'E-mail was successfully sent'
             '401':
               description: 'This path requires authentication'
+      /auth/resources:
+        get:
+          tags:
+            - auth
+          summary: 'Fetch user permissions'
+          responses:
+            '200':
+              description: 'Returns a list of user permissions'
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      properties:
+                        module: { type: string }
+                        resource: { type: string }
+                        canCreate: { type: bool }
+                        canRead: { type: bool }
+                        canUpdate: { type: bool }
+                        canDelete: { type: bool }
+                        canIndex: { type: bool }
 
   areas: # to filter documented areas
     path_patterns:

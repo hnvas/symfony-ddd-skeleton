@@ -15,21 +15,15 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class ResourcesAction
  * @package App\Core\Infrastructure\Controller\Auth
  * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
- *
- * @Route("/resources", name="user_resources_action", methods={"GET"})
  */
+#[Route('/resources', name: 'user_resources_action', methods: ['GET'])]
 class ResourcesAction extends AbstractController
 {
 
-    private GetUserPermissions $userPermissions;
-    private SerializerInterface $serializer;
-
     public function __construct(
-        GetUserPermissions  $getUserPermissions,
-        SerializerInterface $serializer
+        private readonly GetUserPermissions  $userPermissions,
+        private readonly SerializerInterface $serializer
     ){
-        $this->userPermissions = $getUserPermissions;
-        $this->serializer      = $serializer;
     }
 
     /**
