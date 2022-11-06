@@ -71,6 +71,20 @@ nelmio_api_doc:
                         canUpdate: { type: bool }
                         canDelete: { type: bool }
                         canIndex: { type: bool }
+      /auth/verify:
+        get:
+          tags:
+            - auth
+          summary: 'Validate and verify user e-mail'
+          parameters:
+            - { name: expires, in: query, required: true }
+            - { name: signature, in: query, required: true }
+            - { name: token, in: query, required: true }
+          responses:
+            '200':
+              description: 'Successfully verified'
+            '401':
+              description: 'Full authentication is required to access this resource'
 
   areas: # to filter documented areas
     path_patterns:

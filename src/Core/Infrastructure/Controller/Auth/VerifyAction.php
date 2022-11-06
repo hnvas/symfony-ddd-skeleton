@@ -15,21 +15,18 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class VerifyAction
  * @package App\Core\Infrastructure\Action\Auth
  * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
- *
- * @Route("/verify", name="verify_action", methods={"GET"})
  */
+#[Route(path: '/verify', name: 'verify_action', methods: ['GET'])]
 class VerifyAction extends AbstractController
 {
 
-    private VerifyUserEmail $verifyUserEmail;
-
-    public function __construct(VerifyUserEmail $verifyUserEmail)
-    {
-        $this->verifyUserEmail = $verifyUserEmail;
-    }
+    public function __construct(
+        private readonly VerifyUserEmail $verifyUserEmail
+    ){}
 
     /**
      * @throws \App\Core\Application\Exceptions\InvalidDataException
+     * @throws \App\Core\Application\Exceptions\ApplicationException
      */
     public function __invoke(Request $request): Response
     {
