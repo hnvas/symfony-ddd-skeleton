@@ -123,9 +123,31 @@ nelmio_api_doc:
               content:
                 application/json:
                   schema:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Permission'
+                    type: object
+                    properties:
+                      page: { type: int }
+                      limit: { type: int },
+                      pages: { type: int },
+                      total: { type: int },
+                      _links:
+                        type: object
+                        properties:
+                          self:
+                            properties:
+                              href: { type: string }
+                          first:
+                            properties:
+                              href: { type: string }
+                          last:
+                            properties:
+                              href: { type: string }
+                      _embedded:
+                        type: object
+                        properties:
+                          items:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/Permission'
             '401':
               description: 'Full authentication is required to access this resource'
         post:
@@ -191,9 +213,31 @@ nelmio_api_doc:
               content:
                 application/json:
                   schema:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/User'
+                    type: object
+                    properties:
+                      page: { type: int }
+                      limit: { type: int },
+                      pages: { type: int },
+                      total: { type: int },
+                      _links:
+                        type: object
+                        properties:
+                          self:
+                            properties:
+                              href: { type: string }
+                          first:
+                            properties:
+                              href: { type: string }
+                          last:
+                            properties:
+                              href: { type: string }
+                      _embedded:
+                        type: object
+                        properties:
+                          items:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/User'
             '401':
               description: 'Full authentication is required to access this resource'
         post:
