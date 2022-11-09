@@ -177,6 +177,74 @@ nelmio_api_doc:
               description: 'Successfully deleted'
             '401':
               description: 'Full authentication is required to access this resource'
+      /api/user/:
+        get:
+          summary: 'List users'
+          parameters:
+            - { name: email, in: query, required: false }
+            - { name: name, in: query, required: false }
+            - { name: page, in: query, required: false }
+            - { name: order, in: query, required: false }
+          responses:
+            '200':
+              description: 'Returns the specified resource'
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+            '401':
+              description: 'Full authentication is required to access this resource'
+        post:
+          summary: 'Create user'
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/User'
+          responses:
+            '201':
+              description: 'Successfully created'
+            '401':
+              description: 'Full authentication is required to access this resource'
+      /api/user/{id}:
+        get:
+          summary: 'Detail user'
+          parameters:
+            - { name: id, in: path }
+          responses:
+            '200':
+              description: 'Returns the specified resource'
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/User'
+        put:
+          summary: 'Update user'
+          parameters:
+            - { name: id, in: path }
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/User'
+          responses:
+            '200':
+              description: 'Successfully updated'
+            '401':
+              description: 'Full authentication is required to access this resource'
+        delete:
+          summary: 'Delete user'
+          parameters:
+            - { name: id, in: path }
+          responses:
+            '200':
+              description: 'Successfully deleted'
+            '401':
+              description: 'Full authentication is required to access this resource'
 
   areas: # to filter documented areas
     path_patterns:
