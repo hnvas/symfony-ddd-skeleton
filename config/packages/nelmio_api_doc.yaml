@@ -10,6 +10,32 @@ nelmio_api_doc:
           type: http
           scheme: bearer
           bearerFormat: JWT
+      schemas:
+        User:
+          properties:
+            id: { type: int }
+            email: { type: string }
+            name: { type: string }
+            role: { type: array, items: { type: string } }
+            password: { type: string }
+            emailVerified: { type: bool }
+            active: { type: bool }
+        Permission:
+          properties:
+            id: { type: int }
+            role: { type: string }
+            module: { ref: '#/components/schemas/Module' }
+            resource: { type: string }
+            canCreate: { type: bool }
+            canRead: { type: bool }
+            canUpdate: { type: bool }
+            canDelete: { type: bool }
+            canIndex: { type: bool }
+        Module:
+          properties:
+            id: { type: int }
+            name: { type: string }
+            enabled: { type: bool }
     security:
       - Bearer: []
     paths:
@@ -83,6 +109,72 @@ nelmio_api_doc:
           responses:
             '200':
               description: 'Successfully verified'
+            '401':
+              description: 'Full authentication is required to access this resource'
+      /api/permission/:
+        get:
+          summary: 'List permissions'
+          parameters:
+            - { name: page, in: query, required: false }
+            - { name: order, in: query, required: false }
+          responses:
+            '200':
+              description: 'Returns the specified resource'
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Permission'
+            '401':
+              description: 'Full authentication is required to access this resource'
+        post:
+          summary: 'Create permission'
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Permission'
+          responses:
+            '201':
+              description: 'Successfully created'
+            '401':
+              description: 'Full authentication is required to access this resource'
+      /api/permission/{id}:
+        get:
+          summary: 'Detail permission'
+          parameters:
+            - { name: id, in: path}
+          responses:
+            '200':
+              description: 'Returns the specified resource'
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/Permission'
+        put:
+          summary: 'Update permission'
+          parameters:
+            - { name: id, in: path }
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Permission'
+          responses:
+            '200':
+              description: 'Successfully updated'
+            '401':
+              description: 'Full authentication is required to access this resource'
+        delete:
+          summary: 'Delete permission'
+          parameters:
+            - { name: id, in: path }
+          responses:
+            '200':
+              description: 'Successfully deleted'
             '401':
               description: 'Full authentication is required to access this resource'
 
