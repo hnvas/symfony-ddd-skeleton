@@ -10,7 +10,7 @@ use App\Core\Domain\Functions\ClassName;
  * @package App\Core\Application\Exceptions
  * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
  */
-class NotFoundException extends ApplicationException
+class ResourceNotFoundException extends ApplicationException
 {
 
     public function __construct(string $classpath = "")

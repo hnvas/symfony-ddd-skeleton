@@ -4,8 +4,7 @@ declare(strict_types = 1);
 namespace App\Core\Infrastructure\EventListeners;
 
 use App\Core\Application\Exceptions\ApplicationException;
-use App\Core\Application\Exceptions\NotFoundException;
-use App\Core\Application\Exceptions\InvalidDataException;
+use App\Core\Application\Exceptions\ResourceNotFoundException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,30 +24,19 @@ class ExceptionListener implements EventSubscriberInterface
     {
         return [
             KernelEvents::EXCEPTION => [
-                ['handleHttpException', 10],
-                ['handleNotFoundException', 8],
+                ['handleResourceNotFoundException', 8],
                 ['handleApplicationException', 6],
-                ['handleGenericException', -1]
+                ['handleGenericException', -1],
+                ['handleHttpException', -3]
             ]
         ];
     }
 
-    public function handleHttpException(ExceptionEvent $event)
+    public function handleResourceNotFoundException(ExceptionEvent $event)
     {
         $throwable = $event->getThrowable();
 
-        if ($throwable instanceof HttpException) {
-            $event->setResponse(new JsonResponse([
-                'message' => $throwable->getMessage()
-            ], $throwable->getStatusCode()));
-        }
-    }
-
-    public function handleNotFoundException(ExceptionEvent $event)
-    {
-        $throwable = $event->getThrowable();
-
-        if ($throwable instanceof NotFoundException) {
+        if ($throwable instanceof ResourceNotFoundException) {
             $event->setResponse(new JsonResponse([
                 'message' => $throwable->getMessage()
             ], Response::HTTP_NOT_FOUND));
@@ -73,5 +61,16 @@ class ExceptionListener implements EventSubscriberInterface
             'message'      => "Some error has occurred",
             'traceMessage' => $event->getThrowable()->getMessage()
         ]));
+    }
+
+    public function handleHttpException(ExceptionEvent $event)
+    {
+        $throwable = $event->getThrowable();
+
+        if ($throwable instanceof HttpException) {
+            $event->setResponse(new JsonResponse([
+                'message' => $throwable->getMessage()
+            ], $throwable->getStatusCode()));
+        }
     }
 }

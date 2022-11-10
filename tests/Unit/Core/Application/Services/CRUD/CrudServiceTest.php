@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace App\Tests\Unit\Core\Application\Services\CRUD;
 
 use App\Core\Application\Exceptions\InvalidDataException;
-use App\Core\Application\Exceptions\NotFoundException;
+use App\Core\Application\Exceptions\ResourceNotFoundException;
 use App\Core\Application\Services\CRUD\CrudService;
 use App\Core\Domain\Enum\UserRoleEnum;
 use App\Core\Domain\Functions\ClassName;
@@ -154,7 +154,7 @@ class CrudServiceTest extends TestCase
 
         $classname = ClassName::getBaseName(get_class($entity));
         self::expectExceptionMessage("The resource $classname was not found");
-        self::expectException(NotFoundException::class);
+        self::expectException(ResourceNotFoundException::class);
 
         $this->service->read($id);
     }
@@ -186,7 +186,7 @@ class CrudServiceTest extends TestCase
 
         $classname = ClassName::getBaseName(get_class($entity));
         self::expectExceptionMessage("The resource $classname was not found");
-        self::expectException(NotFoundException::class);
+        self::expectException(ResourceNotFoundException::class);
 
         $this->service->delete($id);
     }

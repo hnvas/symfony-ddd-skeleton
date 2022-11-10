@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace App\Core\Application\Services\CRUD;
 
 use App\Core\Application\Exceptions\InvalidDataException;
-use App\Core\Application\Exceptions\NotFoundException;
+use App\Core\Application\Exceptions\ResourceNotFoundException;
 use App\Core\Domain\Model\Entity;
 use App\Core\Domain\Repository\EntityRepositoryInterface as EntityRepository;
 use App\Core\Domain\Repository\Pageable;
@@ -55,14 +55,14 @@ final class CrudService
      * @param int $id
      *
      * @return \App\Core\Domain\Model\Entity
-     * @throws \App\Core\Application\Exceptions\NotFoundException
+     * @throws \App\Core\Application\Exceptions\ResourceNotFoundException
      */
     public function read(int $id): Entity
     {
         $entity = $this->repository->findById($id);
 
         if (is_null($entity)) {
-            throw new NotFoundException($this->repository->getEntityClassName());
+            throw new ResourceNotFoundException($this->repository->getEntityClassName());
         }
 
         return $entity;
@@ -71,14 +71,14 @@ final class CrudService
     /**
      * @param int $id
      *
-     * @throws \App\Core\Application\Exceptions\NotFoundException
+     * @throws \App\Core\Application\Exceptions\ResourceNotFoundException
      */
     public function delete(int $id): void
     {
         $entity = $this->repository->findById($id);
 
         if (is_null($entity)) {
-            throw new NotFoundException($this->repository->getEntityClassName());
+            throw new ResourceNotFoundException($this->repository->getEntityClassName());
         }
 
         $this->repository->remove($entity);
