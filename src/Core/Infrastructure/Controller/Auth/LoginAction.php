@@ -15,25 +15,14 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class LoginAction
  * @package App\Core\Infrastructure\Action\Auth
  * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
- *
- * @Route("/login", name="login_action", methods={"POST"})
  */
+#[Route('/login', name: 'login_action', methods: ['POST'])]
 class LoginAction extends AbstractController
 {
-    /**
-     * @var \App\Core\Infrastructure\Security\TokenServiceInterface
-     */
-    private TokenServiceInterface $tokenService;
 
-    /**
-     * PostLoginAction constructor.
-     *
-     * @param \App\Core\Infrastructure\Security\TokenServiceInterface $tokenService
-     */
-    public function __construct(TokenServiceInterface $tokenService)
-    {
-        $this->tokenService = $tokenService;
-    }
+    public function __construct(
+        private readonly TokenServiceInterface $tokenService
+    ) {}
 
     public function __invoke(): JsonResponse
     {

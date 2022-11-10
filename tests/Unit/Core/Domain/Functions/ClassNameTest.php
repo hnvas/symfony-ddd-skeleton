@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Tests\Unit\Core\Domain\Functions;
 
-use App\Core\Application\Services\CRUD\CrudFacade;
+use App\Core\Application\Services\CRUD\CrudService;
 use App\Core\Domain\Functions\ClassName;
 use App\Core\Domain\Model\User;
 use App\Core\Infrastructure\Security\JwtTokenService;
@@ -34,7 +34,7 @@ class ClassNameTest extends TestCase
             ],
             'should return class name CrudFacade' => [
                 'expected' => 'CrudFacade',
-                'input' => CrudFacade::class
+                'input' => CrudService::class
             ],
             'should return class name JwtTokenService' => [
                 'expected' => 'JwtTokenService',

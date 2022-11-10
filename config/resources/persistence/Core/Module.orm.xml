@@ -13,7 +13,5 @@
                 <option name="default">false</option>
             </options>
         </field>
-        <one-to-many field="permissions" target-entity="App\Core\Domain\Model\Permission"
-                     mapped-by="module"/>
     </entity>
 </doctrine-mapping>

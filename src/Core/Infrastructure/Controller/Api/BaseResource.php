@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace App\Core\Infrastructure\Controller\Api;
 
-use App\Core\Application\Services\CRUD\CrudFacade;
+use App\Core\Application\Services\CRUD\CrudService;
 use App\Core\Domain\Repository\EntityRepositoryInterface;
 use App\Core\Domain\Repository\EntityRepositoryInterface as EntityRepository;
 use App\Core\Infrastructure\Http\Request\QueryParams;
@@ -11,6 +11,7 @@ use App\Core\Infrastructure\Http\Response\ApiEmptyResponse;
 use App\Core\Infrastructure\Http\Response\ApiResponse;
 use App\Core\Infrastructure\Support\PaginatorAssembler;
 use JMS\Serializer\DeserializationContext;
+use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface as Serializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,7 +29,7 @@ abstract class BaseResource extends AbstractController
     private const SERIALIZATION_FORMAT = 'json';
 
     private EntityRepositoryInterface $repository;
-    private CrudFacade                $facade;
+    private CrudService               $facade;
     private QueryParams               $queryParams;
     private Serializer                $serializer;
 
@@ -39,7 +40,7 @@ abstract class BaseResource extends AbstractController
         QueryParams      $queryParams
     ) {
         $this->repository  = $repository;
-        $this->facade      = new CrudFacade($repository, $validator);
+        $this->facade      = new CrudService($repository, $validator);
         $this->serializer  = $serializer;
         $this->queryParams = $queryParams;
     }

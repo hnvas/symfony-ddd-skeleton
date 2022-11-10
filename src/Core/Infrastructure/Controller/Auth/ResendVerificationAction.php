@@ -14,18 +14,14 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class ResendVerificationAction
  * @package App\Core\Infrastructure\Controller\Action\Auth
  * @author  Henrique Vasconcelos <henriquenvasconcelos@gmail.com>
- *
- * @Route("/resend", name="resend_verification_action", methods={"GET"})
  */
+#[Route('/resend', name: 'resend_verification_action', methods: ['GET'])]
 class ResendVerificationAction extends AbstractController
 {
 
-    private SendUserEmailVerification $emailVerification;
-
-    public function __construct(SendUserEmailVerification $emailVerification)
-    {
-        $this->emailVerification = $emailVerification;
-    }
+    public function __construct(
+        private readonly SendUserEmailVerification $emailVerification
+    ){}
 
     /**
      * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
@@ -33,10 +29,10 @@ class ResendVerificationAction extends AbstractController
     public function __invoke(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-        /** @var User $user */
-        $this->getUser();
+        /** @var \App\Core\Infrastructure\Security\AuthUser $user */
+        $user = $this->getUser();
 
-        $this->emailVerification->execute($user);
+        $this->emailVerification->execute($user->model());
 
         return new ApiEmptyResponse();
     }

@@ -8,9 +8,9 @@ services:
     resource: '../../src/Core'
     exclude:
       - '../../src/DependencyInjection/'
-      - '../../src/Core/Application/Services/Crud/'
       - '../../src/Core/**/*DTO.php'
       - '../../src/Core/Domain/Model/'
+      - '../../src/Core/Application/Services/CRUD/'
       - '../../src/Core/Infrastructure/Support/'
       - '../../src/Core/Infrastructure/Repository/Filters/'
       - '../../src/Core/Infrastructure/Security/AuthUser.php'

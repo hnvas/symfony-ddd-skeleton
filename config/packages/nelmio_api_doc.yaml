@@ -1,0 +1,297 @@
+nelmio_api_doc:
+  documentation:
+    info:
+      title: Symfony DDD Skeleton
+      description: A base application to build a mid or high complex applications
+      version: 1.0.0
+    components:
+      securitySchemes:
+        Bearer:
+          type: http
+          scheme: bearer
+          bearerFormat: JWT
+      schemas:
+        User:
+          properties:
+            id: { type: int }
+            email: { type: string }
+            name: { type: string }
+            role: { type: array, items: { type: string } }
+            password: { type: string }
+            emailVerified: { type: bool }
+            active: { type: bool }
+        Permission:
+          properties:
+            id: { type: int }
+            role: { type: string }
+            module: { ref: '#/components/schemas/Module' }
+            resource: { type: string }
+            canCreate: { type: bool }
+            canRead: { type: bool }
+            canUpdate: { type: bool }
+            canDelete: { type: bool }
+            canIndex: { type: bool }
+        Module:
+          properties:
+            id: { type: int }
+            name: { type: string }
+            enabled: { type: bool }
+    security:
+      - Bearer: []
+    paths:
+      /auth/login:
+        post:
+          tags:
+            - auth
+          summary: 'Authenticate an registered user'
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  properties:
+                    username: { type: string }
+                    password: { type: string }
+          responses:
+            '200':
+              description: 'Returns the credentials of authenticated user'
+              content:
+                application/json:
+                  schema:
+                    properties:
+                      access_token: { type: string }
+                      token_type: { type: string }
+                      expires_in: { type: string }
+                      user_name: { type: string }
+            '401':
+              description: 'Invalid username/password supplied'
+          security: []
+      /auth/resend:
+        get:
+          tags:
+            - auth
+          summary: 'Resend verification email'
+          responses:
+            '200':
+              description: 'E-mail was successfully sent'
+            '401':
+              description: 'This path requires authentication'
+      /auth/resources:
+        get:
+          tags:
+            - auth
+          summary: 'Fetch user permissions'
+          responses:
+            '200':
+              description: 'Returns a list of user permissions'
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      properties:
+                        module: { type: string }
+                        resource: { type: string }
+                        canCreate: { type: bool }
+                        canRead: { type: bool }
+                        canUpdate: { type: bool }
+                        canDelete: { type: bool }
+                        canIndex: { type: bool }
+      /auth/verify:
+        get:
+          tags:
+            - auth
+          summary: 'Validate and verify user e-mail'
+          parameters:
+            - { name: expires, in: query, required: true }
+            - { name: signature, in: query, required: true }
+            - { name: token, in: query, required: true }
+          responses:
+            '200':
+              description: 'Successfully verified'
+            '401':
+              description: 'Full authentication is required to access this resource'
+      /api/permission/:
+        get:
+          summary: 'List permissions'
+          parameters:
+            - { name: page, in: query, required: false }
+            - { name: order, in: query, required: false }
+          responses:
+            '200':
+              description: 'Returns the specified resource'
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      page: { type: int }
+                      limit: { type: int },
+                      pages: { type: int },
+                      total: { type: int },
+                      _links:
+                        type: object
+                        properties:
+                          self:
+                            properties:
+                              href: { type: string }
+                          first:
+                            properties:
+                              href: { type: string }
+                          last:
+                            properties:
+                              href: { type: string }
+                      _embedded:
+                        type: object
+                        properties:
+                          items:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/Permission'
+            '401':
+              description: 'Full authentication is required to access this resource'
+        post:
+          summary: 'Create permission'
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Permission'
+          responses:
+            '201':
+              description: 'Successfully created'
+            '401':
+              description: 'Full authentication is required to access this resource'
+      /api/permission/{id}:
+        get:
+          summary: 'Detail permission'
+          parameters:
+            - { name: id, in: path}
+          responses:
+            '200':
+              description: 'Returns the specified resource'
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/Permission'
+        put:
+          summary: 'Update permission'
+          parameters:
+            - { name: id, in: path }
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Permission'
+          responses:
+            '200':
+              description: 'Successfully updated'
+            '401':
+              description: 'Full authentication is required to access this resource'
+        delete:
+          summary: 'Delete permission'
+          parameters:
+            - { name: id, in: path }
+          responses:
+            '200':
+              description: 'Successfully deleted'
+            '401':
+              description: 'Full authentication is required to access this resource'
+      /api/user/:
+        get:
+          summary: 'List users'
+          parameters:
+            - { name: email, in: query, required: false }
+            - { name: name, in: query, required: false }
+            - { name: page, in: query, required: false }
+            - { name: order, in: query, required: false }
+          responses:
+            '200':
+              description: 'Returns the specified resource'
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      page: { type: int }
+                      limit: { type: int },
+                      pages: { type: int },
+                      total: { type: int },
+                      _links:
+                        type: object
+                        properties:
+                          self:
+                            properties:
+                              href: { type: string }
+                          first:
+                            properties:
+                              href: { type: string }
+                          last:
+                            properties:
+                              href: { type: string }
+                      _embedded:
+                        type: object
+                        properties:
+                          items:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/User'
+            '401':
+              description: 'Full authentication is required to access this resource'
+        post:
+          summary: 'Create user'
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/User'
+          responses:
+            '201':
+              description: 'Successfully created'
+            '401':
+              description: 'Full authentication is required to access this resource'
+      /api/user/{id}:
+        get:
+          summary: 'Detail user'
+          parameters:
+            - { name: id, in: path }
+          responses:
+            '200':
+              description: 'Returns the specified resource'
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/User'
+        put:
+          summary: 'Update user'
+          parameters:
+            - { name: id, in: path }
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/User'
+          responses:
+            '200':
+              description: 'Successfully updated'
+            '401':
+              description: 'Full authentication is required to access this resource'
+        delete:
+          summary: 'Delete user'
+          parameters:
+            - { name: id, in: path }
+          responses:
+            '200':
+              description: 'Successfully deleted'
+            '401':
+              description: 'Full authentication is required to access this resource'
+
+  areas: # to filter documented areas
+    path_patterns:
+      - ^/api
+      - ^/auth
+

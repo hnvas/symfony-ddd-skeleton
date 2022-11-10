@@ -16,13 +16,11 @@ class Module implements Entity
     private ?int        $id;
     private string      $name;
     private bool        $enabled = false;
-    private ?Collection $permissions;
 
     public function __construct(string $name, bool $enabled = false)
     {
         $this->name        = $name;
         $this->enabled     = $enabled;
-        $this->permissions = new ArrayCollection([]);
     }
 
     public function id(): ?int
@@ -38,10 +36,5 @@ class Module implements Entity
     public function isEnabled(): bool
     {
         return $this->enabled;
-    }
-
-    public function permissions(): ?Collection
-    {
-        return $this->permissions;
     }
 }
