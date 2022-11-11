@@ -2,7 +2,8 @@ App\Core\Domain\Model\User:
   xml_root_name: module
   read_only: true
   relations:
-    - rel: [ self, href: expr('/api/user/' ~ object.getId()) ]
+    - rel: self
+      href: expr('/api/user/' ~ object.id()) ]
   properties:
     id:
       xml_attribute: true
@@ -17,5 +18,11 @@ App\Core\Domain\Model\User:
     roles:
       type: array
       groups: [ default ]
+    password:
+      exclude_if: context.getDirection() === 1
+    emailVerified:
+      type: bool
+    active:
+      type: bool
 
 

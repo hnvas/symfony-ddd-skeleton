@@ -11,7 +11,6 @@ use App\Core\Infrastructure\Http\Response\ApiEmptyResponse;
 use App\Core\Infrastructure\Http\Response\ApiResponse;
 use App\Core\Infrastructure\Support\PaginatorAssembler;
 use JMS\Serializer\DeserializationContext;
-use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface as Serializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

@@ -1,13 +1,13 @@
 jms_serializer:
-    visitors:
-        xml_serialization:
-            format_output: '%kernel.debug%'
-    property_naming:
-        id: 'jms_serializer.identical_property_naming_strategy'
-    metadata:
-        auto_detection: false
-        directories:
-            Core:
-                namespace_prefix: 'App\\Core\\Domain\\Model'
-                path: '%kernel.project_dir%/config/resources/serializer/Core'
+  visitors:
+    xml_serialization:
+      format_output: "%kernel.debug%"
+  property_naming:
+    id: "jms_serializer.identical_property_naming_strategy"
+  metadata:
+    auto_detection: false
+    directories:
+      Core:
+        namespace_prefix: "App\\Core\\Domain\\Model"
+        path: "%kernel.project_dir%/config/resources/serializer/Core"
 
