@@ -33,7 +33,7 @@ class ClassNameTest extends TestCase
                 'input' => User::class
             ],
             'should return class name CrudFacade' => [
-                'expected' => 'CrudFacade',
+                'expected' => 'CrudService',
                 'input' => CrudService::class
             ],
             'should return class name JwtTokenService' => [

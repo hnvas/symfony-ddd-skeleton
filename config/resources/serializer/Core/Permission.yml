@@ -1,6 +1,6 @@
 App\Core\Domain\Model\Permission:
   xml_root_name: permission
-  read_only: true
+  read_only: false
   relations:
     - rel: self
       href: expr('/api/permission/' ~ object.id()) ]

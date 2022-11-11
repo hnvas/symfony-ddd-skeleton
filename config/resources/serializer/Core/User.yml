@@ -1,6 +1,6 @@
 App\Core\Domain\Model\User:
-  xml_root_name: module
-  read_only: true
+  xml_root_name: user
+  read_only: false
   relations:
     - rel: self
       href: expr('/api/user/' ~ object.id()) ]
@@ -22,7 +22,9 @@ App\Core\Domain\Model\User:
       exclude_if: context.getDirection() === 1
     emailVerified:
       type: bool
+      read_only: true
     active:
       type: bool
+      read_only: true
 
 
