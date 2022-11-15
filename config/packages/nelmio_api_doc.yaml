@@ -20,6 +20,12 @@ nelmio_api_doc:
             password: { type: string }
             emailVerified: { type: bool }
             active: { type: bool }
+            _links:
+              type: object
+              properties:
+                self:
+                  properties:
+                    href: { type: string }
         Permission:
           properties:
             id: { type: int }
@@ -31,6 +37,12 @@ nelmio_api_doc:
             canUpdate: { type: bool }
             canDelete: { type: bool }
             canIndex: { type: bool }
+            _links:
+              type: object
+              properties:
+                self:
+                  properties:
+                    href: { type: string }
         Module:
           properties:
             id: { type: int }
