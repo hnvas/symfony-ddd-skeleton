@@ -1,0 +1,46 @@
+version: "3.9"
+services:
+  php:
+    image: php:8.1-fpm-alpine
+    networks:
+      - net_principal
+    build:
+      context: ./docker/php-fpm
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+
+  postgres:
+    image: postgres:14.5-alpine
+    restart: always
+    networks:
+      - net_principal
+    volumes:
+      - POSTGRES_LOCAL_VOLUME=/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: "12345"
+      POSTGRES_DB: "skeleton"
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "20000:5432"
+
+  nginx:
+    image: nginx
+    networks:
+      - net_principal
+    volumes:
+      - .:/var/www/skeleton
+      - ./docker/nginx/sites:/etc/nginx/sites-available
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    depends_on:
+      - php
+      - postgres
+
+networks:
+  net_principal:
+
+volumes:
+  POSTGRES_LOCAL_VOLUME: ~
